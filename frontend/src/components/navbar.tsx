@@ -110,28 +110,28 @@ export default function Navbar() {
               />
             </svg>
             {/* Desktop Dropdown */}
-            <div className="absolute bg-white font-normal flex flex-col gap-2 w-max rounded-lg p-4 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-lg z-10">
+            <div className="absolute bg-white font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
               <a
                 href="#"
-                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+                className="text-slate-600 hover:text-orange-500 transition-colors text-base py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Développement Web
               </a>
               <a
                 href="#"
-                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+                className="text-slate-600 hover:text-orange-500 transition-colors text-base py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Design Graphique
               </a>
               <a
                 href="#"
-                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+                className="text-slate-600 hover:text-orange-500 transition-colors text-base py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Rédaction
               </a>
               <a
                 href="#"
-                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+                className="text-slate-600 hover:text-orange-500 transition-colors text-base py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Marketing Digital
               </a>
