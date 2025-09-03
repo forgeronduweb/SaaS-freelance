@@ -17,13 +17,13 @@ export default function Hero() {
 
         {/* Announcement */}
         <div className="flex items-center gap-1 sm:gap-2 border border-slate-300 hover:border-slate-400/70 rounded-full w-max mx-auto px-2 sm:px-4 py-1.5 sm:py-2 max-w-[95vw]">
-        <span className="text-slate-700 text-xs sm:text-sm">
+        <span className="text-slate-700 text-sm sm:text-base">
           <span className="hidden sm:inline">🚀 Nouveau : </span>
           <span className="sm:hidden">🚀 </span>
           <span className="text-orange-600 font-medium">Mobile Money</span>
           <span className="hidden sm:inline"> disponibles</span>
         </span>
-        <button className="flex items-center gap-1 font-medium text-xs sm:text-sm">
+        <button className="flex items-center gap-1 font-medium text-sm sm:text-base">
           <span className="hidden sm:inline">En savoir plus</span>
           <span className="sm:hidden">+</span>
           <svg
