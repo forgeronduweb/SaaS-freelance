@@ -92,7 +92,7 @@ export default function Navbar() {
             <div className={`overflow-hidden transition-all duration-300 ${
               servicesOpen ? 'max-h-96 mt-4' : 'max-h-0'
             }`}>
-              <div className="flex flex-col gap-4 pl-4 bg-white/80 backdrop-blur-md rounded-lg p-4">
+              <div className="flex flex-col gap-4 pl-4 bg-white/90 backdrop-blur-lg rounded-lg p-4">
                 <a
                   href="#services"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
@@ -140,7 +140,7 @@ export default function Navbar() {
               />
             </svg>
             {/* Desktop Dropdown */}
-            <div className="absolute bg-white/80 backdrop-blur-md font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
+            <div className="absolute bg-white/90 backdrop-blur-lg font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
               <a
                 href="#services"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
