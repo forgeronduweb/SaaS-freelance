@@ -21,7 +21,7 @@ export default function Navbar() {
           isOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
         } max-md:fixed max-md:top-0 max-md:left-0 max-md:h-screen max-md:w-full 
         max-md:bg-white max-md:transition-transform max-md:duration-300 max-md:z-50 
-        max-md:flex max-md:flex-col max-md:justify-between max-md:pt-32 max-md:pb-8 max-md:px-6 
+        max-md:flex max-md:flex-col max-md:justify-start max-md:pt-32 max-md:pb-8 max-md:px-6 
         md:flex md:items-center md:gap-8 font-medium`}
       >
 
@@ -146,8 +146,8 @@ export default function Navbar() {
           </a>
         </div>
         
-        {/* Mobile CTA en bas */}
-        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-lg">
+        {/* Mobile CTA */}
+        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-lg mt-12" style={{marginTop: 'calc(3rem + 50px)'}}>
           S&apos;inscrire
         </button>
 
