@@ -4,12 +4,10 @@ import Navbar from "./navbar";
 export default function Hero() {
   return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
       
       <section
         className="bg-[url('https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/hero/gridBackground.png')] 
-        w-full bg-no-repeat bg-cover bg-center text-sm pb-44 border-2 border-slate-200 md:border-0 rounded-lg md:rounded-none mx-2 md:mx-0 mt-2 md:mt-0"
-        style={{ fontFamily: 'Poppins, sans-serif' }}
+        w-full bg-no-repeat bg-cover bg-center text-sm pb-44 border-2 border-slate-200 md:border-0 rounded-lg md:rounded-none mx-2 md:mx-0 mt-2 md:mt-0 font-[var(--font-poppins)]"
       >
       <Navbar />
 

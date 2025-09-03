@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,11 +8,11 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between p-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-full">
       {/* Logo */}
-      <a href="/">
+      <Link href="/">
         <div className="text-2xl font-bold text-orange-600">
           AfriLance
         </div>
-      </a>
+      </Link>
 
       {/* Menu */}
       <div
@@ -100,7 +101,7 @@ export default function Navbar() {
 
       {/* Desktop CTA */}
       <button className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-full font-medium transition">
-        S'inscrire
+        S&apos;inscrire
       </button>
 
       {/* Open button (mobile) */}
