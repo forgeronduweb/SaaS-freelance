@@ -147,7 +147,7 @@ export default function Navbar() {
         </div>
         
         {/* Mobile CTA */}
-        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-lg mt-12" style={{marginTop: 'calc(3rem + 50px)'}}>
+        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-lg mt-12" style={{marginTop: 'calc(3rem + 70px)'}}>
           S&apos;inscrire
         </button>
 
