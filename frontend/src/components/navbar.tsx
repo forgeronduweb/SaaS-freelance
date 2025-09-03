@@ -4,6 +4,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   return (
     <nav className="flex items-center justify-between px-4 py-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-screen relative z-50">
@@ -18,69 +19,142 @@ export default function Navbar() {
       <div
         className={`${
           isOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
-        } max-md:fixed max-md:top-0 max-md:right-0 max-md:h-screen max-md:w-full 
-        max-md:bg-white max-md:shadow-lg max-md:transition-transform max-md:duration-300 
-        max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-6 
-        md:flex md:items-center md:gap-8 font-medium max-md:px-4`}
+        } max-md:fixed max-md:top-0 max-md:left-0 max-md:h-screen max-md:w-full 
+        max-md:bg-white max-md:transition-transform max-md:duration-300 max-md:z-50 
+        max-md:flex max-md:flex-col max-md:justify-between max-md:pt-32 max-md:pb-8 max-md:px-6 
+        md:flex md:items-center md:gap-8 font-medium`}
       >
 
-        <div className="relative group flex items-center gap-1 cursor-pointer max-md:text-base">
-          <span>Services</span>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="m4.5 7.2 3.793 3.793a1 1 0 0 0 1.414 0L13.5 7.2"
-              stroke="#ea580c"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          {/* Dropdown */}
-          <div className="absolute bg-white font-normal flex flex-col gap-2 w-max rounded-lg p-4 top-36 left-0 opacity-0 -translate-y-full group-hover:top-44 group-hover:opacity-100 transition-all duration-300">
-            <a
-              href="#"
-              className="hover:translate-x-1 hover:text-orange-500 transition-all"
-            >
-              Développement Web
-            </a>
-            <a
-              href="#"
-              className="hover:translate-x-1 hover:text-orange-500 transition-all"
-            >
-              Design Graphique
-            </a>
-            <a
-              href="#"
-              className="hover:translate-x-1 hover:text-orange-500 transition-all"
-            >
-              Rédaction
-            </a>
-            <a
-              href="#"
-              className="hover:translate-x-1 hover:text-orange-500 transition-all"
-            >
-              Marketing Digital
-            </a>
-          </div>
+        {/* Logo mobile - même position que navbar */}
+        <div className="md:hidden absolute top-6 left-6">
+          <div className="text-lg sm:text-xl md:text-2xl font-bold text-orange-600">AfriLance</div>
         </div>
 
-        <a href="#" className="hover:text-orange-500 transition-colors max-md:text-base">
-          Comment ça marche
-        </a>
-        <a href="#" className="hover:text-orange-500 transition-colors max-md:text-base">
-          Tarifs
-        </a>
+        {/* Navigation principale */}
+        <div className="max-md:flex max-md:flex-col max-md:gap-6 max-md:w-full md:flex md:items-center md:gap-8">
+          {/* Services - Mobile (clic) */}
+          <div className="w-full max-md:border-b max-md:border-slate-200 max-md:pb-6 md:hidden">
+            <div 
+              className="flex items-center gap-1 cursor-pointer text-lg font-semibold hover:text-orange-500 transition-colors"
+              onClick={() => setServicesOpen(!servicesOpen)}
+            >
+              <span>Services</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={`transition-transform duration-200 ${
+                  servicesOpen ? 'rotate-180' : ''
+                }`}
+              >
+                <path
+                  d="m4.5 7.2 3.793 3.793a1 1 0 0 0 1.414 0L13.5 7.2"
+                  stroke="#ea580c"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            {/* Services List Mobile - affichage au clic */}
+            <div className={`overflow-hidden transition-all duration-300 ${
+              servicesOpen ? 'max-h-96 mt-4' : 'max-h-0'
+            }`}>
+              <div className="flex flex-col gap-4 pl-4">
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-orange-500 transition-colors text-base"
+                >
+                  Développement Web
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-orange-500 transition-colors text-base"
+                >
+                  Design Graphique
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-orange-500 transition-colors text-base"
+                >
+                  Rédaction
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-orange-500 transition-colors text-base"
+                >
+                  Marketing Digital
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          {/* Services - Desktop (hover) */}
+          <div className="relative group hidden md:flex items-center gap-1 cursor-pointer">
+            <span>Services</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m4.5 7.2 3.793 3.793a1 1 0 0 0 1.414 0L13.5 7.2"
+                stroke="#ea580c"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {/* Desktop Dropdown */}
+            <div className="absolute bg-white font-normal flex flex-col gap-2 w-max rounded-lg p-4 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-lg z-10">
+              <a
+                href="#"
+                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+              >
+                Développement Web
+              </a>
+              <a
+                href="#"
+                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+              >
+                Design Graphique
+              </a>
+              <a
+                href="#"
+                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+              >
+                Rédaction
+              </a>
+              <a
+                href="#"
+                className="hover:translate-x-1 hover:text-orange-500 transition-all whitespace-nowrap"
+              >
+                Marketing Digital
+              </a>
+            </div>
+          </div>
+
+          <a href="#" className="hover:text-orange-500 transition-colors max-md:text-lg max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6">
+            Comment ça marche
+          </a>
+          <a href="#" className="hover:text-orange-500 transition-colors max-md:text-lg max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6">
+            Tarifs
+          </a>
+        </div>
+        
+        {/* Mobile CTA en bas */}
+        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-lg">
+          S&apos;inscrire
+        </button>
 
         {/* Close button (mobile) */}
         <button
           onClick={() => setIsOpen(false)}
-          className="md:hidden absolute top-4 right-4 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
+          className="md:hidden absolute top-6 right-6 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full aspect-square font-medium transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
