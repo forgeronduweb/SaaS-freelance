@@ -71,7 +71,7 @@ const Services = () => {
 
     return (
         <section className="py-16 bg-slate-900">
-            <div className="max-w-7xl mx-auto px-4 md:px-16 lg:px-24 xl:px-32">
+            <div className="max-w-7xl mx-auto px-2 md:px-3 lg:px-4 xl:px-5">
                 <div className="text-center mb-16">
                     <p className="text-base font-medium text-orange-600 mb-2">Services</p>
                     <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
@@ -82,9 +82,9 @@ const Services = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
                     {services.map((service, index) => (
-                        <div key={index} className="bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-orange-500">
+                        <div key={index} className="bg-slate-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-orange-500">
                             {/* Icône */}
                             <div className="flex items-center justify-center w-16 h-16 bg-orange-600/20 rounded-xl mb-6">
                                 {service.icon}
