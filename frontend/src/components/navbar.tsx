@@ -6,10 +6,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="flex items-center justify-between p-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-full">
+    <nav className="flex items-center justify-between px-4 py-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-screen relative z-50">
       {/* Logo */}
       <Link href="/">
-        <div className="text-2xl font-bold text-orange-600">
+        <div className="text-lg sm:text-xl md:text-2xl font-bold text-orange-600">
           AfriLance
         </div>
       </Link>
@@ -17,14 +17,14 @@ export default function Navbar() {
       {/* Menu */}
       <div
         className={`${
-          isOpen ? "max-md:w-full" : "max-md:w-0"
-        } max-md:absolute max-md:top-0 max-md:left-0 max-md:transition-all 
-        max-md:duration-300 max-md:overflow-hidden max-md:h-full 
-        max-md:bg-white/50 max-md:backdrop-blur max-md:flex-col 
-        max-md:justify-center flex items-center gap-8 font-medium`}
+          isOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
+        } max-md:fixed max-md:top-0 max-md:right-0 max-md:h-screen max-md:w-full 
+        max-md:bg-white max-md:shadow-lg max-md:transition-transform max-md:duration-300 
+        max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-6 
+        md:flex md:items-center md:gap-8 font-medium max-md:px-4`}
       >
 
-        <div className="relative group flex items-center gap-1 cursor-pointer">
+        <div className="relative group flex items-center gap-1 cursor-pointer max-md:text-base">
           <span>Services</span>
           <svg
             width="18"
@@ -70,17 +70,17 @@ export default function Navbar() {
           </div>
         </div>
 
-        <a href="#" className="hover:text-orange-500 transition-colors">
+        <a href="#" className="hover:text-orange-500 transition-colors max-md:text-base">
           Comment ça marche
         </a>
-        <a href="#" className="hover:text-orange-500 transition-colors">
+        <a href="#" className="hover:text-orange-500 transition-colors max-md:text-base">
           Tarifs
         </a>
 
         {/* Close button (mobile) */}
         <button
           onClick={() => setIsOpen(false)}
-          className="md:hidden bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
+          className="md:hidden absolute top-4 right-4 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,14 +100,14 @@ export default function Navbar() {
       </div>
 
       {/* Desktop CTA */}
-      <button className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-full font-medium transition">
+      <button className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-medium transition text-sm md:text-base">
         S&apos;inscrire
       </button>
 
       {/* Open button (mobile) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
+        className="md:hidden bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md font-medium transition flex-shrink-0"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
