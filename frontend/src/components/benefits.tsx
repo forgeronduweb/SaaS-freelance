@@ -50,7 +50,7 @@ const Benefits = () => {
                         Pourquoi choisir AfriLance ?
                     </h2>
                     <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                        La première plateforme de freelancing pensée pour l'Afrique, avec des solutions adaptées aux défis locaux.
+                        La première plateforme de freelancing pensée pour l&apos;Afrique, avec des solutions adaptées aux défis locaux.
                     </p>
                 </div>
 
