@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "./navbar";
 
 export default function Hero() {
@@ -57,10 +58,10 @@ export default function Hero() {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-[90vw] sm:max-w-none">
-          <button className="w-auto bg-orange-600 hover:bg-orange-700 text-white px-12 sm:px-14 py-2.5 sm:py-3 rounded-full font-medium transition text-base md:text-base flex items-center justify-center">
+          <Link href="/signup/freelance" className="w-auto bg-orange-600 hover:bg-orange-700 text-white px-12 sm:px-14 py-2.5 sm:py-3 rounded-full font-medium transition text-base md:text-base flex items-center justify-center">
             <span>Je suis Freelance</span>
-          </button>
-          <button className="w-auto flex items-center justify-center gap-2 border border-orange-300 hover:bg-orange-50 text-orange-700 rounded-full px-8 sm:px-10 py-2.5 sm:py-3 transition text-base md:text-base">
+          </Link>
+          <Link href="/signup/client" className="w-auto flex items-center justify-center gap-2 border border-orange-300 hover:bg-orange-50 text-orange-700 rounded-full px-8 sm:px-10 py-2.5 sm:py-3 transition text-base md:text-base">
             <span>Je cherche un Freelance</span>
           <svg
             width="6"
@@ -77,7 +78,7 @@ export default function Hero() {
               strokeLinejoin="round"
             />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
       </section>

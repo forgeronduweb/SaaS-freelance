@@ -94,25 +94,25 @@ export default function Navbar() {
             }`}>
               <div className="flex flex-col gap-4 pl-4 bg-white/80 backdrop-blur-md rounded-lg p-4">
                 <a
-                  href="#"
+                  href="#services"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
                 >
                   Développement Web
                 </a>
                 <a
-                  href="#"
+                  href="#services"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
                 >
                   Design Graphique
                 </a>
                 <a
-                  href="#"
+                  href="#services"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
                 >
                   Rédaction
                 </a>
                 <a
-                  href="#"
+                  href="#services"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
                 >
                   Marketing Digital
@@ -142,25 +142,25 @@ export default function Navbar() {
             {/* Desktop Dropdown */}
             <div className="absolute bg-white/80 backdrop-blur-md font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
               <a
-                href="#"
+                href="#services"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Développement Web
               </a>
               <a
-                href="#"
+                href="#services"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Design Graphique
               </a>
               <a
-                href="#"
+                href="#services"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Rédaction
               </a>
               <a
-                href="#"
+                href="#services"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"
               >
                 Marketing Digital
@@ -168,18 +168,18 @@ export default function Navbar() {
             </div>
           </div>
 
-          <a href="#" className="hover:text-orange-500 transition-colors max-md:text-xl max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6 md:text-lg">
+          <a href="#how-it-works" className="hover:text-orange-500 transition-colors max-md:text-xl max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6 md:text-lg">
             Comment ça marche
           </a>
-          <a href="#" className="hover:text-orange-500 transition-colors max-md:text-xl max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6 md:text-lg">
+          <a href="#pricing" className="hover:text-orange-500 transition-colors max-md:text-xl max-md:font-semibold max-md:w-full max-md:border-b max-md:border-slate-200 max-md:pb-6 md:text-lg">
             Tarifs
           </a>
         </div>
         
         {/* Mobile CTA */}
-        <button className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-xl mt-12" style={{marginTop: 'calc(3rem + 70px)'}}>
-          S&apos;inscrire
-        </button>
+        <Link href="/login" className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-xl mt-12 text-center block" style={{marginTop: 'calc(3rem + 70px)'}}>
+          Connexion
+        </Link>
 
         {/* Close button (mobile) */}
         <button
@@ -204,9 +204,9 @@ export default function Navbar() {
       </div>
 
       {/* Desktop CTA */}
-      <button className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-medium transition text-base md:text-lg">
-        S&apos;inscrire
-      </button>
+      <Link href="/login" className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-medium transition text-base md:text-lg">
+        Connexion
+      </Link>
 
       {/* Open button (mobile) */}
       <button

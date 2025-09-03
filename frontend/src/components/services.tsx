@@ -11,7 +11,6 @@ const Services = () => {
             ),
             title: "Développement Web & Mobile",
             description: "Création de sites web vitrines et e-commerce. Applications mobiles (Android / iOS). Développement d'API et intégration de systèmes.",
-            example: "Site web ou app réalisée pour un client local ou international",
             features: [
                 "Sites web vitrines et e-commerce",
                 "Applications mobiles (Android / iOS)",
@@ -27,7 +26,6 @@ const Services = () => {
             ),
             title: "Design Graphique",
             description: "Logos et chartes graphiques pour entreprises. Flyers, affiches et supports marketing. UI/UX design pour apps et sites web.",
-            example: "Miniature d'un logo ou maquette de site web réalisée",
             features: [
                 "Logos et chartes graphiques",
                 "Flyers et supports marketing",
@@ -43,7 +41,6 @@ const Services = () => {
             ),
             title: "Rédaction & Traduction",
             description: "Rédaction d'articles, blogs et contenu SEO. Création de contenus marketing pour réseaux sociaux. Traduction multilingue.",
-            example: "Lien vers un article publié ou extrait de contenu rédigé",
             features: [
                 "Articles, blogs et contenu SEO",
                 "Contenus marketing réseaux sociaux",
@@ -59,7 +56,6 @@ const Services = () => {
             ),
             title: "Marketing Digital",
             description: "Gestion des campagnes publicitaires (Facebook, Google Ads). Community management et réseaux sociaux. SEO et email marketing.",
-            example: "Capture d'écran d'une campagne ou statistiques de performance",
             features: [
                 "Campagnes publicitaires",
                 "Community management",
@@ -70,7 +66,7 @@ const Services = () => {
     ];
 
     return (
-        <section className="py-16 bg-slate-900">
+        <section id="services" className="py-16 bg-slate-900">
             <div className="max-w-7xl mx-auto px-2 md:px-3 lg:px-4 xl:px-5">
                 <div className="text-center mb-16">
                     <p className="text-base font-medium text-orange-600 mb-2">Services</p>
@@ -111,12 +107,6 @@ const Services = () => {
                                     </li>
                                 ))}
                             </ul>
-
-                            {/* Exemple concret */}
-                            <div className="bg-orange-600/10 rounded-lg p-4 border-l-4 border-orange-500">
-                                <p className="text-sm font-medium text-orange-400 mb-1">Exemple concret :</p>
-                                <p className="text-sm text-orange-300">{service.example}</p>
-                            </div>
                         </div>
                     ))}
                 </div>

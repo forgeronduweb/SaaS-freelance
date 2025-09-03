@@ -65,7 +65,7 @@ const Pricing = () => {
     ];
 
     return (
-        <section className="py-16 bg-slate-50">
+        <section id="pricing" className="py-16 bg-slate-50">
             <div className="px-4 md:px-16 lg:px-24 xl:px-32">
                 <div className="text-center mb-16">
                     <p className="text-base font-medium text-orange-600 mb-2">Tarifs</p>
