@@ -19,7 +19,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "AfriLance - Plateforme de Freelancing Africaine",
+  title: "afriLance - Plateforme de Freelancing Africaine",
   description: "Connectez-vous avec les meilleurs freelances africains. Paiements sécurisés via Mobile Money, accompagnement personnalisé et visibilité garantie.",
 };
 
