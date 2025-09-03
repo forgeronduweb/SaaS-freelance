@@ -73,7 +73,7 @@ const Pricing = () => {
                         Choisissez votre plan
                     </h2>
                     <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-8">
-                        Du plan gratuit aux solutions entreprise, trouvez l'offre qui correspond à vos besoins sur AfriLance.
+                        Du plan gratuit aux solutions entreprise, trouvez l&apos;offre qui correspond à vos besoins sur AfriLance.
                     </p>
                     
                     {/* Toggle Mensuel/Annuel */}
@@ -174,7 +174,7 @@ const Pricing = () => {
                                 Essai gratuit 7 jours
                             </button>
                             <button className="border-2 border-white hover:bg-white hover:text-orange-600 text-white px-8 py-3 rounded-full font-medium transition-colors">
-                                Contacter l'équipe
+                                Contacter l&apos;équipe
                             </button>
                         </div>
                     </div>
