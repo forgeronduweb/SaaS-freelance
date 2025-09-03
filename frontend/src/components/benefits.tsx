@@ -43,7 +43,7 @@ const Benefits = () => {
 
     return (
         <section className="py-16 bg-slate-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 md:px-16 lg:px-24 xl:px-32">
                 <div className="text-center mb-12">
                     <p className="text-base font-medium text-orange-600 mb-2">Avantages</p>
                     <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
