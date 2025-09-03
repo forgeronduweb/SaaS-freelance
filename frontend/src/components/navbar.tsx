@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="flex items-center justify-between p-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-full">
       {/* Logo */}
       <a href="/">
-        <div className="text-2xl font-bold text-slate-800">
+        <div className="text-2xl font-bold text-orange-600">
           AfriLance
         </div>
       </a>
@@ -34,7 +34,7 @@ export default function Navbar() {
           >
             <path
               d="m4.5 7.2 3.793 3.793a1 1 0 0 0 1.414 0L13.5 7.2"
-              stroke="#050040"
+              stroke="#ea580c"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -44,42 +44,42 @@ export default function Navbar() {
           <div className="absolute bg-white font-normal flex flex-col gap-2 w-max rounded-lg p-4 top-36 left-0 opacity-0 -translate-y-full group-hover:top-44 group-hover:opacity-100 transition-all duration-300">
             <a
               href="#"
-              className="hover:translate-x-1 hover:text-slate-500 transition-all"
+              className="hover:translate-x-1 hover:text-orange-500 transition-all"
             >
               Développement Web
             </a>
             <a
               href="#"
-              className="hover:translate-x-1 hover:text-slate-500 transition-all"
+              className="hover:translate-x-1 hover:text-orange-500 transition-all"
             >
               Design Graphique
             </a>
             <a
               href="#"
-              className="hover:translate-x-1 hover:text-slate-500 transition-all"
+              className="hover:translate-x-1 hover:text-orange-500 transition-all"
             >
               Rédaction
             </a>
             <a
               href="#"
-              className="hover:translate-x-1 hover:text-slate-500 transition-all"
+              className="hover:translate-x-1 hover:text-orange-500 transition-all"
             >
               Marketing Digital
             </a>
           </div>
         </div>
 
-        <a href="#" className="hover:text-gray-600">
+        <a href="#" className="hover:text-orange-500 transition-colors">
           Comment ça marche
         </a>
-        <a href="#" className="hover:text-gray-600">
+        <a href="#" className="hover:text-orange-500 transition-colors">
           Tarifs
         </a>
 
         {/* Close button (mobile) */}
         <button
           onClick={() => setIsOpen(false)}
-          className="md:hidden bg-gray-800 hover:bg-black text-white p-2 rounded-md aspect-square font-medium transition"
+          className="md:hidden bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,14 +99,14 @@ export default function Navbar() {
       </div>
 
       {/* Desktop CTA */}
-      <button className="hidden md:block bg-gray-800 hover:bg-black text-white px-6 py-3 rounded-full font-medium transition">
+      <button className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-full font-medium transition">
         S'inscrire
       </button>
 
       {/* Open button (mobile) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden bg-gray-800 hover:bg-black text-white p-2 rounded-md aspect-square font-medium transition"
+        className="md:hidden bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-md aspect-square font-medium transition"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
