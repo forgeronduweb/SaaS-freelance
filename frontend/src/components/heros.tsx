@@ -6,14 +6,14 @@ export default function Hero() {
     <>
       
       <section
-        className="bg-[url('https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/hero/gridBackground.png')] 
+        className="bg-gradient-to-b from-orange-50/30 via-white to-white bg-[url('https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/hero/gridBackground.png')] 
         w-screen bg-no-repeat bg-cover bg-center text-sm pb-16 md:pb-44 border-0 rounded-none m-0 font-[var(--font-poppins)] min-h-screen flex flex-col justify-center items-center overflow-hidden"
       >
       <div className="w-full">
         <Navbar />
       </div>
       
-      <div className="flex-1 flex flex-col justify-center items-center px-4 py-8 space-y-8 md:space-y-12">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 py-8 space-y-8 md:space-y-12 mt-16 md:mt-20">
 
         {/* Announcement */}
         <div className="flex items-center gap-1 sm:gap-2 border border-slate-300 hover:border-slate-400/70 rounded-full w-max mx-auto px-2 sm:px-4 py-1.5 sm:py-2 max-w-[95vw]">

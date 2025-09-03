@@ -1,14 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="flex items-center justify-between px-4 py-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-screen relative z-50">
+    <nav className={`fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-4 md:px-16 lg:px-24 xl:px-32 md:py-6 w-full z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/80 backdrop-blur-md shadow-lg' : 'bg-gradient-to-b from-orange-50/30 to-transparent'
+    }`}>
       {/* Logo */}
       <Link href="/">
         <div className="flex items-center gap-2 text-xl sm:text-xl md:text-2xl font-bold text-black">
@@ -19,7 +31,7 @@ export default function Navbar() {
             height={32}
             className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
           />
-          afriLance
+          afrilance
         </div>
       </Link>
 
@@ -44,7 +56,7 @@ export default function Navbar() {
               height={32}
               className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
             />
-            afriLance
+            afrilance
           </div>
         </div>
 
@@ -80,7 +92,7 @@ export default function Navbar() {
             <div className={`overflow-hidden transition-all duration-300 ${
               servicesOpen ? 'max-h-96 mt-4' : 'max-h-0'
             }`}>
-              <div className="flex flex-col gap-4 pl-4">
+              <div className="flex flex-col gap-4 pl-4 bg-white/80 backdrop-blur-md rounded-lg p-4">
                 <a
                   href="#"
                   className="text-slate-600 hover:text-orange-500 transition-colors text-lg"
@@ -128,7 +140,7 @@ export default function Navbar() {
               />
             </svg>
             {/* Desktop Dropdown */}
-            <div className="absolute bg-white font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
+            <div className="absolute bg-white/80 backdrop-blur-md font-normal flex flex-col w-max rounded-lg p-6 top-full left-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-2xl border border-slate-100 z-10 min-w-48">
               <a
                 href="#"
                 className="text-slate-600 hover:text-orange-500 transition-colors text-lg py-2 px-2 rounded hover:bg-orange-50 whitespace-nowrap"

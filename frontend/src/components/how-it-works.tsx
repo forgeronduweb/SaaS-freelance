@@ -94,7 +94,7 @@ const HowItWorks = () => {
 
     return (
         <section className="py-16 bg-white">
-            <div className="max-w-7xl mx-auto px-4 md:px-16 lg:px-24 xl:px-32">
+            <div className="px-4 md:px-16 lg:px-24 xl:px-32">
                 <div className="text-center mb-16">
                     <p className="text-base font-medium text-orange-600 mb-2">Processus</p>
                     <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 mb-4">
