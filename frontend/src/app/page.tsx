@@ -4,6 +4,7 @@ import Services from "@/components/services";
 import HowItWorks from "@/components/how-it-works";
 import FAQ from "@/components/faq";
 import Pricing from "@/components/pricing";
+import CTAFinal from "@/components/cta-final";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -13,8 +14,9 @@ export default function Home() {
       <Benefits />
       <HowItWorks />
       <Services />
-      <FAQ />
       <Pricing />
+      <FAQ />
+      <CTAFinal />
       <Footer />
     </main>
   );
