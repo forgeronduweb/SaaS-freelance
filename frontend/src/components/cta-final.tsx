@@ -13,11 +13,11 @@ const CTAFinal = () => {
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 0L9.5 5.5L15 7.5L9.5 9.5L7.5 15L5.5 9.5L0 7.5L5.5 5.5Z" fill="#ea580c"/>
                         </svg>
-                        <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent font-medium">Déjà +500 freelances inscrits</span>
+                        <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent font-medium">Déjà +-- freelances inscrits</span>
                     </div>
                     
                     <h2 className="text-2xl md:text-4xl font-medium mt-4 text-slate-800">
-                        Rejoins la 1ère plateforme de <br />
+                        Rejoins la 1&egrave;re plateforme de <br />
                         <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">freelances africains</span> 
                         de confiance
                     </h2>
