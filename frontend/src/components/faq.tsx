@@ -14,7 +14,7 @@ const FAQ = () => {
         },
         {
             question: 'Y a-t-il des frais ?',
-            answer: 'AfriLance prend une petite commission (10%) sur chaque mission réussie. Pas de frais cachés.'
+            answer: 'AfriLance prend une petite commission (5%) sur chaque mission réussie uniquement pour les freelanceurs non-premium. Les membres premium ne paient aucune commission. Pas de frais cachés.'
         },
         {
             question: 'Est-ce que les débutants sont acceptés ?',
