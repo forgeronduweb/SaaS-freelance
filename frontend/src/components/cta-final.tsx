@@ -23,7 +23,7 @@ const CTAFinal = () => {
                     </h2>
                     
                     <p className="text-slate-600 mt-4 max-w-lg max-md:text-sm">
-                        Inscris-toi gratuitement et commence à trouver des missions ou des talents dès aujourd'hui. 100% gratuit pour commencer.
+                        Inscris-toi gratuitement et commence à trouver des missions ou des talents dès aujourd&apos;hui. 100% gratuit pour commencer.
                     </p>
                     
                     <div className="flex flex-col sm:flex-row gap-4 mt-8">
