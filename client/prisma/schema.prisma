@@ -1,0 +1,325 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum UserRole {
+  FREELANCE
+  CLIENT
+  ADMIN
+}
+
+enum MissionStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  DISPUTED
+}
+
+enum PaymentMethod {
+  ORANGE_MONEY
+  MTN_MONEY
+  MOOV_MONEY
+  WAVE
+  STRIPE
+  BANK_TRANSFER
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+  DELETED
+}
+
+enum NotificationType {
+  NEW_MESSAGE
+  NEW_MISSION
+  APPLICATION_RECEIVED
+  APPLICATION_ACCEPTED
+  APPLICATION_REJECTED
+  PAYMENT_RECEIVED
+  PAYMENT_RELEASED
+  MISSION_COMPLETED
+  REVIEW_RECEIVED
+  SYSTEM_ALERT
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// Models
+model User {
+  id                      String    @id @default(auto()) @map("_id") @db.ObjectId
+  email                   String    @unique
+  password                String
+  fullName                String
+  phone                   String?
+  role                    UserRole  @default(FREELANCE)
+  isEmailVerified         Boolean   @default(false)
+  isPhoneVerified         Boolean   @default(false)
+  isActive                Boolean   @default(true)
+
+  // Champs spécifiques aux freelances
+  title                   String?
+  bio                     String?
+  hourlyRate              Float?
+  dailyRate               Float?
+  skills                  String[]
+  categories              String[]
+  portfolio               String[]
+  country                 String?
+  city                    String?
+  profilePhoto            String?
+  rating                  Float     @default(0)
+  totalReviews            Int       @default(0)
+  completedProjects       Int       @default(0)
+
+  // Champs spécifiques aux clients
+  companyName             String?
+  companySize             String?
+  sector                  String?
+  website                 String?
+  companyLogo             String?
+  totalBudgetSpent        Float     @default(0)
+  totalProjectsPublished  Int       @default(0)
+
+  // Métadonnées
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  lastLoginAt             DateTime?
+  emailVerificationToken  String?
+  passwordResetToken      String?
+  passwordResetExpires    DateTime?
+
+  // Relations
+  clientMissions          Mission[] @relation("ClientMissions")
+  freelanceMissions       Mission[] @relation("FreelanceMissions")
+  applications            Application[]
+  sentMessages            Message[] @relation("MessageSender")
+  receivedMessages        Message[] @relation("MessageReceiver")
+  notifications           Notification[]
+  clientPayments          Payment[] @relation("ClientPayments")
+  freelancePayments       Payment[] @relation("FreelancePayments")
+  givenReviews            Review[]  @relation("ReviewGiver")
+  receivedReviews         Review[]  @relation("ReviewReceiver")
+
+  @@map("users")
+}
+
+model Mission {
+  id                      String        @id @default(auto()) @map("_id") @db.ObjectId
+  title                   String
+  description             String
+  category                String
+  skills                  String[]
+  budget                  Float
+  deadline                DateTime
+  status                  MissionStatus @default(OPEN)
+  isUrgent                Boolean       @default(false)
+  attachments             String[]
+
+  // Relations
+  client                  User          @relation("ClientMissions", fields: [clientId], references: [id])
+  clientId                String        @db.ObjectId
+  freelance               User?         @relation("FreelanceMissions", fields: [freelanceId], references: [id])
+  freelanceId             String?       @db.ObjectId
+  applications            Application[]
+  payments                Payment[]
+  messages                Message[]
+  reviews                 Review[]
+
+  // Métadonnées
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  startedAt               DateTime?
+  completedAt             DateTime?
+  cancelledAt             DateTime?
+
+  // Détails supplémentaires
+  requirements            String?
+  deliverables            String?
+  estimatedDuration       String?
+  experienceLevel         String?
+  location                String?
+  isRemote                Boolean       @default(true)
+  applicationsCount       Int           @default(0)
+  viewsCount              Int           @default(0)
+
+  @@map("missions")
+}
+
+model Application {
+  id                      String            @id @default(auto()) @map("_id") @db.ObjectId
+  coverLetter             String
+  proposedBudget          Float
+  proposedDeadline        DateTime
+  status                  ApplicationStatus @default(PENDING)
+  attachments             String[]
+
+  // Relations
+  mission                 Mission           @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  missionId               String            @db.ObjectId
+  freelance               User              @relation(fields: [freelanceId], references: [id])
+  freelanceId             String            @db.ObjectId
+
+  // Métadonnées
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  respondedAt             DateTime?
+
+  // Détails supplémentaires
+  estimatedDuration       String?
+  questions               String?
+  portfolio               String[]
+
+  @@unique([missionId, freelanceId])
+  @@map("applications")
+}
+
+model Payment {
+  id                      String        @id @default(auto()) @map("_id") @db.ObjectId
+  amount                  Float
+  currency                String        @default("XOF")
+  status                  PaymentStatus @default(PENDING)
+  method                  PaymentMethod
+  description             String?
+
+  // Relations
+  mission                 Mission       @relation(fields: [missionId], references: [id])
+  missionId               String        @db.ObjectId
+  client                  User          @relation("ClientPayments", fields: [clientId], references: [id])
+  clientId                String        @db.ObjectId
+  freelance               User?         @relation("FreelancePayments", fields: [freelanceId], references: [id])
+  freelanceId             String?       @db.ObjectId
+
+  // Métadonnées de paiement
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  paidAt                  DateTime?
+  releasedAt              DateTime?
+  refundedAt              DateTime?
+
+  // Détails du paiement
+  transactionId           String?
+  gatewayResponse         Json?
+  platformFee             Float         @default(0)
+  freelanceAmount         Float
+  escrowReleased          Boolean       @default(false)
+  escrowReleasedAt        DateTime?
+
+  // Mobile Money spécifique
+  phoneNumber             String?
+  operatorTransactionId   String?
+
+  // Stripe spécifique
+  stripePaymentIntentId   String?
+  stripeChargeId          String?
+
+  @@map("payments")
+}
+
+model Message {
+  id                      String        @id @default(auto()) @map("_id") @db.ObjectId
+  content                 String
+  status                  MessageStatus @default(SENT)
+  attachments             String[]
+
+  // Relations
+  sender                  User          @relation("MessageSender", fields: [senderId], references: [id])
+  senderId                String        @db.ObjectId
+  receiver                User          @relation("MessageReceiver", fields: [receiverId], references: [id])
+  receiverId              String        @db.ObjectId
+  mission                 Mission?      @relation(fields: [missionId], references: [id])
+  missionId               String?       @db.ObjectId
+
+  // Métadonnées
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  readAt                  DateTime?
+  deletedAt               DateTime?
+
+  // Fonctionnalités supplémentaires
+  isEdited                Boolean       @default(false)
+  editedAt                DateTime?
+  originalContent         String?
+
+  @@map("messages")
+}
+
+model Notification {
+  id                      String             @id @default(auto()) @map("_id") @db.ObjectId
+  title                   String
+  message                 String
+  type                    NotificationType
+  priority                NotificationPriority @default(NORMAL)
+  isRead                  Boolean            @default(false)
+  data                    Json?
+
+  // Relations
+  user                    User               @relation(fields: [userId], references: [id])
+  userId                  String             @db.ObjectId
+
+  // Métadonnées
+  createdAt               DateTime           @default(now())
+  readAt                  DateTime?
+  expiresAt               DateTime?
+
+  @@map("notifications")
+}
+
+model Review {
+  id                      String    @id @default(auto()) @map("_id") @db.ObjectId
+  rating                  Int       // 1 à 5 étoiles
+  comment                 String?
+  isPublic                Boolean   @default(true)
+
+  // Relations
+  mission                 Mission   @relation(fields: [missionId], references: [id])
+  missionId               String    @db.ObjectId
+  reviewer                User      @relation("ReviewGiver", fields: [reviewerId], references: [id])
+  reviewerId              String    @db.ObjectId
+  reviewee                User      @relation("ReviewReceiver", fields: [revieweeId], references: [id])
+  revieweeId              String    @db.ObjectId
+
+  // Métadonnées
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  // Critères d'évaluation détaillés
+  communicationRating     Int?      // 1 à 5
+  qualityRating           Int?      // 1 à 5
+  timelinessRating        Int?      // 1 à 5
+  professionalismRating   Int?      // 1 à 5
+
+  @@unique([missionId, reviewerId, revieweeId])
+  @@map("reviews")
+}
