@@ -7,12 +7,15 @@ interface FreelanceProfileProps {
     freelanceId?: string;
 }
 
-const FreelanceProfile = () => {
+const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
     const [showContactForm, setShowContactForm] = React.useState(false);
     
     // Données mockées - à remplacer par des données réelles via API
+    // Exemple : tu pourras utiliser freelanceId ici pour fetch les données
+    console.log("Freelance ID:", freelanceId);
+    
     const freelanceData = {
-        id: "1",
+        id: freelanceId || "1",
         name: "Amadou Diallo",
         title: "Développeur Full-Stack",
         avatar: "/api/placeholder/150/150",
