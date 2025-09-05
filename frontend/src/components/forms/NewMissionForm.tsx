@@ -171,7 +171,7 @@ const NewMissionForm = ({ userType = 'client' }: NewMissionFormProps) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Niveau d'urgence
+                  Niveau d&apos;urgence
                 </label>
                 <select
                   name="urgency"

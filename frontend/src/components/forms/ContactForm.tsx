@@ -17,7 +17,7 @@ interface ContactData {
   urgency: 'low' | 'medium' | 'high';
 }
 
-const ContactForm = ({ recipientName, recipientType, recipientId, onSubmit, onClose }: ContactFormProps) => {
+const ContactForm = ({ recipientName, recipientType, onSubmit, onClose }: ContactFormProps) => {
   const [formData, setFormData] = useState<ContactData>({
     subject: '',
     message: '',
@@ -82,8 +82,8 @@ const ContactForm = ({ recipientName, recipientType, recipientId, onSubmit, onCl
       if (onClose) {
         onClose();
       }
-    } catch (error) {
-      alert('Erreur lors de l\'envoi du message. Veuillez réessayer.');
+    } catch {
+      alert('Erreur lors de l&apos;envoi du message. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);
     }

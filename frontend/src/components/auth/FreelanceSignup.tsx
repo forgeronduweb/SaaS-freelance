@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const FreelanceSignup = () => {
     const [formData, setFormData] = useState<{
@@ -194,7 +194,7 @@ const FreelanceSignup = () => {
                                         className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                     >
                                         <option value="">Sélectionner un pays</option>
-                                        <option value="CI">Côte d&apos;Ivoire</option>
+                                        <option value="CI">Côte d'Ivoire</option>
                                         <option value="SN">Sénégal</option>
                                         <option value="ML">Mali</option>
                                         <option value="BF">Burkina Faso</option>
@@ -307,9 +307,11 @@ const FreelanceSignup = () => {
                             <div className="flex items-center space-x-4">
                                 <div className="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center">
                                     {formData.profilePhoto ? (
-                                        <img 
+                                        <Image 
                                             src={URL.createObjectURL(formData.profilePhoto)} 
-                                            alt="Profile" 
+                                            alt="Photo de profil" 
+                                            width={80}
+                                            height={80}
                                             className="w-20 h-20 rounded-full object-cover"
                                         />
                                     ) : (

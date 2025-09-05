@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 
 interface Message {
@@ -198,10 +199,12 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
               >
                 <div className="flex items-center space-x-2.5">
                   <div className="relative flex-shrink-0">
-                    <img
-                      src={conversation.participantAvatar}
-                      alt={conversation.participantName}
-                      className="w-11 h-11 rounded-full object-cover"
+                    <Image 
+                        src={conversation.participantAvatar} 
+                        alt={conversation.participantName} 
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 rounded-full object-cover"
                     />
                     {conversation.isOnline && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
@@ -252,10 +255,12 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                     </svg>
                   </button>
                   <div className="relative flex-shrink-0">
-                    <img
-                      src={selectedConv.participantAvatar}
-                      alt={selectedConv.participantName}
-                      className="w-8 h-8 rounded-full object-cover"
+                    <Image 
+                        src={selectedConv.participantAvatar} 
+                        alt={selectedConv.participantName} 
+                        width={40}
+                        height={40}
+                        className="w-8 h-8 rounded-full object-cover"
                     />
                     {selectedConv.isOnline && (
                       <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></div>
@@ -369,10 +374,12 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                     >
                       <div className="flex items-start space-x-3">
                         <div className="relative">
-                          <img
-                            src={conversation.participantAvatar}
-                            alt={conversation.participantName}
-                            className="w-12 h-12 rounded-full object-cover"
+                          <Image 
+                              src={conversation.participantAvatar} 
+                              alt={conversation.participantName} 
+                              width={40}
+                              height={40}
+                              className="w-12 h-12 rounded-full object-cover"
                           />
                           {conversation.isOnline && (
                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
@@ -417,10 +424,12 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                     <div className="p-4 border-b border-slate-200 bg-white">
                       <div className="flex items-center space-x-3">
                         <div className="relative">
-                          <img
-                            src={selectedConv.participantAvatar}
-                            alt={selectedConv.participantName}
-                            className="w-10 h-10 rounded-full object-cover"
+                          <Image 
+                              src={selectedConv.participantAvatar} 
+                              alt={selectedConv.participantName} 
+                              width={40}
+                              height={40}
+                              className="w-10 h-10 rounded-full object-cover"
                           />
                           {selectedConv.isOnline && (
                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
@@ -448,10 +457,12 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                           <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${
                             message.senderId === 'current-user' ? 'flex-row-reverse space-x-reverse' : ''
                           }`}>
-                            <img
-                              src={message.senderAvatar}
-                              alt={message.senderName}
-                              className="w-8 h-8 rounded-full object-cover"
+                            <Image 
+                                src={message.senderAvatar} 
+                                alt={message.senderName} 
+                                width={32}
+                                height={32}
+                                className="w-8 h-8 rounded-full object-cover"
                             />
                             <div>
                               <div className={`px-4 py-2 rounded-lg ${

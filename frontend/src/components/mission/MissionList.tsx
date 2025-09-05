@@ -1,8 +1,28 @@
 "use client";
 import React from "react";
-import ApplicationForm from '@/components/forms/ApplicationForm';
+import AppLayout from "../layout/AppLayout";
+import ApplicationForm from "../forms/ApplicationForm";
+
+interface Mission {
+    id: string;
+    title: string;
+    description: string;
+    client: string;
+    clientLogo: string | null;
+    budget: string;
+    budgetType: string;
+    category: string;
+    skills: string[];
+    deadline: string;
+    status: string;
+    urgency: string;
+    proposals: number;
+    postedDate: string;
+    clientRating: number;
+    clientReviews: number;
+}
+
 import Link from 'next/link';
-import AppLayout from '@/components/layout/AppLayout';
 
 const MissionList = () => {
     const [filters, setFilters] = React.useState({
@@ -15,7 +35,7 @@ const MissionList = () => {
 
     const [searchTerm, setSearchTerm] = React.useState("");
     const [showApplicationForm, setShowApplicationForm] = React.useState(false);
-    const [selectedMission, setSelectedMission] = React.useState<any>(null);
+    const [selectedMission, setSelectedMission] = React.useState<Mission | null>(null);
 
     // Données mockées - à remplacer par des données réelles via API
     const missions = [
@@ -155,7 +175,7 @@ const MissionList = () => {
         ));
     };
 
-    const handleApplicationClick = (mission: any) => {
+    const handleApplyClick = (mission: Mission) => {
         setSelectedMission(mission);
         setShowApplicationForm(true);
     };
@@ -364,7 +384,7 @@ const MissionList = () => {
                                                 </Link>
                                                 {mission.status === "Ouvert" && (
                                                     <button 
-                                                        onClick={() => handleApplicationClick(mission)}
+                                                        onClick={() => handleApplyClick(mission)}
                                                         className="w-full sm:w-auto bg-orange-600 text-white px-3 lg:px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors"
                                                     >
                                                         Postuler

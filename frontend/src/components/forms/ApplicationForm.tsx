@@ -17,7 +17,7 @@ interface ApplicationData {
   attachments: File[];
 }
 
-const ApplicationForm = ({ missionId, missionTitle, clientName, onSubmit, onClose }: ApplicationFormProps) => {
+const ApplicationForm = ({ onSubmit, onClose }: ApplicationFormProps) => {
   const [formData, setFormData] = useState<ApplicationData>({
     coverLetter: '',
     proposedBudget: '',
@@ -100,8 +100,8 @@ const ApplicationForm = ({ missionId, missionTitle, clientName, onSubmit, onClos
       if (onClose) {
         onClose();
       }
-    } catch (error) {
-      alert('Erreur lors de l\'envoi de la candidature. Veuillez réessayer.');
+    } catch {
+      alert('Erreur lors de la soumission. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);
     }
@@ -113,9 +113,10 @@ const ApplicationForm = ({ missionId, missionTitle, clientName, onSubmit, onClos
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-200">
           <div>
-            <h2 className="text-xl font-semibold text-slate-800">Postuler à cette mission</h2>
-            <p className="text-sm text-slate-600 mt-1">{missionTitle}</p>
-            <p className="text-sm text-slate-500">Client: {clientName}</p>
+            <h2 className="text-xl font-semibold text-slate-800">
+              Postuler pour cette mission
+            </h2>
+            <p className="text-sm text-slate-600 mt-1">Soumettez votre candidature</p>
           </div>
           <button
             onClick={onClose}

@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const ClientSignup = () => {
     const [formData, setFormData] = useState<{
@@ -223,9 +223,11 @@ const ClientSignup = () => {
                             <div className="flex items-center space-x-4">
                                 <div className="w-20 h-20 bg-slate-200 rounded-lg flex items-center justify-center">
                                     {formData.companyLogo ? (
-                                        <img 
+                                        <Image 
                                             src={URL.createObjectURL(formData.companyLogo)} 
                                             alt="Logo" 
+                                            width={80}
+                                            height={80}
                                             className="w-20 h-20 rounded-lg object-cover"
                                         />
                                     ) : (

@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import ApplicationForm from '@/components/forms/ApplicationForm';
-import ContactForm from '@/components/forms/ContactForm';
-import AppLayout from '@/components/layout/AppLayout';
+import Image from 'next/image';
+import AppLayout from '../layout/AppLayout';
+import ContactForm from '../forms/ContactForm';
+import ApplicationForm from '../forms/ApplicationForm';
 
 interface MissionDetailProps {
   missionId: string;
@@ -207,10 +208,12 @@ const MissionDetail = ({ missionId }: MissionDetailProps) => {
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
               <h3 className="text-lg font-semibold text-slate-800 mb-4">À propos du client</h3>
               <div className="flex items-start space-x-4">
-                <img
-                  src={missionData.client.avatar}
-                  alt={missionData.client.name}
-                  className="w-16 h-16 rounded-full object-cover"
+                <Image 
+                    src="/api/placeholder/60/60" 
+                    alt={missionData.client.name} 
+                    width={60}
+                    height={60}
+                    className="w-15 h-15 rounded-full object-cover"
                 />
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
