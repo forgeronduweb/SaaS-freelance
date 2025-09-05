@@ -5,7 +5,7 @@ interface ClientProfileProps {
     clientId?: string;
 }
 
-const ClientProfile = ({ clientId }: ClientProfileProps) => {
+const ClientProfile = () => {
     // Données mockées - à remplacer par des données réelles via API
     const clientData = {
         id: "1",

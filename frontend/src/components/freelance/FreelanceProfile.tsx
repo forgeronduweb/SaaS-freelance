@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+import AppLayout from "../layout/AppLayout";
 import ContactForm from '@/components/forms/ContactForm';
-import AppLayout from '@/components/layout/AppLayout';
 
 interface FreelanceProfileProps {
     freelanceId?: string;
 }
 
-const FreelanceProfile = ({ freelanceId }: FreelanceProfileProps) => {
+const FreelanceProfile = () => {
     const [showContactForm, setShowContactForm] = React.useState(false);
     
     // Données mockées - à remplacer par des données réelles via API

@@ -186,7 +186,7 @@ const ContactForm = ({ recipientName, recipientType, onSubmit, onClose }: Contac
           {/* Niveau d'urgence */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-3">
-              Niveau d'urgence
+              Niveau d&apos;urgence
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {Object.entries(urgencyLabels).map(([value, label]) => (

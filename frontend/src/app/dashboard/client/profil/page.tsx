@@ -39,7 +39,7 @@ const ClientProfilPage = () => {
     }));
   };
 
-  const handlePreferenceChange = (category: string, field: string, value: any) => {
+  const handlePreferenceChange = (category: string, field: string, value: string | string[]) => {
     setProfileData(prev => ({
       ...prev,
       preferences: {
@@ -108,10 +108,10 @@ const ClientProfilPage = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Informations de l'entreprise */}
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">Informations de l'entreprise</h2>
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">Informations de l&apos;entreprise</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Nom de l'entreprise</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Nom de l&apos;entreprise</label>
                   {isEditing ? (
                     <input
                       type="text"
@@ -124,7 +124,7 @@ const ClientProfilPage = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Secteur d'activité</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Secteur d&apos;activité</label>
                   {isEditing ? (
                     <input
                       type="text"
@@ -137,7 +137,7 @@ const ClientProfilPage = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Taille de l'entreprise</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Taille de l&apos;entreprise</label>
                   {isEditing ? (
                     <select
                       value={profileData.taille}
@@ -233,7 +233,7 @@ const ClientProfilPage = () => {
 
             {/* Description */}
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">À propos de l'entreprise</h2>
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">À propos de l&apos;entreprise</h2>
               {isEditing ? (
                 <textarea
                   value={profileData.description}

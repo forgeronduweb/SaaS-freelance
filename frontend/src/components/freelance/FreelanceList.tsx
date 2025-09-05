@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import FreelanceCard from "./FreelanceCard";
-import AppLayout from '@/components/layout/AppLayout';
+import AppLayout from '../layout/AppLayout';
 
 const FreelanceList = () => {
     const [filters, setFilters] = React.useState({
