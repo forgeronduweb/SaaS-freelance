@@ -2,13 +2,13 @@
 import React from "react";
 
 interface ClientProfileProps {
-    clientId?: string;
+    clientId: string;
 }
 
-const ClientProfile = () => {
+const ClientProfile = ({ clientId }: ClientProfileProps) => {
     // Données mockées - à remplacer par des données réelles via API
     const clientData = {
-        id: "1",
+        id: clientId,
         name: "TechCorp Afrique",
         type: "Entreprise",
         logo: "/api/placeholder/120/120",
