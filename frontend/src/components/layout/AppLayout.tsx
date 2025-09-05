@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../../hooks/useAuth";
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -12,6 +13,7 @@ interface AppLayoutProps {
 
 const AppLayout = ({ children, pageTitle, pageDescription, userType = 'guest' }: AppLayoutProps) => {
     const pathname = usePathname();
+    const { user, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
 
@@ -23,6 +25,7 @@ const AppLayout = ({ children, pageTitle, pageDescription, userType = 'guest' }:
                 { href: '/messages/freelance', label: 'Messagerie', icon: 'messages' },
                 { href: '/dashboard/freelance/solde', label: 'Solde & Retraits', icon: 'wallet' },
                 { href: '/dashboard/freelance/profil', label: 'Mon Profil', icon: 'profile' },
+                { href: '/', label: 'Retour à l\'accueil', icon: 'home' },
             ];
         } else if (userType === 'client') {
             return [
@@ -31,6 +34,7 @@ const AppLayout = ({ children, pageTitle, pageDescription, userType = 'guest' }:
                 { href: '/dashboard/client/missions', label: 'Mes missions', icon: 'missions' },
                 { href: '/messages/client', label: 'Messagerie', icon: 'messages' },
                 { href: '/dashboard/client/paiements', label: 'Paiements', icon: 'payments' },
+                { href: '/', label: 'Retour à l\'accueil', icon: 'home' },
             ];
         } else {
             return [
@@ -137,10 +141,13 @@ const AppLayout = ({ children, pageTitle, pageDescription, userType = 'guest' }:
                                 >
                                     <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0">
                                         <span className="text-white text-sm font-medium">
-                                            {userType === 'freelance' ? 'FL' : userType === 'client' ? 'CL' : 'IN'}
+                                            {user?.fullName ? user.fullName.split(' ').map(n => n[0]).join('').toUpperCase() : (userType === 'freelance' ? 'FL' : userType === 'client' ? 'CL' : 'IN')}
                                         </span>
                                     </div>
-                                    <span className="hidden md:block text-sm font-medium text-slate-700 truncate max-w-24">John Doe</span>
+                                    <div className="hidden md:block flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-slate-700 truncate">{user?.fullName || 'Utilisateur'}</p>
+                                        <p className="text-xs text-slate-500 truncate">{user?.email || ''}</p>
+                                    </div>
                                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
@@ -175,11 +182,20 @@ const AppLayout = ({ children, pageTitle, pageDescription, userType = 'guest' }:
                                                     <a href="#">Aide & Support</a>
                                                 </li>
                                                 <div className="w-full h-px bg-slate-300/50 my-2"></div>
-                                                <li className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-red-50 hover:text-red-600 transition">
-                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H4v16h10v-2h2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10z"/>
-                                                    </svg>
-                                                    <a href="/login">Déconnexion</a>
+                                                <li>
+                                                    <button 
+                                                        onClick={() => {
+                                                            setIsUserMenuOpen(false);
+                                                            logout();
+                                                            window.location.href = '/';
+                                                        }}
+                                                        className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-red-50 hover:text-red-600 transition w-full text-left"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H4v16h10v-2h2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10z"/>
+                                                        </svg>
+                                                        Déconnexion
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>

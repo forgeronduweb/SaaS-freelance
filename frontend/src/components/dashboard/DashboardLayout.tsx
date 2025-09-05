@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "../../hooks/useAuth";
 import { usePathname } from "next/navigation";
 
 interface DashboardLayoutProps {
@@ -11,6 +12,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps) => {
     const pathname = usePathname();
+    const { user, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
 
@@ -20,6 +22,7 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
         { href: '/messages/freelance', label: 'Messagerie', icon: 'messages' },
         { href: '/dashboard/freelance/solde', label: 'Solde & Retraits', icon: 'wallet' },
         { href: '/dashboard/freelance/profil', label: 'Mon Profil', icon: 'profile' },
+        { href: '/', label: 'Retour à l\'accueil', icon: 'home' },
     ];
 
     const clientMenuItems = [
@@ -28,6 +31,7 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
         { href: '/dashboard/client/missions', label: 'Mes missions', icon: 'missions' },
         { href: '/messages/client', label: 'Messagerie', icon: 'messages' },
         { href: '/dashboard/client/paiements', label: 'Paiements', icon: 'payments' },
+        { href: '/', label: 'Retour à l\'accueil', icon: 'home' },
     ];
 
     const menuItems = userType === 'freelance' ? freelanceMenuItems : clientMenuItems;
@@ -74,6 +78,11 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                 </svg>
             ),
+            home: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+            ),
         };
         return icons[iconName as keyof typeof icons] || icons.dashboard;
     };
@@ -116,12 +125,17 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                             <div className="relative">
                                 <button 
                                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                    className="flex items-center gap-2 hover:bg-slate-50 rounded-lg p-1 transition-colors"
+                                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition-colors w-full text-left"
                                 >
-                                    <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white text-sm font-medium">JD</span>
+                                    <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white text-sm font-medium">
+                                            {user?.fullName ? user.fullName.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+                                        </span>
                                     </div>
-                                    <span className="hidden md:block text-sm font-medium text-slate-700 truncate max-w-24">John Doe</span>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-slate-800 truncate">{user?.fullName || 'Utilisateur'}</p>
+                                        <p className="text-xs text-slate-600 truncate">{user?.email || ''}</p>
+                                    </div>
                                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
@@ -146,21 +160,23 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                                                         <path d="M8.001 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" stroke="currentColor" strokeOpacity=".9" strokeLinecap="round" strokeLinejoin="round"/>
                                                         <path d="M12.935 10a1.1 1.1 0 0 0 .22 1.213l.04.04a1.332 1.332 0 0 1-.433 2.176 1.33 1.33 0 0 1-1.454-.289l-.04-.04a1.1 1.1 0 0 0-1.213-.22 1.1 1.1 0 0 0-.667 1.007V14a1.333 1.333 0 1 1-2.667 0v-.06a1.1 1.1 0 0 0-.72-1.007 1.1 1.1 0 0 0-1.213.22l-.04.04a1.334 1.334 0 1 1-1.887-1.886l.04-.04a1.1 1.1 0 0 0 .22-1.214 1.1 1.1 0 0 0-1.006-.666H2A1.333 1.333 0 0 1 2 6.72h.06A1.1 1.1 0 0 0 3.068 6a1.1 1.1 0 0 0-.22-1.213l-.04-.04A1.333 1.333 0 1 1 4.695 2.86l.04.04a1.1 1.1 0 0 0 1.213.22h.053a1.1 1.1 0 0 0 .667-1.007V2a1.333 1.333 0 1 1 2.667 0v.06A1.1 1.1 0 0 0 10 3.067a1.1 1.1 0 0 0 1.214-.22l.04-.04a1.334 1.334 0 1 1 1.886 1.886l-.04.04a1.1 1.1 0 0 0-.22 1.214V6a1.1 1.1 0 0 0 1.007.667H14a1.333 1.333 0 1 1 0 2.666h-.60a1.1 1.1 0 0 0-1.006.667" stroke="currentColor" strokeOpacity="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                                     </svg>
-                                                    <a href="#">Paramètres</a>
+                                                    <Link href={userType === 'freelance' ? '/dashboard/freelance/settings' : '/dashboard/client/settings'}>Paramètres</Link>
                                                 </li>
                                                 <div className="w-full h-px bg-slate-300/50 my-2"></div>
-                                                <li className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-slate-100 transition">
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    <a href="#">Aide & Support</a>
-                                                </li>
-                                                <div className="w-full h-px bg-slate-300/50 my-2"></div>
-                                                <li className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-red-50 hover:text-red-600 transition">
-                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H4v16h10v-2h2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10z"/>
-                                                    </svg>
-                                                    <a href="/login">Déconnexion</a>
+                                                <li>
+                                                    <button 
+                                                        onClick={() => {
+                                                            setIsUserMenuOpen(false);
+                                                            logout();
+                                                            window.location.href = '/';
+                                                        }}
+                                                        className="flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left rounded"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                        </svg>
+                                                        Déconnexion
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>

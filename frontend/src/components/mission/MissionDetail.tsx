@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import AppLayout from '../layout/AppLayout';
 import ContactForm from '../forms/ContactForm';
@@ -10,60 +10,144 @@ interface MissionDetailProps {
   missionId: string;
 }
 
+interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  budget: number;
+  duration?: string;
+  urgency: string;
+  status: string;
+  postedDate: string;
+  deadline: string;
+  proposals: number;
+  client: {
+    id: string;
+    name: string;
+    company?: string;
+    location?: string;
+    rating: number;
+    reviewsCount: number;
+    projectsCompleted: number;
+    memberSince: string;
+    avatar?: string;
+    verified: boolean;
+  };
+  requirements: string[];
+  skills: string[];
+  deliverables?: string[];
+  additionalInfo?: string;
+}
+
 const MissionDetail = ({ missionId }: MissionDetailProps) => {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [missionData, setMissionData] = useState<Mission | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Données mockées pour la mission
-  const missionData = {
-    id: missionId,
-    title: "Développement d'une application mobile e-commerce",
-    description: "Nous recherchons un développeur expérimenté pour créer une application mobile e-commerce complète pour notre boutique de vêtements traditionnels africains. L'application doit inclure un catalogue produits, un système de panier, des paiements sécurisés via Mobile Money, et un système de livraison.",
-    category: "Développement Mobile",
-    budget: { min: 800000, max: 1200000 },
-    duration: "2-3 mois",
-    urgency: "Normale",
-    status: "Ouvert",
-    postedDate: "2024-01-15",
-    deadline: "2024-01-30",
-    proposals: 12,
-    client: {
-      id: "client-1",
-      name: "Aminata Traoré",
-      company: "AfriStyle Boutique",
-      location: "Dakar, Sénégal",
-      rating: 4.8,
-      reviewsCount: 23,
-      projectsCompleted: 15,
-      memberSince: "2022",
-      avatar: "/api/placeholder/80/80",
-      verified: true
-    },
-    requirements: [
-      "Expérience en développement React Native ou Flutter",
-      "Connaissance des API de paiement Mobile Money",
-      "Portfolio avec applications e-commerce",
-      "Maîtrise du français",
-      "Disponibilité immédiate"
-    ],
-    skills: [
-      "React Native",
-      "Flutter",
-      "Node.js",
-      "MongoDB",
-      "API REST",
-      "Mobile Money",
-      "UI/UX Design"
-    ],
-    deliverables: [
-      "Application mobile iOS et Android",
-      "Panel d'administration web",
-      "Documentation technique",
-      "Formation de l'équipe",
-      "Support post-lancement (1 mois)"
-    ],
-    additionalInfo: "Nous privilégions les freelances basés en Afrique de l'Ouest pour faciliter la communication et la compréhension du marché local. Une connaissance des habitudes d'achat africaines serait un plus."
-  };
+  // Récupérer les données de la mission depuis l'API
+  useEffect(() => {
+    const fetchMissionDetails = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/missions/${missionId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Détails de la mission récupérés:', data);
+          
+          // Transformer les données API en format attendu par le composant
+          const transformedMission: Mission = {
+            id: data.data?.id || missionId,
+            title: data.data?.title || 'Mission sans titre',
+            description: data.data?.description || 'Description non disponible',
+            category: data.data?.category || 'Non catégorisé',
+            budget: data.data?.budget || 0,
+            duration: data.data?.duration || "À définir",
+            urgency: data.data?.isUrgent ? "Urgent" : "Normale",
+            status: data.data?.status === 'OPEN' ? 'Ouvert' : data.data?.status === 'IN_PROGRESS' ? 'En cours' : 'Terminé',
+            postedDate: data.data?.createdAt || new Date().toISOString(),
+            deadline: data.data?.deadline || new Date().toISOString(),
+            proposals: data.data?._count?.applications || 0,
+            client: {
+              id: data.data?.client?.id || 'unknown',
+              name: data.data?.client?.fullName || data.data?.client?.companyName || 'Client',
+              company: data.data?.client?.companyName || data.data?.client?.fullName || 'Entreprise non spécifiée',
+              location: data.data?.client?.location || 'Non spécifié',
+              rating: data.data?.client?.rating || 4.5,
+              reviewsCount: data.data?.client?.totalReviews || 0,
+              projectsCompleted: data.data?.client?.completedProjects || 0,
+              memberSince: data.data?.client?.createdAt ? new Date(data.data.client.createdAt).getFullYear().toString() : '2024',
+              avatar: data.data?.client?.avatar || "/api/placeholder/80/80",
+              verified: data.data?.client?.isVerified || false
+            },
+            requirements: data.data?.requirements || [
+              "Expérience dans le domaine requis",
+              "Portfolio de qualité",
+              "Disponibilité selon les délais",
+              "Communication fluide en français"
+            ],
+            skills: data.data?.skills || [],
+            deliverables: data.data?.deliverables || [
+              "Livrable principal selon cahier des charges",
+              "Documentation technique",
+              "Support post-livraison"
+            ],
+            additionalInfo: data.data?.additionalInfo || null
+          };
+          
+          setMissionData(transformedMission);
+        } else {
+          setError('Mission non trouvée');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des détails de la mission:', error);
+        setError('Erreur lors du chargement de la mission');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (missionId) {
+      fetchMissionDetails();
+    }
+  }, [missionId]);
+
+  if (loading) {
+    return (
+      <AppLayout userType="freelance" pageTitle="Chargement..." pageDescription="Chargement des détails de la mission">
+        <div className="flex items-center justify-center min-h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  if (error || !missionData) {
+    return (
+      <AppLayout userType="freelance" pageTitle="Erreur" pageDescription="Mission non trouvée">
+        <div className="text-center py-12">
+          <div className="text-red-600 text-xl font-semibold mb-4">
+            {error || 'Mission non trouvée'}
+          </div>
+          <button
+            onClick={() => window.history.back()}
+            className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700"
+          >
+            Retour
+          </button>
+        </div>
+      </AppLayout>
+    );
+  }
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency.toLowerCase()) {
@@ -109,7 +193,7 @@ const MissionDetail = ({ missionId }: MissionDetailProps) => {
           </div>
           <div className="ml-6 text-right">
             <div className="text-2xl font-bold text-orange-600">
-              {missionData.budget.min.toLocaleString()} - {missionData.budget.max.toLocaleString()} FCFA
+              {missionData.budget.toLocaleString()} FCFA
             </div>
             <div className="text-sm text-slate-600">
               Durée: {missionData.duration}
@@ -159,19 +243,21 @@ const MissionDetail = ({ missionId }: MissionDetailProps) => {
             </div>
 
             {/* Livrables */}
-            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Livrables attendus</h2>
-              <ul className="space-y-2">
-                {missionData.deliverables.map((deliverable, index) => (
-                  <li key={index} className="flex items-start space-x-3">
-                    <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="text-slate-600">{deliverable}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {missionData.deliverables && missionData.deliverables.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Livrables attendus</h2>
+                <ul className="space-y-2">
+                  {missionData.deliverables.map((deliverable, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <span className="text-slate-600">{deliverable}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Informations additionnelles */}
             {missionData.additionalInfo && (
@@ -279,7 +365,7 @@ const MissionDetail = ({ missionId }: MissionDetailProps) => {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-600">Budget</span>
                   <span className="font-medium text-orange-600">
-                    {missionData.budget.min.toLocaleString()} - {missionData.budget.max.toLocaleString()} FCFA
+                    {missionData.budget.toLocaleString()} FCFA
                   </span>
                 </div>
               </div>

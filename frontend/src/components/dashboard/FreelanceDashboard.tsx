@@ -1,43 +1,73 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "./DashboardLayout";
+import { useAuth } from "../../hooks/useAuth";
 
 const FreelanceDashboard = () => {
-    const stats = [
-        { label: "Missions actives", value: "3", icon: "missions", color: "bg-blue-500" },
-        { label: "Solde disponible", value: "125 000 FCFA", icon: "wallet", color: "bg-green-500" },
-        { label: "Notifications", value: "5", icon: "notifications", color: "bg-orange-500" },
-        { label: "Note moyenne", value: "4.8/5", icon: "star", color: "bg-yellow-500" },
-    ];
-
-    const activeMissions = [
-        {
-            id: 1,
-            title: "Développement site e-commerce",
-            client: "Boutique Dakar",
-            status: "En cours",
-            progress: 65,
-            deadline: "15 Sept 2025",
-            amount: "75 000 FCFA"
-        },
-        {
-            id: 2,
-            title: "Logo et identité visuelle",
-            client: "StartUp Tech",
-            status: "En attente validation",
-            progress: 90,
-            deadline: "10 Sept 2025",
-            amount: "45 000 FCFA"
-        },
-        {
-            id: 3,
-            title: "Application mobile iOS",
-            client: "Entreprise ABC",
-            status: "En cours",
-            progress: 30,
-            deadline: "30 Sept 2025",
-            amount: "150 000 FCFA"
+    const { user, loading } = useAuth();
+    const [dashboardData, setDashboardData] = useState({
+        missions: [],
+        stats: {
+            activeMissions: 0,
+            availableBalance: 0,
+            notifications: 0,
+            averageRating: 0
         }
+    });
+
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user]);
+
+    const fetchDashboardData = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            
+            // Récupérer les missions où le freelance a été accepté
+            const response = await fetch(`/api/missions?freelanceId=${user?.id}&status=IN_PROGRESS,COMPLETED`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Missions acceptées pour freelance:', data);
+                
+                // Récupérer uniquement les missions où le freelance a été sélectionné
+                const acceptedMissions = data.data?.missions?.filter((mission: any) => 
+                    mission.selectedFreelanceId === user?.id
+                ) || [];
+                
+                // Calculer les statistiques
+                const activeMissions = acceptedMissions.filter((m: any) => m.status === 'IN_PROGRESS').length;
+                const availableBalance = 0; // À implémenter avec le système de paiement
+                const notifications = 3; // À implémenter plus tard
+                const averageRating = user?.rating || 0;
+                
+                setDashboardData({
+                    missions: acceptedMissions,
+                    stats: {
+                        activeMissions,
+                        availableBalance,
+                        notifications,
+                        averageRating
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des données:', error);
+        }
+    };
+
+    const stats = [
+        { label: "Missions actives", value: dashboardData.stats.activeMissions.toString(), icon: "missions", color: "bg-blue-500" },
+        { label: "Solde disponible", value: `${dashboardData.stats.availableBalance.toLocaleString()} FCFA`, icon: "wallet", color: "bg-green-500" },
+        { label: "Notifications", value: dashboardData.stats.notifications.toString(), icon: "notifications", color: "bg-orange-500" },
+        { label: "Note moyenne", value: `${user?.rating || 0}/5`, icon: "star", color: "bg-yellow-500" },
     ];
 
     const recentNotifications = [
@@ -82,13 +112,60 @@ const FreelanceDashboard = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <DashboardLayout userType="freelance">
+                <div className="flex items-center justify-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+                </div>
+            </DashboardLayout>
+        );
+    }
+
+    const activeMissions = [
+        {
+            id: 1,
+            title: "Développement site e-commerce",
+            client: "Boutique Dakar",
+            status: "En cours",
+            progress: 65,
+            deadline: "15 Sept 2025",
+            amount: "75 000 FCFA"
+        },
+        {
+            id: 2,
+            title: "Logo et identité visuelle",
+            client: "StartUp Tech",
+            status: "En attente validation",
+            progress: 90,
+            deadline: "10 Sept 2025",
+            amount: "45 000 FCFA"
+        },
+        {
+            id: 3,
+            title: "Application mobile iOS",
+            client: "Entreprise ABC",
+            status: "En cours",
+            progress: 30,
+            deadline: "30 Sept 2025",
+            amount: "150 000 FCFA"
+        }
+    ];
+
     return (
         <DashboardLayout userType="freelance">
             <div className="space-y-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">Tableau de bord</h1>
-                    <p className="text-slate-600">Bienvenue sur votre espace freelance AfriLance</p>
+                    <h1 className="text-2xl font-bold text-slate-800">
+                        Bonjour {user?.fullName || 'Freelance'} 👋
+                    </h1>
+                    <p className="text-slate-600">
+                        {user?.title ? `${user.title} - ` : ''}Bienvenue sur votre espace freelance AfriLance
+                    </p>
+                    {user?.bio && (
+                        <p className="text-sm text-slate-500 mt-1">{user.bio}</p>
+                    )}
                 </div>
 
                 {/* Stats Cards */}
@@ -111,45 +188,54 @@ const FreelanceDashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-                    {/* Missions en cours */}
+                    {/* Missions acceptées */}
                     <div className="lg:col-span-2">
                         <div className="bg-white rounded-lg shadow-sm border border-slate-200">
                             <div className="p-6 border-b border-slate-200">
-                                <h2 className="text-lg font-semibold text-slate-800">Missions en cours</h2>
+                                <h2 className="text-lg font-semibold text-slate-800">Missions Acceptées</h2>
                             </div>
                             <div className="p-6">
                                 <div className="space-y-4">
-                                    {activeMissions.map((mission) => (
-                                        <div key={mission.id} className="border border-slate-200 rounded-lg p-4">
-                                            <div className="flex items-start justify-between mb-3">
-                                                <div>
-                                                    <h3 className="font-medium text-slate-800">{mission.title}</h3>
-                                                    <p className="text-sm text-slate-600">Client: {mission.client}</p>
+                                    {dashboardData.missions.length > 0 ? (
+                                        dashboardData.missions.map((mission: any) => (
+                                            <div key={mission.id} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
+                                                <div className="flex items-start justify-between mb-3">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-medium text-slate-800">{mission.title}</h3>
+                                                        <p className="text-sm text-slate-600 mt-1">{mission.category}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="font-semibold text-orange-600">{mission.budget} FCFA</p>
+                                                        <p className="text-sm text-slate-500">{mission.deadline}</p>
+                                                    </div>
                                                 </div>
-                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mission.status)}`}>
-                                                    {mission.status}
-                                                </span>
-                                            </div>
-                                            
-                                            <div className="mb-3">
-                                                <div className="flex items-center justify-between text-sm text-slate-600 mb-1">
-                                                    <span>Progression</span>
-                                                    <span>{mission.progress}%</span>
+                                                <p className="text-sm text-slate-600 mb-3">{mission.description}</p>
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center space-x-2">
+                                                        <span className={`px-2 py-1 text-xs rounded-full ${
+                                                            mission.status === 'IN_PROGRESS' 
+                                                                ? 'bg-blue-100 text-blue-800' 
+                                                                : mission.status === 'COMPLETED'
+                                                                ? 'bg-green-100 text-green-800'
+                                                                : 'bg-gray-100 text-gray-800'
+                                                        }`}>
+                                                            {mission.status === 'IN_PROGRESS' ? 'En cours' : 
+                                                             mission.status === 'COMPLETED' ? 'Terminée' : mission.status}
+                                                        </span>
+                                                        <span className="text-xs text-slate-500">Mission acceptée</span>
+                                                    </div>
+                                                    <button className="px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors">
+                                                        Voir détails
+                                                    </button>
                                                 </div>
-                                                <div className="w-full bg-slate-200 rounded-full h-2">
-                                                    <div 
-                                                        className="bg-orange-600 h-2 rounded-full transition-all duration-300"
-                                                        style={{ width: `${mission.progress}%` }}
-                                                    ></div>
-                                                </div>
                                             </div>
-                                            
-                                            <div className="flex items-center justify-between text-sm">
-                                                <span className="text-slate-600">Échéance: {mission.deadline}</span>
-                                                <span className="font-medium text-green-600">{mission.amount}</span>
-                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-center py-8">
+                                            <p className="text-slate-500">Aucune mission acceptée pour le moment</p>
+                                            <p className="text-sm text-slate-400 mt-2">Les missions pour lesquelles vous avez été sélectionné apparaîtront ici</p>
                                         </div>
-                                    ))}
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -202,7 +288,7 @@ const FreelanceDashboard = () => {
                         {/* Solde rapide */}
                         <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg p-6 text-white">
                             <h3 className="font-semibold mb-2">Solde disponible</h3>
-                            <p className="text-2xl font-bold mb-4">125 000 FCFA</p>
+                            <p className="text-2xl font-bold mb-4">{dashboardData.stats.availableBalance.toLocaleString()} FCFA</p>
                             <button className="bg-white text-orange-600 px-4 py-2 rounded-lg font-medium text-sm hover:bg-orange-50 transition-colors">
                                 Retirer mes gains
                             </button>

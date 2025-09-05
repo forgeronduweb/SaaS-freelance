@@ -1,15 +1,81 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import DashboardLayout from "./DashboardLayout";
+import { useAuth } from "../../hooks/useAuth";
 
 const ClientDashboard = () => {
+    const { user, loading } = useAuth();
+    const [dashboardData, setDashboardData] = useState({
+        missions: [],
+        stats: {
+            activeMissions: 0,
+            engagedFreelances: 0,
+            unreadMessages: 0,
+            totalBudget: 0
+        }
+    });
+
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user]);
+
+    const fetchDashboardData = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/missions', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Missions récupérées:', data);
+                
+                // Filtrer les missions du client connecté
+                const clientMissions = data.data?.missions?.filter((mission: any) => 
+                    mission.clientId === user?.id
+                ) || [];
+                
+                // Calculer les statistiques
+                const activeMissions = clientMissions.filter((m: any) => m.status === 'OPEN' || m.status === 'IN_PROGRESS').length;
+                const totalBudget = clientMissions.reduce((sum: number, m: any) => sum + (m.budget || 0), 0);
+                
+                setDashboardData({
+                    missions: clientMissions,
+                    stats: {
+                        activeMissions,
+                        engagedFreelances: clientMissions.filter((m: any) => m.status === 'IN_PROGRESS').length,
+                        unreadMessages: 3, // À implémenter plus tard
+                        totalBudget
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des données:', error);
+        }
+    };
+
     const stats = [
-        { label: "Missions actives", value: "2", icon: "missions", color: "bg-blue-500" },
-        { label: "Freelances engagés", value: "5", icon: "team", color: "bg-green-500" },
-        { label: "Messages non lus", value: "3", icon: "messages", color: "bg-orange-500" },
-        { label: "Budget total", value: "450 000 FCFA", icon: "wallet", color: "bg-purple-500" },
+        { label: "Missions actives", value: dashboardData.stats.activeMissions.toString(), icon: "missions", color: "bg-blue-500" },
+        { label: "Freelances engagés", value: dashboardData.stats.engagedFreelances.toString(), icon: "team", color: "bg-green-500" },
+        { label: "Messages non lus", value: dashboardData.stats.unreadMessages.toString(), icon: "messages", color: "bg-orange-500" },
+        { label: "Budget total", value: `${dashboardData.stats.totalBudget.toLocaleString()} FCFA`, icon: "wallet", color: "bg-purple-500" },
     ];
+
+    if (loading) {
+        return (
+            <DashboardLayout userType="client">
+                <div className="flex items-center justify-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+                </div>
+            </DashboardLayout>
+        );
+    }
 
     const publishedMissions = [
         {
@@ -92,6 +158,36 @@ const ClientDashboard = () => {
         }
     ];
 
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'OPEN':
+                return 'bg-blue-100 text-blue-600';
+            case 'IN_PROGRESS':
+                return 'bg-orange-100 text-orange-600';
+            case 'COMPLETED':
+                return 'bg-green-100 text-green-600';
+            case 'CANCELLED':
+                return 'bg-red-100 text-red-600';
+            default:
+                return 'bg-slate-100 text-slate-600';
+        }
+    };
+
+    const getStatusLabel = (status: string) => {
+        switch (status) {
+            case 'OPEN':
+                return 'Ouverte';
+            case 'IN_PROGRESS':
+                return 'En cours';
+            case 'COMPLETED':
+                return 'Terminée';
+            case 'CANCELLED':
+                return 'Annulée';
+            default:
+                return status;
+        }
+    };
+
     const paymentHistory = [
         {
             id: 1,
@@ -111,15 +207,6 @@ const ClientDashboard = () => {
         }
     ];
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case "En cours d'exécution": return "bg-blue-100 text-blue-800";
-            case "En cours de recrutement": return "bg-yellow-100 text-yellow-800";
-            case "Terminé": return "bg-green-100 text-green-800";
-            case "En cours": return "bg-blue-100 text-blue-800";
-            default: return "bg-slate-100 text-slate-800";
-        }
-    };
 
     const getPaymentStatusColor = (status: string) => {
         switch (status) {
@@ -135,8 +222,12 @@ const ClientDashboard = () => {
             <div className="space-y-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">Tableau de bord Client</h1>
-                    <p className="text-slate-600">Gérez vos missions et suivez vos freelances</p>
+                    <h1 className="text-2xl font-bold text-slate-800">
+                        Bonjour {user?.fullName || 'Client'} 👋
+                    </h1>
+                    <p className="text-slate-600">
+                        {user?.companyName ? `${user.companyName} - ` : ''}Gérez vos missions et suivez vos freelances
+                    </p>
                 </div>
 
                 {/* Stats Cards */}
@@ -171,44 +262,55 @@ const ClientDashboard = () => {
                         </div>
                         <div className="p-6">
                             <div className="space-y-4">
-                                {publishedMissions.map((mission) => (
-                                    <div key={mission.id} className="border border-slate-200 rounded-lg p-4">
-                                        <div className="flex items-start justify-between mb-3">
-                                            <div>
-                                                <h3 className="font-medium text-slate-800">{mission.title}</h3>
-                                                {mission.freelance && (
-                                                    <p className="text-sm text-slate-600">Freelance: {mission.freelance}</p>
-                                                )}
-                                                {mission.proposals > 0 && (
-                                                    <p className="text-sm text-orange-600">{mission.proposals} propositions reçues</p>
-                                                )}
-                                            </div>
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mission.status)}`}>
-                                                {mission.status}
-                                            </span>
-                                        </div>
-                                        
-                                        {mission.progress > 0 && (
-                                            <div className="mb-3">
-                                                <div className="flex items-center justify-between text-sm text-slate-600 mb-1">
-                                                    <span>Progression</span>
-                                                    <span>{mission.progress}%</span>
+                                {dashboardData.missions.length > 0 ? (
+                                    dashboardData.missions.map((mission: any) => (
+                                        <div key={mission.id} className="border border-slate-200 rounded-lg p-4">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <div>
+                                                    <h3 className="font-medium text-slate-800">{mission.title}</h3>
+                                                    <p className="text-sm text-slate-600 mt-1">{mission.category}</p>
+                                                    <div className="flex flex-wrap gap-1 mt-2">
+                                                        {mission.skills?.slice(0, 3).map((skill: string, index: number) => (
+                                                            <span key={index} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">
+                                                                {skill}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                                <div className="w-full bg-slate-200 rounded-full h-2">
-                                                    <div 
-                                                        className="bg-orange-600 h-2 rounded-full transition-all duration-300"
-                                                        style={{ width: `${mission.progress}%` }}
-                                                    ></div>
-                                                </div>
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mission.status)}`}>
+                                                    {getStatusLabel(mission.status)}
+                                                </span>
                                             </div>
-                                        )}
-                                        
-                                        <div className="flex items-center justify-between text-sm">
-                                            <span className="text-slate-600">Échéance: {mission.deadline}</span>
-                                            <span className="font-medium text-green-600">{mission.budget}</span>
+                                            
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-slate-600">
+                                                    Échéance: {new Date(mission.deadline).toLocaleDateString('fr-FR')}
+                                                </span>
+                                                <span className="font-medium text-green-600">
+                                                    {mission.budget?.toLocaleString()} FCFA
+                                                </span>
+                                            </div>
+                                            
+                                            {mission.isUrgent && (
+                                                <div className="mt-2">
+                                                    <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+                                                        🚨 Urgent
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
+                                    ))
+                                ) : (
+                                    <div className="text-center py-8">
+                                        <div className="text-slate-400 mb-2">
+                                            <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            </svg>
+                                        </div>
+                                        <p className="text-slate-600">Aucune mission publiée</p>
+                                        <p className="text-sm text-slate-500">Créez votre première mission pour commencer</p>
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </div>
                     </div>

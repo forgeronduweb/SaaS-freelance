@@ -20,6 +20,8 @@ const NewMissionForm = ({ userType = 'client' }: NewMissionFormProps) => {
     attachments: [] as File[]
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const categories = [
     'Développement Web',
     'Développement Mobile', 
@@ -38,11 +40,92 @@ const NewMissionForm = ({ userType = 'client' }: NewMissionFormProps) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Nouvelle mission:', formData);
-    // Ici on ajouterait la logique de création de mission
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validation basique
+    if (!formData.title || !formData.description || !formData.category || !formData.budget || !formData.deadline) {
+      alert('Veuillez remplir tous les champs obligatoires')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Récupérer le token depuis localStorage
+      const token = localStorage.getItem('token')
+      if (!token) {
+        alert('Vous devez être connecté pour créer une mission')
+        return
+      }
+
+      // Convertir les compétences en tableau
+      const skillsArray = formData.skills ? formData.skills.split(',').map(skill => skill.trim()) : []
+
+      // Préparer les données pour l'API
+      const missionData = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        skills: skillsArray,
+        budget: parseFloat(formData.budget),
+        deadline: formData.deadline,
+        isUrgent: formData.urgency === 'urgent',
+        requirements: formData.description,
+        deliverables: `Livrable pour: ${formData.title}`,
+        estimatedDuration: formData.urgency === 'urgent' ? '1-3 jours' : '1-2 semaines',
+        experienceLevel: 'INTERMEDIATE',
+        location: 'Afrique',
+        isRemote: true,
+        attachments: []
+      }
+
+      console.log('Envoi des données à l\'API:', missionData)
+
+      const response = await fetch('/api/missions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(missionData)
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        alert('Mission créée avec succès!')
+        console.log('Mission créée:', result.data.mission)
+        
+        // Réinitialiser le formulaire
+        setFormData({
+          title: '',
+          category: '',
+          description: '',
+          skills: '',
+          budget: '',
+          budgetType: 'forfait',
+          deadline: '',
+          urgency: 'normal',
+          attachments: []
+        })
+
+        // Rediriger vers le dashboard client
+        setTimeout(() => {
+          window.location.href = '/dashboard/client'
+        }, 1500)
+      } else {
+        alert(`Erreur lors de la création: ${result.error || result.message}`)
+        console.error('Erreur API:', result)
+      }
+
+    } catch (error) {
+      console.error('Erreur lors de la création de la mission:', error)
+      alert('Erreur de connexion. Veuillez réessayer.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <DashboardLayout userType={userType} pageTitle="Nouvelle Mission">
@@ -213,9 +296,20 @@ const NewMissionForm = ({ userType = 'client' }: NewMissionFormProps) => {
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors"
+              disabled={isLoading}
+              className="px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Publier la mission
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Création en cours...
+                </span>
+              ) : (
+                'Publier la mission'
+              )}
             </button>
           </div>
         </form>

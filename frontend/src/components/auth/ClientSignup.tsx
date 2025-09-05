@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const ClientSignup = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState<{
         fullName: string;
         companyName: string;
@@ -27,6 +29,8 @@ const ClientSignup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -53,9 +57,74 @@ const ClientSignup = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Données du formulaire client:", formData);
+        setIsLoading(true);
+        setError('');
+        
+        // Validation des mots de passe
+        if (formData.password !== formData.confirmPassword) {
+            setError("Les mots de passe ne correspondent pas");
+            setIsLoading(false);
+            return;
+        }
+        
+        if (formData.password.length < 6) {
+            setError("Le mot de passe doit contenir au moins 6 caractères");
+            setIsLoading(false);
+            return;
+        }
+        
+        if (!formData.acceptTerms) {
+            setError("Vous devez accepter les conditions d'utilisation");
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            // Préparer les données pour l'API
+            const registrationData = {
+                fullName: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                password: formData.password,
+                role: 'CLIENT',
+                companyName: formData.companyName
+            };
+
+            console.log('Envoi des données:', registrationData);
+
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registrationData),
+            });
+
+            console.log('Réponse reçue:', response.status, response.statusText);
+
+            const data = await response.json();
+            console.log('Données reçues:', data);
+
+            if (!response.ok) {
+                console.error('Erreur API:', data);
+                setError(data.message || `Erreur HTTP: ${response.status}`);
+                return;
+            }
+
+            // Stocker le token et les informations utilisateur
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
+            // Redirection vers le dashboard client
+            router.push('/dashboard/client');
+        } catch (error) {
+            console.error('Erreur d\'inscription:', error);
+            setError('Erreur de connexion. Veuillez réessayer.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -91,6 +160,11 @@ const ClientSignup = () => {
 
                 {/* Formulaire */}
                 <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-8">
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                            <p className="text-red-600 text-sm">{error}</p>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                         {/* Informations de base */}
                         <div className="space-y-3 sm:space-y-4">
@@ -275,9 +349,10 @@ const ClientSignup = () => {
                         {/* Bouton de soumission */}
                         <button
                             type="submit"
-                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base"
+                            disabled={isLoading}
+                            className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base"
                         >
-                            Créer mon compte Client
+                            {isLoading ? 'Création en cours...' : 'Créer mon compte Client'}
                         </button>
                     </form>
 

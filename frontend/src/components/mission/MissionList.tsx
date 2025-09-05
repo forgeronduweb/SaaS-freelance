@@ -36,9 +36,75 @@ const MissionList = () => {
     const [searchTerm, setSearchTerm] = React.useState("");
     const [showApplicationForm, setShowApplicationForm] = React.useState(false);
     const [selectedMission, setSelectedMission] = React.useState<Mission | null>(null);
+    const [missions, setMissions] = React.useState<Mission[]>([]);
+    const [loading, setLoading] = React.useState(true);
 
-    // Données mockées - à remplacer par des données réelles via API
-    const missions = [
+    // Récupérer les missions depuis l'API
+    React.useEffect(() => {
+        fetchMissions();
+        
+        // Actualiser les missions toutes les 3 minutes pour réduire la charge
+        const interval = setInterval(fetchMissions, 180000);
+        
+        return () => clearInterval(interval);
+    }, []);
+
+    const fetchMissions = async () => {
+        try {
+            if (missions.length === 0) {
+                setLoading(true);
+            }
+            
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/missions?status=OPEN', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Missions récupérées pour la page missions:', data);
+                
+                // Transformer les données API en format attendu par le composant
+                const transformedMissions = data.data?.missions?.map((mission: any) => ({
+                    id: mission.id,
+                    title: mission.title,
+                    description: mission.description,
+                    client: mission.client?.companyName || mission.client?.fullName || 'Client',
+                    clientLogo: mission.client?.companyLogo || null,
+                    budget: `${mission.budget?.toLocaleString()} FCFA`,
+                    budgetType: 'Forfait',
+                    category: mission.category,
+                    skills: mission.skills || [],
+                    deadline: new Date(mission.deadline).toLocaleDateString('fr-FR'),
+                    status: mission.status === 'OPEN' ? 'Ouvert' : mission.status === 'IN_PROGRESS' ? 'En cours' : 'Terminé',
+                    urgency: mission.isUrgent ? 'Urgent' : 'Normal',
+                    proposals: mission._count?.applications || 0,
+                    postedDate: `Il y a ${Math.floor((Date.now() - new Date(mission.createdAt).getTime()) / (1000 * 60 * 60 * 24))} jour${Math.floor((Date.now() - new Date(mission.createdAt).getTime()) / (1000 * 60 * 60 * 24)) > 1 ? 's' : ''}`,
+                    clientRating: mission.client?.rating || 4.5,
+                    clientReviews: mission.client?.totalReviews || 0,
+                })) || [];
+                
+                // Trier par date de création (plus récent en premier)
+                transformedMissions.sort((a: any, b: any) => {
+                    const dateA = new Date(data.data?.missions?.find((m: any) => m.id === a.id)?.createdAt || 0);
+                    const dateB = new Date(data.data?.missions?.find((m: any) => m.id === b.id)?.createdAt || 0);
+                    return dateB.getTime() - dateA.getTime();
+                });
+                
+                setMissions(transformedMissions);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des missions:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Données mockées de fallback (gardées pour compatibilité)
+    const mockMissions = [
         {
             id: "1",
             title: "Développement d'une application mobile e-commerce",
@@ -301,7 +367,11 @@ const MissionList = () => {
                         </div>
 
                         {/* Liste des missions */}
-                        {filteredMissions.length > 0 ? (
+                        {loading ? (
+                            <div className="flex items-center justify-center py-12">
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+                            </div>
+                        ) : filteredMissions.length > 0 ? (
                             <div className="space-y-4 lg:space-y-6">
                                 {filteredMissions.map(mission => (
                                     <div key={mission.id} className="bg-white rounded-lg shadow-sm border border-slate-200 p-4 lg:p-6 hover:shadow-md transition-shadow">
@@ -414,20 +484,6 @@ const MissionList = () => {
                             </div>
                         )}
 
-                        {/* Pagination */}
-                        {filteredMissions.length > 0 && (
-                            <div className="flex items-center justify-center mt-8 lg:mt-12 gap-1 lg:gap-2">
-                                <button className="px-2 lg:px-3 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 text-sm">
-                                    Précédent
-                                </button>
-                                <button className="px-2 lg:px-3 py-2 bg-orange-600 text-white rounded-lg text-sm">1</button>
-                                <button className="px-2 lg:px-3 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 text-sm">2</button>
-                                <button className="px-2 lg:px-3 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 text-sm">3</button>
-                                <button className="px-2 lg:px-3 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 text-sm">
-                                    Suivant
-                                </button>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>

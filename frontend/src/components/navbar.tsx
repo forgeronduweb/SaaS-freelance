@@ -177,7 +177,7 @@ export default function Navbar() {
         </div>
         
         {/* Mobile CTA */}
-        <Link href="/login" className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-xl mt-12 text-center block" style={{marginTop: 'calc(3rem + 70px)'}}>
+        <Link href="/auth/login" className="md:hidden w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-full font-medium transition text-xl mt-12 text-center block" style={{marginTop: 'calc(3rem + 70px)'}}>
           Connexion
         </Link>
 
@@ -204,7 +204,7 @@ export default function Navbar() {
       </div>
 
       {/* Desktop CTA */}
-      <Link href="/login" className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-medium transition text-base md:text-lg">
+      <Link href="/auth/login" className="hidden md:block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-medium transition text-base md:text-lg">
         Connexion
       </Link>
 
