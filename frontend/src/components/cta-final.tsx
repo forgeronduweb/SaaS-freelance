@@ -45,27 +45,6 @@ const CTAFinal = () => {
                             </button>
                         </Link>
                     </div>
-                    
-                    <div className="flex items-center gap-4 mt-6 text-xs text-slate-500">
-                        <div className="flex items-center gap-1">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 3L4.5 8.5L2 6" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                            <span>Inscription gratuite</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 3L4.5 8.5L2 6" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                            <span>Paiements sécurisés</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 3L4.5 8.5L2 6" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                            <span>Support 24/7</span>
-                        </div>
-                    </div>
                         </div>
                     </div>
                 </div>
