@@ -451,13 +451,13 @@ const ClientDashboard = () => {
                             {paymentHistory.length > 0 ? (
                                 paymentHistory.map((payment) => (
                                     <div key={payment.id} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
-                                        <div className="flex items-start justify-between mb-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
                                             <div className="flex-1">
                                                 <h4 className="font-medium text-slate-800 text-sm">{payment.mission}</h4>
                                                 <p className="text-sm text-slate-600">À {payment.freelance}</p>
                                                 <p className="text-xs text-slate-500 mt-1">{payment.method}</p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-left sm:text-right">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(payment.status)}`}>
                                                     {payment.status}
                                                 </span>
@@ -465,20 +465,20 @@ const ClientDashboard = () => {
                                             </div>
                                         </div>
                                         
-                                        <div className="flex items-center justify-between text-sm">
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
                                             <span className="text-slate-500">{payment.date}</span>
-                                            <div className="flex gap-2">
+                                            <div className="flex flex-col sm:flex-row gap-2">
                                                 {payment.status === "En attente" && (
-                                                    <button className="px-3 py-1 text-xs bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors">
+                                                    <button className="w-full sm:w-auto px-3 py-2 text-xs bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors min-h-[36px] touch-manipulation">
                                                         Valider paiement
                                                     </button>
                                                 )}
                                                 {payment.status === "Bloqué (Escrow)" && (
-                                                    <button className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                                                    <button className="w-full sm:w-auto px-3 py-2 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors min-h-[36px] touch-manipulation">
                                                         Libérer fonds
                                                     </button>
                                                 )}
-                                                <button className="px-3 py-1 text-xs border border-slate-300 text-slate-600 rounded hover:bg-slate-50 transition-colors">
+                                                <button className="w-full sm:w-auto px-3 py-2 text-xs border border-slate-300 text-slate-600 rounded hover:bg-slate-50 transition-colors min-h-[36px] touch-manipulation">
                                                     Détails
                                                 </button>
                                             </div>
@@ -500,18 +500,18 @@ const ClientDashboard = () => {
                         
                         {/* Résumé des paiements */}
                         <div className="mt-6 pt-4 border-t border-slate-200">
-                            <div className="grid grid-cols-3 gap-4 text-center">
-                                <div>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                                <div className="p-3 bg-slate-50 rounded-lg">
                                     <p className="text-sm text-slate-600">Total dépensé</p>
-                                    <p className="font-semibold text-slate-800">162 500 FCFA</p>
+                                    <p className="font-semibold text-slate-800 text-lg">162 500 FCFA</p>
                                 </div>
-                                <div>
+                                <div className="p-3 bg-yellow-50 rounded-lg">
                                     <p className="text-sm text-slate-600">En escrow</p>
-                                    <p className="font-semibold text-yellow-600">75 000 FCFA</p>
+                                    <p className="font-semibold text-yellow-600 text-lg">75 000 FCFA</p>
                                 </div>
-                                <div>
+                                <div className="p-3 bg-orange-50 rounded-lg">
                                     <p className="text-sm text-slate-600">En attente</p>
-                                    <p className="font-semibold text-orange-600">42 500 FCFA</p>
+                                    <p className="font-semibold text-orange-600 text-lg">42 500 FCFA</p>
                                 </div>
                             </div>
                         </div>
@@ -519,13 +519,13 @@ const ClientDashboard = () => {
                 </div>
 
                 {/* Action rapide */}
-                <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg p-6 text-white">
-                    <div className="flex items-center justify-between">
-                        <div>
+                <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg p-4 md:p-6 text-white">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div className="flex-1">
                             <h3 className="font-semibold mb-2">Besoin d&apos;un nouveau freelance ?</h3>
-                            <p className="text-orange-100">Publiez une mission et recevez des propositions qualifiées</p>
+                            <p className="text-orange-100 text-sm">Publiez une mission et recevez des propositions qualifiées</p>
                         </div>
-                        <button className="bg-white text-orange-600 px-6 py-3 rounded-lg font-medium hover:bg-orange-50 transition-colors">
+                        <button className="w-full sm:w-auto bg-white text-orange-600 px-6 py-3 rounded-lg font-medium hover:bg-orange-50 transition-colors min-h-[44px] touch-manipulation">
                             Publier une mission
                         </button>
                     </div>

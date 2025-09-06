@@ -272,7 +272,7 @@ const ClientPayments = () => {
         {/* Tabs */}
         <div className="bg-white rounded-lg border border-slate-200">
           <div className="border-b border-slate-200">
-            <nav className="flex">
+            <nav className="flex overflow-x-auto">
               {[
                 { key: 'transactions', label: 'Transactions', icon: '📋' },
                 { key: 'methods', label: 'Méthodes de paiement', icon: '💳' },
@@ -281,29 +281,31 @@ const ClientPayments = () => {
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key as any)}
-                  className={`px-6 py-4 text-sm font-medium border-b-2 flex items-center gap-2 ${
+                  className={`flex-shrink-0 px-3 md:px-6 py-4 text-xs md:text-sm font-medium border-b-2 flex items-center gap-2 min-w-0 ${
                     activeTab === tab.key
                       ? 'border-orange-600 text-orange-600'
                       : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                   }`}
                 >
-                  <span>{tab.icon}</span>
-                  {tab.label}
+                  <span className="text-sm">{tab.icon}</span>
+                  <span className="truncate">{tab.label}</span>
                 </button>
               ))}
             </nav>
           </div>
 
-          <div className="p-6">
+          <div className="p-3 sm:p-6">
             {activeTab === 'transactions' && (
               <div className="space-y-4">
                 {transactions.length > 0 ? (
                   transactions.map((transaction) => (
-                    <div key={transaction.id} className="flex items-center justify-between p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
-                      <div className="flex items-center gap-4">
-                        {getMethodIcon(transaction.method)}
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
+                    <div key={transaction.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors gap-3">
+                      <div className="flex items-start gap-3 flex-1">
+                        <div className="flex-shrink-0">
+                          {getMethodIcon(transaction.method)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTransactionTypeColor(transaction.type)}`}>
                               {getTransactionTypeLabel(transaction.type)}
                             </span>
@@ -311,18 +313,18 @@ const ClientPayments = () => {
                               {getStatusLabel(transaction.status)}
                             </span>
                           </div>
-                          <p className="font-medium text-slate-800">{transaction.description}</p>
-                          <p className="text-sm text-slate-600">{transaction.mission.title}</p>
+                          <p className="font-medium text-slate-800 text-sm mb-1">{transaction.description}</p>
+                          <p className="text-sm text-slate-600 mb-1 truncate">{transaction.mission.title}</p>
                           {transaction.freelancer && (
-                            <p className="text-sm text-slate-500">Freelance: {transaction.freelancer.name}</p>
+                            <p className="text-xs text-slate-500">Freelance: {transaction.freelancer.name}</p>
                           )}
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className={`font-bold ${transaction.type === 'payment' || transaction.type === 'fee' ? 'text-red-600' : 'text-slate-800'}`}>
+                      <div className="text-left sm:text-right flex-shrink-0">
+                        <p className={`font-bold text-sm ${transaction.type === 'payment' || transaction.type === 'fee' ? 'text-red-600' : 'text-slate-800'}`}>
                           {transaction.type === 'payment' || transaction.type === 'fee' ? '-' : ''}{formatCurrency(transaction.amount)}
                         </p>
-                        <p className="text-sm text-slate-500">{formatDate(transaction.date)}</p>
+                        <p className="text-xs text-slate-500">{formatDate(transaction.date)}</p>
                       </div>
                     </div>
                   ))
@@ -341,28 +343,30 @@ const ClientPayments = () => {
             {activeTab === 'methods' && (
               <div className="space-y-4">
                 {paymentMethods.map((method) => (
-                  <div key={method.id} className="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
-                    <div className="flex items-center gap-4">
-                      {getMethodIcon(method.type)}
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium text-slate-800">{method.label}</p>
+                  <div key={method.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-slate-200 rounded-lg gap-3">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="flex-shrink-0">
+                        {getMethodIcon(method.type)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <p className="font-medium text-slate-800 text-sm">{method.label}</p>
                           {method.isDefault && (
                             <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-medium">
                               Par défaut
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-slate-600">{method.number}</p>
+                        <p className="text-sm text-slate-600 truncate">{method.number}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button className="text-slate-600 hover:text-orange-600 p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                    <div className="flex items-center gap-2 justify-end sm:justify-start">
+                      <button className="text-slate-600 hover:text-orange-600 p-2 rounded-lg hover:bg-slate-100 transition-colors min-h-[40px] min-w-[40px] touch-manipulation">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                         </svg>
                       </button>
-                      <button className="text-slate-600 hover:text-red-600 p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                      <button className="text-slate-600 hover:text-red-600 p-2 rounded-lg hover:bg-slate-100 transition-colors min-h-[40px] min-w-[40px] touch-manipulation">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
