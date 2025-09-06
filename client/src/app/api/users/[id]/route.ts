@@ -126,7 +126,7 @@ export async function PUT(
     }
 
     // Préparer les données de mise à jour
-    const updateData: any = {}
+    const updateData: Record<string, unknown> = {}
 
     if (fullName) updateData.fullName = fullName
     if (email) updateData.email = email

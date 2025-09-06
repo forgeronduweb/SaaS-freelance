@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
 
     if (conversationWith) {
       // Récupérer les messages d'une conversation spécifique
-      const where: any = {
+      const where: Record<string, unknown> = {
         OR: [
           { senderId: user.id, receiverId: conversationWith },
           { senderId: conversationWith, receiverId: user.id }
@@ -183,73 +183,48 @@ export async function GET(request: NextRequest) {
       })
     } else {
       // Récupérer la liste des conversations (derniers messages avec chaque contact)
-      const conversations = await prisma.$queryRaw`
-        SELECT DISTINCT
-          CASE 
-            WHEN m.senderId = ${user.id} THEN m.receiverId
-            ELSE m.senderId
-          END as contactId,
-          m.missionId,
-          MAX(m.createdAt) as lastMessageAt
-        FROM Message m
-        WHERE m.senderId = ${user.id} OR m.receiverId = ${user.id}
-        GROUP BY contactId, m.missionId
-        ORDER BY lastMessageAt DESC
-        LIMIT ${limit}
-        OFFSET ${skip}
-      ` as any[]
-
-      // Récupérer les détails des contacts et derniers messages
-      const conversationDetails = await Promise.all(
-        conversations.map(async (conv) => {
-          const contact = await prisma.user.findUnique({
-            where: { id: conv.contactId },
+      const conversations = await prisma.message.findMany({
+        where: {
+          OR: [
+            { senderId: user.id },
+            { receiverId: user.id }
+          ]
+        },
+        include: {
+          sender: {
             select: {
               id: true,
               fullName: true,
-              profilePhoto: true,
-              role: true,
+              profilePhoto: true
             }
-          })
-
-          const lastMessage = await prisma.message.findFirst({
-            where: {
-              OR: [
-                { senderId: user.id, receiverId: conv.contactId },
-                { senderId: conv.contactId, receiverId: user.id }
-              ],
-              ...(conv.missionId && { missionId: conv.missionId })
-            },
-            orderBy: { createdAt: 'desc' },
-            include: {
-              mission: {
-                select: {
-                  id: true,
-                  title: true,
-                }
-              }
+          },
+          receiver: {
+            select: {
+              id: true,
+              fullName: true,
+              profilePhoto: true
             }
-          })
-
-          const unreadCount = await prisma.message.count({
-            where: {
-              senderId: conv.contactId,
-              receiverId: user.id,
-              readAt: null
-            }
-          })
-
-          return {
-            contact,
-            lastMessage,
-            unreadCount,
-            mission: lastMessage?.mission
           }
-        })
-      )
+        },
+        orderBy: { createdAt: 'desc' }
+      })
+
+      // Grouper par conversation et garder le dernier message
+      const conversationMap = new Map()
+      conversations.forEach(message => {
+        const otherUserId = message.senderId === user.id ? message.receiverId : message.senderId
+        if (!conversationMap.has(otherUserId)) {
+          conversationMap.set(otherUserId, {
+            otherUser: message.senderId === user.id ? message.receiver : message.sender,
+            lastMessage: message
+          })
+        }
+      })
+
+      const conversationList = Array.from(conversationMap.values()).slice(skip, skip + limit)
 
       return createSuccessResponse({
-        conversations: conversationDetails
+        conversations: conversationList
       })
     }
 

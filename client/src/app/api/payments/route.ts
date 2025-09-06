@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       data: {
         amount,
         currency,
-        method: method as any,
+        method,
         description: description || `Paiement pour la mission: ${mission.title}`,
         missionId,
         clientId: user.id,
@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    const where: any = {
+    const where: Record<string, unknown> = {
       OR: [
         { clientId: user.id },
         { freelanceId: user.id }

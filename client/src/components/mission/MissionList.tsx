@@ -39,17 +39,7 @@ const MissionList = () => {
     const [missions, setMissions] = React.useState<Mission[]>([]);
     const [loading, setLoading] = React.useState(true);
 
-    // Récupérer les missions depuis l'API
-    React.useEffect(() => {
-        fetchMissions();
-        
-        // Actualiser les missions toutes les 3 minutes pour réduire la charge
-        const interval = setInterval(fetchMissions, 180000);
-        
-        return () => clearInterval(interval);
-    }, []);
-
-    const fetchMissions = async () => {
+    const fetchMissions = React.useCallback(async () => {
         try {
             if (missions.length === 0) {
                 setLoading(true);
@@ -68,27 +58,33 @@ const MissionList = () => {
                 console.log('Missions récupérées pour la page missions:', data);
                 
                 // Transformer les données API en format attendu par le composant
-                const transformedMissions = data.data?.missions?.map((mission: any) => ({
-                    id: mission.id,
-                    title: String(mission.title),
-                    description: String(mission.description),
-                    client: String(mission.client?.companyName || mission.client?.fullName || 'Client'),
-                    clientLogo: mission.client?.companyLogo || null,
-                    budget: `${Number(mission.budget)?.toLocaleString()} FCFA`,
-                    budgetType: 'Forfait',
-                    category: String(mission.category),
-                    skills: Array.isArray(mission.skills) ? mission.skills : [],
-                    deadline: new Date(String(mission.deadline)).toLocaleDateString('fr-FR'),
-                    status: mission.status === 'OPEN' ? 'Ouvert' : mission.status === 'IN_PROGRESS' ? 'En cours' : 'Terminé',
-                    urgency: mission.isUrgent ? 'Urgent' : 'Normal',
-                    proposals: Number(mission._count?.applications) || 0,
-                    postedDate: `Il y a ${Math.floor((Date.now() - new Date(String(mission.createdAt)).getTime()) / (1000 * 60 * 60 * 24))} jour${Math.floor((Date.now() - new Date(String(mission.createdAt)).getTime()) / (1000 * 60 * 60 * 24)) > 1 ? 's' : ''}`,
-                    clientRating: Number(mission.client?.rating) || 4.5,
-                    clientReviews: Number(mission.client?.totalReviews) || 0,
-                })) || [];
+                const transformedMissions = data.data?.missions?.map((mission: unknown) => {
+                    const m = mission as Record<string, unknown>;
+                    const client = m.client as Record<string, unknown> | undefined;
+                    const count = m._count as Record<string, unknown> | undefined;
+                    
+                    return {
+                        id: String(m.id),
+                        title: String(m.title),
+                        description: String(m.description),
+                        client: String(client?.companyName || client?.fullName || 'Client'),
+                        clientLogo: client?.companyLogo as string | null || null,
+                        budget: `${Number(m.budget)?.toLocaleString()} FCFA`,
+                        budgetType: 'Forfait',
+                        category: String(m.category),
+                        skills: Array.isArray(m.skills) ? m.skills as string[] : [],
+                        deadline: new Date(String(m.deadline)).toLocaleDateString('fr-FR'),
+                        status: m.status === 'OPEN' ? 'Ouvert' : m.status === 'IN_PROGRESS' ? 'En cours' : 'Terminé',
+                        urgency: m.isUrgent ? 'Urgent' : 'Normal',
+                        proposals: Number(count?.applications) || 0,
+                        postedDate: `Il y a ${Math.floor((Date.now() - new Date(String(m.createdAt)).getTime()) / (1000 * 60 * 60 * 24))} jour${Math.floor((Date.now() - new Date(String(m.createdAt)).getTime()) / (1000 * 60 * 60 * 24)) > 1 ? 's' : ''}`,
+                        clientRating: Number(client?.rating) || 4.5,
+                        clientReviews: Number(client?.totalReviews) || 0,
+                    };
+                }) || [];
                 
                 // Trier par date de création (plus récent en premier)
-                transformedMissions.sort((a: any, b: any) => {
+                transformedMissions.sort((a: Mission, b: Mission) => {
                     const dateA = new Date(data.data?.missions?.find((m: Record<string, unknown>) => m.id === a.id)?.createdAt || 0);
                     const dateB = new Date(data.data?.missions?.find((m: Record<string, unknown>) => m.id === b.id)?.createdAt || 0);
                     return dateB.getTime() - dateA.getTime();
@@ -101,7 +97,17 @@ const MissionList = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [missions.length]);
+
+    // Récupérer les missions depuis l'API
+    React.useEffect(() => {
+        fetchMissions();
+        
+        // Actualiser les missions toutes les 3 minutes pour réduire la charge
+        const interval = setInterval(fetchMissions, 180000);
+        
+        return () => clearInterval(interval);
+    }, [fetchMissions]);
 
     // Données mockées de fallback (gardées pour compatibilité)
     

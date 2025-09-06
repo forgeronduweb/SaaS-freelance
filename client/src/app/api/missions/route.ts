@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { requireAuth, requireRole } from '@/lib/auth'
+import { requireRole } from '@/lib/auth'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/missions - Récupérer toutes les missions avec filtres
@@ -20,14 +20,17 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit
 
     // Construire les filtres
-    const where: any = {
-      status: status as any,
+    const where: Record<string, unknown> = {
+      status: status,
     }
 
     if (category) where.category = category
     if (skills) where.skills = { hasSome: skills }
-    if (minBudget) where.budget = { ...where.budget, gte: parseFloat(minBudget) }
-    if (maxBudget) where.budget = { ...where.budget, lte: parseFloat(maxBudget) }
+    if (minBudget || maxBudget) {
+      where.budget = {}
+      if (minBudget) (where.budget as Record<string, unknown>).gte = parseFloat(minBudget)
+      if (maxBudget) (where.budget as Record<string, unknown>).lte = parseFloat(maxBudget)
+    }
     if (isUrgent) where.isUrgent = true
     if (search) {
       where.OR = [

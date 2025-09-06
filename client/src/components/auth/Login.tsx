@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '@/components/ui/Button'
 
 const Login = () => {
     const [formData, setFormData] = useState<{
@@ -282,7 +281,7 @@ const Login = () => {
                     <div className="text-center mt-6">
                         <p className="text-sm text-slate-600">
                             En vous connectant, vous acceptez nos{" "}
-                            <Link href="/terms" className="text-orange-600 hover:underline">
+                            <Link href="/conditions" className="text-orange-600 hover:underline">
                                 Conditions d&apos;utilisation
                             </Link>
                         </p>

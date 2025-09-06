@@ -14,11 +14,9 @@ export async function POST(request: NextRequest) {
       reviewedUserId,
       rating,
       comment,
-      skills,
       communication,
       quality,
-      deadline,
-      wouldRecommend
+      deadline
     } = body
 
     // Validation des champs obligatoires
@@ -69,10 +67,10 @@ export async function POST(request: NextRequest) {
     // Vérifier qu'une évaluation n'existe pas déjà
     const existingReview = await prisma.review.findUnique({
       where: {
-        missionId_reviewerId_reviewedUserId: {
+        missionId_reviewerId_revieweeId: {
           missionId,
           reviewerId: user.id,
-          reviewedUserId
+          revieweeId: reviewedUserId
         }
       }
     })
@@ -86,14 +84,12 @@ export async function POST(request: NextRequest) {
       data: {
         missionId,
         reviewerId: user.id,
-        reviewedUserId,
+        revieweeId: reviewedUserId,
         rating,
         comment,
-        skills,
-        communication,
-        quality,
-        deadline,
-        wouldRecommend: wouldRecommend !== false
+        communicationRating: communication,
+        qualityRating: quality,
+        timelinessRating: deadline,
       },
       include: {
         reviewer: {
@@ -105,7 +101,7 @@ export async function POST(request: NextRequest) {
             companyName: true
           }
         },
-        reviewedUser: {
+        reviewee: {
           select: {
             id: true,
             fullName: true,
@@ -173,7 +169,7 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    const where: any = {}
+    const where: Record<string, unknown> = {}
 
     if (userId) where.reviewedUserId = userId
     if (reviewerId) where.reviewerId = reviewerId
@@ -196,7 +192,7 @@ export async function GET(request: NextRequest) {
               title: true
             }
           },
-          reviewedUser: {
+          reviewee: {
             select: {
               id: true,
               fullName: true,

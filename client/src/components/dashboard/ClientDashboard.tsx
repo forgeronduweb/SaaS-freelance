@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import DashboardLayout from "./DashboardLayout";
 import { useAuth } from "../../hooks/useAuth";
@@ -16,13 +16,7 @@ const ClientDashboard = () => {
         }
     });
 
-    useEffect(() => {
-        if (user) {
-            fetchDashboardData();
-        }
-    }, [user]);
-
-    const fetchDashboardData = async () => {
+    const fetchDashboardData = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch('/api/missions', {
@@ -60,7 +54,13 @@ const ClientDashboard = () => {
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user, fetchDashboardData]);
 
     const stats = [
         { label: "Missions actives", value: dashboardData.stats.activeMissions.toString(), icon: "missions", color: "bg-blue-500" },
@@ -81,10 +81,10 @@ const ClientDashboard = () => {
 
     
     // Les freelances engagés seront récupérés depuis l'API
-    const engagedFreelances: any[] = [];
+    const engagedFreelances: unknown[] = [];
 
     // Les messages récents seront récupérés depuis l'API
-    const recentMessages: any[] = [];
+    const recentMessages: unknown[] = [];
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -117,7 +117,7 @@ const ClientDashboard = () => {
     };
 
     // L'historique des paiements sera récupéré depuis l'API
-    const paymentHistory: any[] = [];
+    const paymentHistory: unknown[] = [];
 
 
     const getPaymentStatusColor = (status: string) => {
@@ -175,14 +175,16 @@ const ClientDashboard = () => {
                         <div className="p-6">
                             <div className="space-y-4">
                                 {dashboardData.missions?.length > 0 ? (
-                                    dashboardData.missions?.map((mission: any) => (
-                                        <div key={String(mission.id)} className="border border-slate-200 rounded-lg p-4">
+                                    dashboardData.missions?.map((mission: unknown) => {
+                                        const m = mission as Record<string, unknown>;
+                                        return (
+                                        <div key={String(m.id)} className="border border-slate-200 rounded-lg p-4">
                                             <div className="flex items-start justify-between mb-3">
                                                 <div>
-                                                    <h3 className="font-medium text-slate-800">{String(mission.title)}</h3>
-                                                    <p className="text-sm text-slate-600 mt-1">{String(mission.category)}</p>
+                                                    <h3 className="font-medium text-slate-800">{String(m.title)}</h3>
+                                                    <p className="text-sm text-slate-600 mt-1">{String(m.category)}</p>
                                                     <div className="flex flex-wrap gap-1 mt-2">
-                                                        {Array.isArray(mission.skills) && mission.skills.slice(0, 3).map((skill: string, index: number) => (
+                                                        {Array.isArray(m.skills) && m.skills.slice(0, 3).map((skill: string, index: number) => (
                                                             <span key={index} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">
                                                                 {String(skill)}
                                                             </span>
@@ -190,31 +192,32 @@ const ClientDashboard = () => {
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(String(mission.status))}`}>
-                                                        {getStatusLabel(String(mission.status))}
+                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(String(m.status))}`}>
+                                                        {getStatusLabel(String(m.status))}
                                                     </span>
                                                     <p className="text-sm text-slate-600 mt-1">
-                                                        CrÃ©Ã©e le {new Date(String(mission.createdAt)).toLocaleDateString()}
+                                                        Créée le {new Date(String(m.createdAt)).toLocaleDateString()}
                                                     </p>
                                                 </div>
                                             </div>
                                             
                                             <div className="flex items-center justify-between text-sm">
-                                                <span className="text-slate-600">Budget: {String(mission.budget)} FCFA</span>
+                                                <span className="text-slate-600">Budget: {String(m.budget)} FCFA</span>
                                                 <span className="font-medium text-green-600">
-                                                    {String(mission.budget)} FCFA
+                                                    {String(m.budget)} FCFA
                                                 </span>
                                             </div>
                                             
-                                            {mission.isUrgent && (
+                                            {Boolean(m.isUrgent) && (
                                                 <div className="mt-2">
                                                     <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
-                                                        Ã°Å¸Å¡Â¨ Urgent
+                                                        Urgent
                                                     </span>
                                                 </div>
                                             )}
                                         </div>
-                                    ))
+                                        );
+                                    })
                                 ) : (
                                     <div className="text-center py-8">
                                         <div className="text-slate-400 mb-2">
@@ -238,29 +241,32 @@ const ClientDashboard = () => {
                         <div className="p-6">
                             <div className="space-y-4">
                                 {engagedFreelances.length > 0 ? (
-                                    engagedFreelances.map((freelance) => (
-                                        <div key={freelance.id} className="flex items-center gap-4 p-4 border border-slate-200 rounded-lg">
+                                    engagedFreelances.map((freelance: unknown) => {
+                                        const f = freelance as Record<string, unknown>;
+                                        return (
+                                        <div key={String(f.id)} className="flex items-center gap-4 p-4 border border-slate-200 rounded-lg">
                                             <div className="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center">
-                                                <span className="text-white font-medium">{freelance.avatar}</span>
+                                                <span className="text-white font-medium">{String(f.avatar)}</span>
                                             </div>
                                             <div className="flex-1">
-                                                <h3 className="font-medium text-slate-800">{freelance.name}</h3>
-                                                <p className="text-sm text-slate-600">{freelance.specialty}</p>
-                                                <p className="text-xs text-slate-500">Mission: {freelance.mission}</p>
+                                                <h3 className="font-medium text-slate-800">{String(f.name)}</h3>
+                                                <p className="text-sm text-slate-600">{String(f.specialty)}</p>
+                                                <p className="text-xs text-slate-500">Mission: {String(f.mission)}</p>
                                             </div>
                                             <div className="text-right">
                                                 <div className="flex items-center gap-1 mb-1">
                                                     <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                     </svg>
-                                                    <span className="text-sm font-medium text-slate-700">{freelance.rating}</span>
+                                                    <span className="text-sm font-medium text-slate-700">{String(f.rating)}</span>
                                                 </div>
-                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(freelance.status)}`}>
-                                                    {freelance.status}
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(String(f.status))}`}>
+                                                    {String(f.status)}
                                                 </span>
                                             </div>
                                         </div>
-                                    ))
+                                        );
+                                    })
                                 ) : (
                                     <div className="text-center py-8">
                                         <div className="text-slate-400 mb-2">
@@ -286,16 +292,19 @@ const ClientDashboard = () => {
                         <div className="p-6">
                             <div className="space-y-4">
                                 {recentMessages.length > 0 ? (
-                                    recentMessages.map((message) => (
-                                        <div key={message.id} className={`p-4 rounded-lg ${message.unread ? 'bg-orange-50 border border-orange-200' : 'bg-slate-50'}`}>
+                                    recentMessages.map((message: unknown) => {
+                                        const msg = message as Record<string, unknown>;
+                                        return (
+                                        <div key={String(msg.id)} className={`p-4 rounded-lg ${msg.unread ? 'bg-orange-50 border border-orange-200' : 'bg-slate-50'}`}>
                                             <div className="flex items-start justify-between mb-2">
-                                                <h4 className="font-medium text-slate-800 text-sm">{message.from}</h4>
-                                                <span className="text-xs text-slate-500">{message.time}</span>
+                                                <h4 className="font-medium text-slate-800 text-sm">{String(msg.from)}</h4>
+                                                <span className="text-xs text-slate-500">{String(msg.time)}</span>
                                             </div>
-                                            <p className="text-sm text-slate-600 mb-1">{message.message}</p>
-                                            <p className="text-xs text-slate-500">Mission: {message.mission}</p>
+                                            <p className="text-sm text-slate-600 mb-1">{String(msg.message)}</p>
+                                            <p className="text-xs text-slate-500">Mission: {String(msg.mission)}</p>
                                         </div>
-                                    ))
+                                        );
+                                    })
                                 ) : (
                                     <div className="text-center py-8">
                                         <div className="text-slate-400 mb-2">
@@ -319,23 +328,26 @@ const ClientDashboard = () => {
                         <div className="p-6">
                             <div className="space-y-4">
                                 {paymentHistory.length > 0 ? (
-                                    paymentHistory.map((payment) => (
-                                        <div key={payment.id} className="p-4 border border-slate-200 rounded-lg">
+                                    paymentHistory.map((payment: unknown) => {
+                                        const p = payment as Record<string, unknown>;
+                                        return (
+                                        <div key={String(p.id)} className="p-4 border border-slate-200 rounded-lg">
                                             <div className="flex items-start justify-between mb-2">
                                                 <div>
-                                                    <h4 className="font-medium text-slate-800 text-sm">{payment.mission}</h4>
-                                                    <p className="text-sm text-slate-600">À {payment.freelance}</p>
+                                                    <h4 className="font-medium text-slate-800 text-sm">{String(p.mission)}</h4>
+                                                    <p className="text-sm text-slate-600">À {String(p.freelance)}</p>
                                                 </div>
-                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(payment.status)}`}>
-                                                    {payment.status}
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(String(p.status))}`}>
+                                                    {String(p.status)}
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between text-sm">
-                                                <span className="text-slate-600">{payment.date}</span>
-                                                <span className="font-medium text-green-600">{payment.amount}</span>
+                                                <span className="text-slate-600">{String(p.date)}</span>
+                                                <span className="font-medium text-green-600">{String(p.amount)}</span>
                                             </div>
                                         </div>
-                                    ))
+                                        );
+                                    })
                                 ) : (
                                     <div className="text-center py-8">
                                         <div className="text-slate-400 mb-2">
@@ -344,7 +356,7 @@ const ClientDashboard = () => {
                                             </svg>
                                         </div>
                                         <p className="text-slate-600">Aucun paiement récent</p>
-                                        <p className="text-sm text-slate-500">L'historique de vos paiements apparaîtra ici</p>
+                                        <p className="text-sm text-slate-500">L&apos;historique de vos paiements apparaîtra ici</p>
                                     </div>
                                 )}
                             </div>

@@ -8,13 +8,16 @@ export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth(request)
     const { searchParams } = new URL(request.url)
+    const userId = searchParams.get('userId')
+    const type = searchParams.get('type')
+    const isRead = searchParams.get('isRead')
     const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '20')
+    const limit = parseInt(searchParams.get('limit') || '10')
     const unreadOnly = searchParams.get('unreadOnly') === 'true'
 
     const skip = (page - 1) * limit
 
-    const where: any = {
+    const where: Record<string, unknown> = {
       userId: user.id
     }
 
@@ -65,8 +68,7 @@ export async function POST(request: NextRequest) {
       type,
       title,
       message,
-      data,
-      actionUrl
+      data
     } = body
 
     // Validation des champs obligatoires
@@ -108,11 +110,10 @@ export async function POST(request: NextRequest) {
     const notification = await prisma.notification.create({
       data: {
         userId,
-        type: type as any,
+        type,
         title,
         message,
-        data: data || {},
-        actionUrl
+        data: data || {}
       }
     })
 

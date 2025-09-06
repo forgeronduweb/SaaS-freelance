@@ -17,10 +17,10 @@ const Footer = () => {
 
     const legalLinks = [
         { name: "À propos", href: "/about" },
-        { name: "Mentions légales", href: "/legal" },
-        { name: "CGU", href: "/terms" },
-        { name: "Politique de confidentialité", href: "/privacy" },
-        { name: "Politique de remboursement", href: "/refund" }
+        { name: "Mentions légales", href: "/mentions-legales" },
+        { name: "Conditions d'utilisation", href: "/conditions" },
+        { name: "Politique de confidentialité", href: "/politique-confidentialite" },
+        { name: "Politique de remboursement", href: "/politique-remboursement" }
     ];
 
     const socialLinks = [

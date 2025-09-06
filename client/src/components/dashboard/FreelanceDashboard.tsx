@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import DashboardLayout from "./DashboardLayout";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -15,13 +15,7 @@ const FreelanceDashboard = () => {
         }
     });
 
-    useEffect(() => {
-        if (user) {
-            fetchDashboardData();
-        }
-    }, [user]);
-
-    const fetchDashboardData = async () => {
+    const fetchDashboardData = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
             
@@ -43,8 +37,8 @@ const FreelanceDashboard = () => {
                 ) || [];
                 
                 // Calculer les statistiques
-                const activeMissions = acceptedMissions.filter((mission: any) => 
-                    mission.status === 'IN_PROGRESS'
+                const activeMissions = acceptedMissions.filter((mission: unknown) => 
+                    (mission as Record<string, unknown>).status === 'IN_PROGRESS'
                 ).length;
                 const availableBalance = 0; // À implémenter avec le système de paiement
                 const notifications = 3; // À implémenter plus tard
@@ -63,7 +57,13 @@ const FreelanceDashboard = () => {
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
         }
-    };
+    }, [user]);
+
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user, fetchDashboardData]);
 
     const stats = [
         { label: "Missions actives", value: dashboardData.stats.activeMissions.toString(), icon: "missions", color: "bg-blue-500" },
@@ -178,30 +178,32 @@ const FreelanceDashboard = () => {
                             <div className="p-6">
                                 <div className="space-y-4">
                                     {dashboardData.missions.length > 0 ? (
-                                        dashboardData.missions.map((mission: any) => (
-                                            <div key={String(mission.id)} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
+                                        dashboardData.missions.map((mission: unknown) => {
+                                            const m = mission as Record<string, unknown>;
+                                            return (
+                                            <div key={String(m.id)} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
                                                 <div className="flex items-start justify-between mb-3">
                                                     <div className="flex-1">
-                                                        <h3 className="font-medium text-slate-800">{String(mission.title)}</h3>
-                                                        <p className="text-sm text-slate-600 mt-1">{String(mission.category)}</p>
+                                                        <h3 className="font-medium text-slate-800">{String(m.title)}</h3>
+                                                        <p className="text-sm text-slate-600 mt-1">{String(m.category)}</p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="font-semibold text-orange-600">{String(mission.budget)} FCFA</p>
-                                                        <p className="text-sm text-slate-500">{String(mission.deadline)}</p>
+                                                        <p className="font-semibold text-orange-600">{String(m.budget)} FCFA</p>
+                                                        <p className="text-sm text-slate-500">{String(m.deadline)}</p>
                                                     </div>
                                                 </div>
-                                                <p className="text-sm text-slate-600 mb-3">{String(mission.description)}</p>
+                                                <p className="text-sm text-slate-600 mb-3">{String(m.description)}</p>
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
                                                         <span className={`px-2 py-1 text-xs rounded-full ${
-                                                            mission.status === 'IN_PROGRESS' 
+                                                            String(m.status) === 'IN_PROGRESS' 
                                                                 ? 'bg-blue-100 text-blue-800' 
-                                                                : mission.status === 'COMPLETED'
+                                                                : String(m.status) === 'COMPLETED'
                                                                 ? 'bg-green-100 text-green-800'
                                                                 : 'bg-gray-100 text-gray-800'
                                                         }`}>
-                                                            {mission.status === 'IN_PROGRESS' ? 'En cours' : 
-                                                             mission.status === 'COMPLETED' ? 'Terminée' : String(mission.status)}
+                                                            {String(m.status) === 'IN_PROGRESS' ? 'En cours' : 
+                                                             String(m.status) === 'COMPLETED' ? 'Terminée' : String(m.status)}
                                                         </span>
                                                         <span className="text-xs text-slate-500">Mission acceptée</span>
                                                     </div>
@@ -210,7 +212,8 @@ const FreelanceDashboard = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                        ))
+                                            );
+                                        })
                                     ) : (
                                         <div className="text-center py-8">
                                             <p className="text-slate-500">Aucune mission acceptée pour le moment</p>

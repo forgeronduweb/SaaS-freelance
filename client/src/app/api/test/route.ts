@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/test - Test de base de l'API
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Test de connexion à la base de données
     const userCount = await prisma.user.count()
