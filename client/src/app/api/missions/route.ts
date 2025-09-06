@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { requireRole } from '@/lib/auth'
+import { requireRole, getUserFromRequest } from '@/lib/auth'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/missions - Récupérer toutes les missions avec filtres
@@ -18,10 +18,17 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search')
 
     const skip = (page - 1) * limit
+    const clientId = searchParams.get('clientId')
 
     // Construire les filtres
-    const where: Record<string, unknown> = {
-      status: status,
+    const where: Record<string, unknown> = {}
+    
+    // Si clientId est spécifié, filtrer par client (pour "Mes Missions")
+    if (clientId) {
+      where.clientId = clientId
+    } else {
+      // Sinon, filtrer par status pour les missions publiques
+      where.status = status
     }
 
     if (category) where.category = category
@@ -87,8 +94,29 @@ export async function GET(request: NextRequest) {
 // POST /api/missions - Créer une nouvelle mission (clients seulement)
 export async function POST(request: NextRequest) {
   try {
-    const user = await requireRole(request, ['CLIENT'])
+    console.log('🔍 API POST /missions appelée');
+    
+    // Authentification simplifiée
+    let user;
+    try {
+      user = await getUserFromRequest(request);
+      if (!user) {
+        throw new Error('Token manquant ou invalide');
+      }
+      if (user.role !== 'CLIENT') {
+        throw new Error('Seuls les clients peuvent créer des missions');
+      }
+      console.log('✅ Client authentifié:', user.fullName, 'ID:', user.id);
+    } catch (authError: any) {
+      console.log('❌ Erreur d\'authentification:', authError.message);
+      return Response.json({
+        success: false,
+        error: `Erreur d'authentification: ${authError.message}`
+      }, { status: 401 });
+    }
+    
     const body = await request.json()
+    console.log('📝 Données reçues:', body);
 
     const {
       title,
@@ -116,9 +144,19 @@ export async function POST(request: NextRequest) {
       return createErrorResponse('Le budget doit être supérieur à 0', 400)
     }
 
-    const deadlineDate = new Date(deadline)
-    if (deadlineDate <= new Date()) {
-      return createErrorResponse('La date limite doit être dans le futur', 400)
+    let deadlineDate;
+    try {
+      const dateStr = deadline.includes('T') ? deadline.split('T')[0] : deadline;
+      deadlineDate = new Date(dateStr + 'T00:00:00.000Z');
+      
+      if (isNaN(deadlineDate.getTime()) || deadlineDate.getFullYear() < 2024 || deadlineDate.getFullYear() > 2030) {
+        throw new Error('Date invalide');
+      }
+    } catch (error) {
+      return Response.json({
+        success: false,
+        error: 'Format de date invalide'
+      }, { status: 400 });
     }
 
     // Créer la mission
@@ -167,8 +205,12 @@ export async function POST(request: NextRequest) {
       message: 'Mission créée avec succès'
     })
 
-  } catch (error) {
-    return handleApiError(error)
+  } catch (error: any) {
+    console.error('Erreur lors de la création de mission:', error);
+    return Response.json({
+      success: false,
+      error: error.message || 'Erreur interne du serveur'
+    }, { status: 500 });
   }
 }
 

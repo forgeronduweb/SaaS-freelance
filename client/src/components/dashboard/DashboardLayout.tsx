@@ -8,31 +8,37 @@ interface DashboardLayoutProps {
     children: React.ReactNode;
     userType: 'freelance' | 'client';
     pageTitle?: string;
+    showCreateMissionButton?: boolean;
+    onCreateMission?: () => void;
 }
 
-const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, userType, pageTitle, showCreateMissionButton, onCreateMission }: DashboardLayoutProps) => {
     const pathname = usePathname();
     const { user, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
 
-    const freelanceMenuItems = [
-        { href: '/dashboard/freelance', label: 'Tableau de bord', icon: 'dashboard' },
-        { href: '/missions', label: 'Trouver des missions', icon: 'missions' },
-        { href: '/messages/freelance', label: 'Messagerie', icon: 'messages' },
-        { href: '/dashboard/freelance/solde', label: 'Solde & Retraits', icon: 'wallet' },
-        { href: '/dashboard/freelance/profil', label: 'Mon Profil', icon: 'profile' },
-    ];
+    const getMenuItems = () => {
+        if (userType === 'client') {
+            return [
+                { name: 'Dashboard', href: '/client/dashboard', icon: 'dashboard' },
+                { name: 'Mes Missions', href: '/client/missions', icon: 'missions' },
+                { name: 'Freelances', href: '/client/freelances', icon: 'freelances' },
+                { name: 'Messages', href: '/client/messages', icon: 'messages' },
+                { name: 'Profil', href: '/client/profile', icon: 'profile' },
+            ];
+        } else {
+            return [
+                { name: 'Dashboard', href: '/freelance/dashboard', icon: 'dashboard' },
+                { name: 'Missions', href: '/freelance/missions', icon: 'missions' },
+                { name: 'Freelances', href: '/freelance/freelances', icon: 'freelances' },
+                { name: 'Messages', href: '/freelance/messages', icon: 'messages' },
+                { name: 'Profil', href: '/freelance/profile', icon: 'profile' },
+            ];
+        }
+    };
 
-    const clientMenuItems = [
-        { href: '/dashboard/client', label: 'Tableau de bord', icon: 'dashboard' },
-        { href: '/freelances', label: 'Trouver des freelances', icon: 'team' },
-        { href: '/dashboard/client/missions', label: 'Mes missions', icon: 'missions' },
-        { href: '/messages/client', label: 'Messagerie', icon: 'messages' },
-        { href: '/dashboard/client/paiements', label: 'Paiements', icon: 'payments' },
-    ];
-
-    const menuItems = userType === 'freelance' ? freelanceMenuItems : clientMenuItems;
+    const menuItems = getMenuItems();
 
     const getIcon = (iconName: string) => {
         const icons = {
@@ -86,22 +92,12 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-16">
+        <div className="min-h-screen bg-slate-50 md:pt-16 pb-16 md:pb-0">
             {/* Header */}
             <header className="fixed top-0 left-0 right-0 bg-white shadow-sm border-b border-slate-200 z-50">
                 <div className="px-4 md:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center gap-4">
-                            {/* Menu hamburger mobile */}
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="md:hidden p-2 text-slate-600 hover:text-orange-600 transition-colors"
-                            >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                            
                             <Link href="/" className="text-xl font-bold text-orange-600">
                                 AfriLance
                             </Link>
@@ -113,30 +109,24 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                         </div>
                         
                         <div className="flex items-center gap-3">
-                            <button className="relative p-2 text-slate-600 hover:text-orange-600 transition-colors">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button className="relative p-2 text-slate-600 hover:text-orange-600 transition-colors rounded-lg hover:bg-slate-50">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <span className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                                <span className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium shadow-sm">3</span>
                             </button>
                             
                             <div className="relative">
                                 <button 
                                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition-colors w-full text-left"
+                                    className="p-1 rounded-lg hover:bg-slate-100 transition-colors"
                                 >
                                     <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center">
                                         <span className="text-white text-sm font-medium">
                                             {user?.fullName ? user.fullName.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
                                         </span>
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-slate-800 truncate">{user?.fullName || 'Utilisateur'}</p>
-                                        <p className="text-xs text-slate-600 truncate">{user?.email || ''}</p>
-                                    </div>
-                                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
                                 </button>
 
                                 {isUserMenuOpen && (
@@ -147,12 +137,6 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                                         ></div>
                                         <div className="absolute right-0 top-full mt-2 w-56 p-4 bg-white border border-slate-300/30 text-slate-500 rounded-md font-medium shadow-lg z-20">
                                             <ul className="flex flex-col gap-2">
-                                                <li className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-orange-50 hover:text-orange-600 transition">
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                                    </svg>
-                                                    <Link href={userType === 'freelance' ? '/dashboard/freelance/profil' : '/dashboard/client/profil'}>Mon Profil</Link>
-                                                </li>
                                                 <li className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded hover:bg-slate-100 transition">
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 16 16">
                                                         <path d="M8.001 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" stroke="currentColor" strokeOpacity=".9" strokeLinecap="round" strokeLinejoin="round"/>
@@ -186,76 +170,62 @@ const DashboardLayout = ({ children, userType, pageTitle }: DashboardLayoutProps
                 </div>
             </header>
 
-            <div className="flex">
-                {/* Sidebar Desktop */}
-                <aside className="hidden md:block fixed left-0 top-16 w-64 bg-white shadow-sm h-[calc(100vh-4rem)] overflow-y-auto z-40">
-                    <nav className="p-4">
-                        <ul className="space-y-2">
-                            {menuItems.map((item) => {
-                                const isActive = pathname === item.href;
-                                return (
-                                    <li key={item.href}>
-                                        <Link
-                                            href={item.href}
-                                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                                isActive
-                                                    ? 'bg-orange-50 text-orange-600 border-r-2 border-orange-600'
-                                                    : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
-                                            }`}
-                                        >
-                                            {getIcon(item.icon)}
-                                            {item.label}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </nav>
-                </aside>
+            {/* Sidebar Desktop */}
+            <aside className="hidden md:block fixed left-0 top-16 w-64 bg-white shadow-sm h-[calc(100vh-4rem)] overflow-y-auto z-40">
+                <nav className="p-4">
+                    <ul className="space-y-2">
+                        {menuItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <li key={item.href}>
+                                    <Link
+                                        href={item.href}
+                                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            isActive
+                                                ? 'bg-orange-50 text-orange-600 border-r-2 border-orange-600'
+                                                : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
+                                        }`}
+                                    >
+                                        {getIcon(item.icon)}
+                                        {item.name}
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </nav>
+            </aside>
 
-                {/* Sidebar Mobile */}
-                {isMobileMenuOpen && (
-                    <>
-                        {/* Overlay */}
-                        <div 
-                            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        ></div>
-                        
-                        {/* Mobile Menu */}
-                        <aside className="md:hidden fixed left-0 top-16 w-80 bg-white shadow-lg h-[calc(100vh-4rem)] overflow-y-auto z-50 transform transition-transform duration-300">
-                            <nav className="p-4">
-                                <ul className="space-y-2">
-                                    {menuItems.map((item) => {
-                                        const isActive = pathname === item.href;
-                                        return (
-                                            <li key={item.href}>
-                                                <Link
-                                                    href={item.href}
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-                                                        isActive
-                                                            ? 'bg-orange-50 text-orange-600 border-r-4 border-orange-600'
-                                                            : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
-                                                    }`}
-                                                >
-                                                    {getIcon(item.icon)}
-                                                    {item.label}
-                                                </Link>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </nav>
-                        </aside>
-                    </>
-                )}
+            {/* Main Content */}
+            <main className="md:ml-64 pb-16 md:pb-6 pt-20 p-4 md:p-6">
+                {children}
+            </main>
 
-                {/* Main Content */}
-                <main className="flex-1 md:ml-64 p-4 md:p-6">
-                    {children}
-                </main>
-            </div>
+            {/* Bottom Navigation Mobile - Moved outside main content */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-[9999] w-full" style={{ position: 'fixed' }}>
+                <div className="flex items-center justify-around py-2 px-2 safe-area-inset-bottom">
+                    {menuItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`flex items-center justify-center px-2 py-2 rounded-lg transition-colors ${
+                                    isActive
+                                        ? 'text-orange-600'
+                                        : 'text-slate-500 hover:text-orange-600'
+                                }`}
+                            >
+                                <div className={`p-1 ${
+                                    isActive ? 'bg-orange-50 rounded-lg' : ''
+                                }`}>
+                                    {getIcon(item.icon)}
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </nav>
         </div>
     );
 };

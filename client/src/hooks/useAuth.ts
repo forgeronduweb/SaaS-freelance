@@ -20,6 +20,9 @@ interface User {
   completedProjects?: number;
   hourlyRate?: number;
   dailyRate?: number;
+  location?: string;
+  linkedin?: string;
+  github?: string;
   // Champs client
   companyName?: string;
   companySize?: string;

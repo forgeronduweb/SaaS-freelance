@@ -166,6 +166,22 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
     >
       <div className="h-full">
         {/* Mobile: Vue liste des conversations */}
+<<<<<<< HEAD
+        <div className={`md:hidden ${showConversationView ? 'hidden' : 'block'} h-full bg-white`}>
+          {/* Header liste conversations mobile */}
+          <div className="sticky top-0 bg-white border-b border-slate-200 z-10 pt-2">
+            <div className="px-4 py-3">
+              <h2 className="text-lg font-semibold text-slate-800 mb-3">Messages</h2>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Rechercher une conversation..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+                />
+                <svg className="absolute left-3 top-2.5 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
         <div className={`md:hidden ${showConversationView ? 'hidden' : 'block'} h-screen bg-white`}>
           {/* Header liste conversations mobile */}
           <div className="sticky top-0 bg-white border-b border-slate-200 z-10">
@@ -180,6 +196,7 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                   className="w-full pl-8 pr-4 py-2 bg-slate-50 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
                 />
                 <svg className="absolute left-2.5 top-2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
@@ -187,7 +204,11 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
           </div>
 
           {/* Liste conversations mobile */}
+<<<<<<< HEAD
+          <div className="overflow-y-auto flex-1 pb-24">
+=======
           <div className="overflow-y-auto h-full pb-20">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
             {filteredConversations.map((conversation) => (
               <div
                 key={conversation.id}
@@ -195,13 +216,32 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                   setSelectedConversation(conversation.id);
                   setShowConversationView(true);
                 }}
+<<<<<<< HEAD
+                className="px-4 py-4 border-b border-slate-100 active:bg-slate-50 transition-colors hover:bg-slate-50"
+              >
+                <div className="flex items-center space-x-3">
+=======
                 className="px-3 py-2 border-b border-slate-100 active:bg-slate-50 transition-colors"
               >
                 <div className="flex items-center space-x-2.5">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                   <div className="relative flex-shrink-0">
                     <Image 
                         src={conversation.participantAvatar} 
                         alt={conversation.participantName} 
+<<<<<<< HEAD
+                        width={48}
+                        height={48}
+                        className="w-12 h-12 rounded-full object-cover"
+                    />
+                    {conversation.isOnline && (
+                      <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-slate-900 truncate text-base">
+=======
                         width={40}
                         height={40}
                         className="w-10 h-10 rounded-full object-cover"
@@ -213,6 +253,7 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
                       <h3 className="font-medium text-slate-900 truncate text-sm">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                         {conversation.participantName}
                       </h3>
                       <span className="text-xs text-slate-500 flex-shrink-0 ml-2">
@@ -220,16 +261,28 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                       </span>
                     </div>
                     {conversation.projectTitle && (
+<<<<<<< HEAD
+                      <p className="text-sm text-orange-600 mb-1 truncate font-medium">
+                        📋 {conversation.projectTitle}
+                      </p>
+                    )}
+                    <p className="text-sm text-slate-600 truncate leading-5">
+=======
                       <p className="text-xs text-orange-600 mb-0.5 truncate">
                         {conversation.projectTitle}
                       </p>
                     )}
                     <p className="text-xs text-slate-600 truncate leading-4">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                       {conversation.lastMessage}
                     </p>
                   </div>
                   {conversation.unreadCount > 0 && (
+<<<<<<< HEAD
+                    <div className="bg-orange-600 text-white text-xs rounded-full min-w-[20px] h-5 flex items-center justify-center px-2 flex-shrink-0 font-medium">
+=======
                     <div className="bg-orange-600 text-white text-xs rounded-full min-w-[18px] h-4 flex items-center justify-center px-1 flex-shrink-0">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                       {conversation.unreadCount}
                     </div>
                   )}
@@ -240,6 +293,19 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
         </div>
 
         {/* Mobile: Vue conversation */}
+<<<<<<< HEAD
+        <div className={`md:hidden ${showConversationView ? 'block' : 'hidden'} h-full bg-white flex flex-col`}>
+          {selectedConv && (
+            <>
+              {/* Header conversation mobile */}
+              <div className="sticky top-0 bg-white border-b border-slate-200 z-10 pt-2">
+                <div className="flex items-center px-4 py-3">
+                  <button
+                    onClick={() => setShowConversationView(false)}
+                    className="p-2 mr-3 text-slate-600 hover:text-orange-600 transition-colors rounded-full hover:bg-slate-100"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
         <div className={`md:hidden ${showConversationView ? 'block' : 'hidden'} h-screen bg-white flex flex-col`}>
           {selectedConv && (
             <>
@@ -251,6 +317,7 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                     className="p-1.5 mr-1.5 text-slate-600 hover:text-orange-600 transition-colors rounded-full hover:bg-slate-100"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
@@ -260,6 +327,25 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                         alt={selectedConv.participantName} 
                         width={40}
                         height={40}
+<<<<<<< HEAD
+                        className="w-10 h-10 rounded-full object-cover"
+                    />
+                    {selectedConv.isOnline && (
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    )}
+                  </div>
+                  <div className="flex-1 ml-3 min-w-0">
+                    <h2 className="font-semibold text-slate-900 truncate text-base">{selectedConv.participantName}</h2>
+                    <div className="flex items-center text-sm text-slate-500">
+                      <span className="flex items-center">
+                        <div className={`w-2 h-2 rounded-full mr-2 ${selectedConv.isOnline ? 'bg-green-500' : 'bg-slate-400'}`}></div>
+                        {selectedConv.isOnline ? 'En ligne' : 'Hors ligne'}
+                      </span>
+                      {selectedConv.projectTitle && (
+                        <>
+                          <span className="mx-2">•</span>
+                          <span className="text-orange-600 truncate font-medium">📋 {selectedConv.projectTitle}</span>
+=======
                         className="w-8 h-8 rounded-full object-cover"
                     />
                     {selectedConv.isOnline && (
@@ -274,6 +360,7 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                         <>
                           <span className="mx-1">•</span>
                           <span className="text-orange-600 truncate text-xs">{selectedConv.projectTitle}</span>
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                         </>
                       )}
                     </div>
@@ -282,13 +369,27 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
               </div>
 
               {/* Messages mobile */}
+<<<<<<< HEAD
+              <div className="flex-1 overflow-y-auto px-4 py-4 bg-slate-50">
+                <div className="space-y-4">
+=======
               <div className="flex-1 overflow-y-auto px-3 py-2 pb-4 bg-slate-50">
                 <div className="space-y-2">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                   {messages.map((message) => (
                     <div
                       key={message.id}
                       className={`flex ${message.senderId === 'current-user' ? 'justify-end' : 'justify-start'}`}
                     >
+<<<<<<< HEAD
+                      <div className={`max-w-[85%] px-4 py-3 rounded-2xl ${
+                        message.senderId === 'current-user'
+                          ? 'bg-orange-600 text-white rounded-br-md'
+                          : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md shadow-sm'
+                      }`}>
+                        <p className="text-sm leading-6">{message.content}</p>
+                        <p className={`text-xs mt-2 ${
+=======
                       <div className={`max-w-[280px] px-3 py-2 rounded-2xl ${
                         message.senderId === 'current-user'
                           ? 'bg-orange-600 text-white rounded-br-md'
@@ -296,6 +397,7 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                       }`}>
                         <p className="text-sm leading-5">{message.content}</p>
                         <p className={`text-xs mt-1 ${
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                           message.senderId === 'current-user' ? 'text-orange-100' : 'text-slate-400'
                         }`}>
                           {formatTime(message.timestamp)}
@@ -307,15 +409,25 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
               </div>
 
               {/* Zone de saisie mobile */}
+<<<<<<< HEAD
+              <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 pb-6 z-10">
+                <div className="flex items-end space-x-3">
+=======
               <div className="sticky bottom-0 bg-white border-t border-slate-200 p-3 z-10">
                 <div className="flex items-end space-x-2">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                   <div className="flex-1 relative">
                     <input
                       type="text"
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
+<<<<<<< HEAD
+                      placeholder="Tapez votre message..."
+                      className="w-full px-4 py-3 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+=======
                       placeholder="Message..."
                       className="w-full px-4 py-2.5 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault();
@@ -327,9 +439,15 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
                   <button
                     onClick={handleSendMessage}
                     disabled={!newMessage.trim()}
+<<<<<<< HEAD
+                    className="bg-orange-600 text-white p-3 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 shadow-lg"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
                     className="bg-orange-600 text-white p-2.5 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                   </button>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import FreelanceCard from "./FreelanceCard";
-import AppLayout from '../layout/AppLayout';
+import DashboardLayout from '../dashboard/DashboardLayout';
 
 interface Freelance {
     id: string;
@@ -17,7 +17,11 @@ interface Freelance {
     category: string;
 }
 
-const FreelanceList = () => {
+interface FreelanceListProps {
+    userType?: 'client' | 'freelance';
+}
+
+const FreelanceList = ({ userType = 'client' }: FreelanceListProps) => {
     const [filters, setFilters] = useState({
         category: "",
         minBudget: "",
@@ -102,17 +106,17 @@ const FreelanceList = () => {
 
     if (loading) {
         return (
-            <AppLayout userType="client" pageTitle="Chargement..." pageDescription="Chargement des freelances">
+            <DashboardLayout userType={userType} pageTitle="Chargement...">
                 <div className="flex items-center justify-center min-h-96">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
                 </div>
-            </AppLayout>
+            </DashboardLayout>
         );
     }
 
     if (error) {
         return (
-            <AppLayout userType="client" pageTitle="Erreur" pageDescription="Erreur lors du chargement">
+            <DashboardLayout userType={userType} pageTitle="Erreur">
                 <div className="text-center py-12">
                     <div className="text-red-600 text-xl font-semibold mb-4">{error}</div>
                     <button
@@ -122,12 +126,12 @@ const FreelanceList = () => {
                         Réessayer
                     </button>
                 </div>
-            </AppLayout>
+            </DashboardLayout>
         );
     }
 
     return (
-        <AppLayout userType="client" pageTitle="Freelances Disponibles" pageDescription="Trouvez le freelance parfait pour votre projet">
+        <DashboardLayout userType={userType} pageTitle="Freelances Disponibles">
             <div className="mb-6">
                 <h1 className="text-3xl font-bold text-slate-800 mb-2">Freelances Disponibles</h1>
                 <p className="text-slate-600">
@@ -297,9 +301,8 @@ const FreelanceList = () => {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </DashboardLayout>
     );
 };
 
 export default FreelanceList;
-

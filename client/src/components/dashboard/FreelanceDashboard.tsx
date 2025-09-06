@@ -141,10 +141,10 @@ const FreelanceDashboard = () => {
             <div className="space-y-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">
-                        Bonjour {user?.fullName || 'Freelance'} ðŸ‘‹
+                    <h1 className="text-2xl md:text-3xl font-bold text-slate-800">
+                        Bonjour {user?.fullName || 'Freelance'}
                     </h1>
-                    <p className="text-slate-600">
+                    <p className="text-slate-600 mt-1">
                         {user?.title ? `${user.title} - ` : ''}Bienvenue sur votre espace freelance AfriLance
                     </p>
                     {user?.bio && (
@@ -152,129 +152,212 @@ const FreelanceDashboard = () => {
                     )}
                 </div>
 
-                {/* Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-sm border border-slate-200 p-3 md:p-6">
-                            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                                <div className="mb-2 md:mb-0">
-                                    <p className="text-xs md:text-sm font-medium text-slate-600">{stat.label}</p>
-                                    <p className="text-lg md:text-2xl font-bold text-slate-800">{stat.value}</p>
+                {/* 1. Missions en cours */}
+                <div className="bg-white rounded-lg border border-slate-200">
+                    <div className="p-4 md:p-6 border-b border-slate-200">
+                        <h2 className="text-lg font-semibold text-slate-800">Missions en cours</h2>
+                    </div>
+                    <div className="p-4 md:p-6">
+                        <div className="space-y-4">
+                            {dashboardData.missions.length > 0 ? (
+                                dashboardData.missions.map((mission: unknown) => {
+                                    const m = mission as Record<string, unknown>;
+                                    return (
+                                    <div key={String(m.id)} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
+                                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
+                                            <div className="flex-1">
+                                                <h3 className="font-medium text-slate-800">{String(m.title)}</h3>
+                                                <p className="text-sm text-slate-600 mt-1">{String(m.category)}</p>
+                                            </div>
+                                            <div className="text-left sm:text-right">
+                                                <p className="font-semibold text-orange-600">{String(m.budget)} FCFA</p>
+                                                <p className="text-sm text-slate-500">{String(m.deadline)}</p>
+                                            </div>
+                                        </div>
+                                        <p className="text-sm text-slate-600 mb-3 line-clamp-2">{String(m.description)}</p>
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                            <div className="flex items-center space-x-2">
+                                                <span className={`px-2 py-1 text-xs rounded-full ${
+                                                    String(m.status) === 'IN_PROGRESS' 
+                                                        ? 'bg-blue-100 text-blue-800' 
+                                                        : String(m.status) === 'COMPLETED'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-gray-100 text-gray-800'
+                                                }`}>
+                                                    {String(m.status) === 'IN_PROGRESS' ? 'En cours' : 
+                                                     String(m.status) === 'COMPLETED' ? 'Terminée' : String(m.status)}
+                                                </span>
+                                                <span className="text-xs text-slate-500">Mission acceptée</span>
+                                            </div>
+                                            <button className="w-full sm:w-auto px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors touch-manipulation min-h-[44px]">
+                                                Voir détails
+                                            </button>
+                                        </div>
+                                    </div>
+                                    );
+                                })
+                            ) : (
+                                <div className="text-center py-12">
+                                    <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center">
+                                        <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-medium text-slate-800 mb-2">Aucune mission en cours</h3>
+                                    <p className="text-slate-500 mb-4">Les missions pour lesquelles vous avez été sélectionné apparaîtront ici</p>
+                                    <button className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                        Parcourir les missions
+                                    </button>
                                 </div>
-                                <div className={`w-8 h-8 md:w-12 md:h-12 ${stat.color} rounded-lg flex items-center justify-center self-end md:self-auto`}>
-                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                </div>
-                            </div>
+                            )}
                         </div>
-                    ))}
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-                    {/* Missions acceptées */}
-                    <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200">
-                            <div className="p-6 border-b border-slate-200">
-                                <h2 className="text-lg font-semibold text-slate-800">Missions Acceptées</h2>
-                            </div>
-                            <div className="p-6">
-                                <div className="space-y-4">
-                                    {dashboardData.missions.length > 0 ? (
-                                        dashboardData.missions.map((mission: unknown) => {
-                                            const m = mission as Record<string, unknown>;
-                                            return (
-                                            <div key={String(m.id)} className="border border-slate-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
-                                                <div className="flex items-start justify-between mb-3">
-                                                    <div className="flex-1">
-                                                        <h3 className="font-medium text-slate-800">{String(m.title)}</h3>
-                                                        <p className="text-sm text-slate-600 mt-1">{String(m.category)}</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="font-semibold text-orange-600">{String(m.budget)} FCFA</p>
-                                                        <p className="text-sm text-slate-500">{String(m.deadline)}</p>
-                                                    </div>
-                                                </div>
-                                                <p className="text-sm text-slate-600 mb-3">{String(m.description)}</p>
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className={`px-2 py-1 text-xs rounded-full ${
-                                                            String(m.status) === 'IN_PROGRESS' 
-                                                                ? 'bg-blue-100 text-blue-800' 
-                                                                : String(m.status) === 'COMPLETED'
-                                                                ? 'bg-green-100 text-green-800'
-                                                                : 'bg-gray-100 text-gray-800'
-                                                        }`}>
-                                                            {String(m.status) === 'IN_PROGRESS' ? 'En cours' : 
-                                                             String(m.status) === 'COMPLETED' ? 'Terminée' : String(m.status)}
-                                                        </span>
-                                                        <span className="text-xs text-slate-500">Mission acceptée</span>
-                                                    </div>
-                                                    <button className="px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors">
-                                                        Voir détails
-                                                    </button>
-                                                </div>
+                {/* 2. Notifications */}
+                <div className="bg-white rounded-lg border border-slate-200">
+                    <div className="p-4 md:p-6 border-b border-slate-200">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-slate-800">Notifications</h2>
+                            <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded-full">
+                                {recentNotifications.filter(n => n.unread).length} non lues
+                            </span>
+                        </div>
+                    </div>
+                    <div className="p-4 md:p-6">
+                        <div className="space-y-4">
+                            {recentNotifications.map((notification) => (
+                                <div key={notification.id} className={`flex items-start gap-4 p-4 rounded-lg border ${
+                                    notification.unread ? 'bg-orange-50 border-orange-200' : 'bg-slate-50 border-slate-200'
+                                }`}>
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                        notification.type === 'mission' ? 'bg-blue-500' :
+                                        notification.type === 'payment' ? 'bg-green-500' : 'bg-purple-500'
+                                    }`}>
+                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            {notification.type === 'mission' ? (
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            ) : notification.type === 'payment' ? (
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                            ) : (
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                            )}
+                                        </svg>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-start justify-between">
+                                            <div>
+                                                <h4 className="font-medium text-slate-800">{notification.title}</h4>
+                                                <p className="text-sm text-slate-600 mt-1">{notification.message}</p>
                                             </div>
-                                            );
-                                        })
-                                    ) : (
-                                        <div className="text-center py-8">
-                                            <p className="text-slate-500">Aucune mission acceptée pour le moment</p>
-                                            <p className="text-sm text-slate-400 mt-2">Les missions pour lesquelles vous avez été sélectionné apparaîtront ici</p>
+                                            <span className="text-xs text-slate-500">{notification.time}</span>
                                         </div>
+                                    </div>
+                                    {notification.unread && (
+                                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                                     )}
                                 </div>
-                            </div>
+                            ))}
                         </div>
+                        <div className="mt-4 text-center">
+                            <button className="text-orange-600 hover:text-orange-700 text-sm font-medium">
+                                Voir toutes les notifications
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-                        {/* Notifications récentes */}
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200">
-                            <div className="p-6 border-b border-slate-200">
-                                <h2 className="text-lg font-semibold text-slate-800">Notifications récentes</h2>
+                {/* 3. Solde */}
+                <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 className="text-lg font-semibold mb-2">Solde</h3>
+                            <p className="text-3xl font-bold">{dashboardData.stats.availableBalance.toLocaleString()} FCFA</p>
+                            <p className="text-green-100 text-sm mt-1">Disponible pour retrait</p>
+                        </div>
+                        <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="bg-white bg-opacity-10 rounded-lg p-3">
+                            <p className="text-green-100">Ce mois</p>
+                            <p className="font-semibold">125 000 FCFA</p>
+                        </div>
+                        <div className="bg-white bg-opacity-10 rounded-lg p-3">
+                            <p className="text-green-100">Total gagné</p>
+                            <p className="font-semibold">450 000 FCFA</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 4. Retraits */}
+                <div className="bg-white rounded-lg border border-slate-200">
+                    <div className="p-4 md:p-6 border-b border-slate-200">
+                        <h2 className="text-lg font-semibold text-slate-800">Retraits</h2>
+                    </div>
+                    <div className="p-4 md:p-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div>
+                                    <h4 className="font-medium text-slate-800">Nouveau retrait</h4>
+                                    <p className="text-sm text-slate-600">Retirez vos gains vers votre compte</p>
+                                </div>
+                                <button className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                    Retirer
+                                </button>
                             </div>
-                            <div className="p-6">
-                                <div className="space-y-4">
-                                    {recentNotifications.map((notification) => (
-                                        <div key={notification.id} className={`p-3 rounded-lg ${notification.unread ? 'bg-orange-50 border border-orange-200' : 'bg-slate-50'}`}>
-                                            <h4 className="font-medium text-slate-800 text-sm">{notification.title}</h4>
-                                            <p className="text-xs text-slate-600 mt-1">{notification.message}</p>
-                                            <p className="text-xs text-slate-500 mt-2">{notification.time}</p>
+                            
+                            {/* Historique des retraits */}
+                            <div className="space-y-3">
+                                <h4 className="font-medium text-slate-800">Historique récent</h4>
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-800">45 000 FCFA</p>
+                                            <p className="text-xs text-slate-500">Mobile Money - 12 Nov 2024</p>
                                         </div>
-                                    ))}
+                                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Traité</span>
+                                    </div>
+                                    <div className="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-800">30 000 FCFA</p>
+                                            <p className="text-xs text-slate-500">Virement bancaire - 5 Nov 2024</p>
+                                        </div>
+                                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">En cours</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        {/* Badges & Réputation */}
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200">
-                            <div className="p-6 border-b border-slate-200">
-                                <h2 className="text-lg font-semibold text-slate-800">Mes Badges</h2>
-                            </div>
-                            <div className="p-6">
-                                <div className="space-y-3">
-                                    {badges.map((badge, index) => (
-                                        <div key={index} className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 ${badge.color} rounded-full flex items-center justify-center`}>
-                                                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h4 className="font-medium text-slate-800 text-sm">{badge.name}</h4>
-                                                <p className="text-xs text-slate-600">{badge.description}</p>
-                                            </div>
-                                        </div>
-                                    ))}
+                {/* 5. Badges */}
+                <div className="bg-white rounded-lg border border-slate-200">
+                    <div className="p-4 md:p-6 border-b border-slate-200">
+                        <h2 className="text-lg font-semibold text-slate-800">Badges</h2>
+                        <p className="text-sm text-slate-600 mt-1">Vos accomplissements sur la plateforme</p>
+                    </div>
+                    <div className="p-4 md:p-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {badges.map((badge, index) => (
+                                <div key={index} className="text-center p-4 rounded-lg border border-slate-200 hover:border-orange-300 transition-colors">
+                                    <div className={`w-16 h-16 ${badge.color} rounded-full mx-auto mb-3 flex items-center justify-center`}>
+                                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                    </div>
+                                    <h4 className="font-medium text-slate-800 mb-1">{badge.name}</h4>
+                                    <p className="text-xs text-slate-600">{badge.description}</p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-
-                        {/* Solde rapide */}
-                        <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg p-6 text-white">
-                            <h3 className="font-semibold mb-2">Solde disponible</h3>
-                            <p className="text-2xl font-bold mb-4">{dashboardData.stats.availableBalance.toLocaleString()} FCFA</p>
-                            <button className="bg-white text-orange-600 px-4 py-2 rounded-lg font-medium text-sm hover:bg-orange-50 transition-colors">
-                                Retirer mes gains
+                        <div className="mt-6 text-center">
+                            <p className="text-sm text-slate-600 mb-3">Débloquez plus de badges en complétant des missions et en maintenant une excellente qualité de service</p>
+                            <button className="px-6 py-2 border border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors font-medium">
+                                Voir tous les badges disponibles
                             </button>
                         </div>
                     </div>

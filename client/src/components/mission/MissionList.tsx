@@ -46,7 +46,7 @@ const MissionList = () => {
             }
             
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/missions?status=OPEN', {
+            const response = await fetch('/api/missions', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -419,4 +419,3 @@ const MissionList = () => {
 };
 
 export default MissionList;
-

@@ -5,6 +5,7 @@ import { createSuccessResponse, handleApiError } from '@/lib/utils'
 // GET /api/users - Rechercher des utilisateurs (freelances/clients)
 export async function GET(request: NextRequest) {
   try {
+    console.log('🔍 API /users appelée - Affichage de tous les freelances inscrits');
     const { searchParams } = new URL(request.url)
     const role = searchParams.get('role') // FREELANCE ou CLIENT
     const skills = searchParams.get('skills')?.split(',')
@@ -18,11 +19,8 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    // Construire les filtres
-    const where: Record<string, unknown> = {
-      isActive: true,
-      isEmailVerified: true
-    }
+    // Construire les filtres - Afficher tous les freelances inscrits
+    const where: Record<string, unknown> = {}
 
     if (role && ['FREELANCE', 'CLIENT'].includes(role)) {
       where.role = role
