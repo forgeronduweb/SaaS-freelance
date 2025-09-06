@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connexion MongoDB</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .btn { background: #ff6b35; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin: 10px 5px; }
+        .btn:hover { background: #e55a2b; }
+        .result { margin: 20px 0; padding: 15px; border-radius: 6px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .code { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; margin: 10px 0; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🗄️ Test Connexion MongoDB & Prisma</h1>
+    
+    <div class="info">
+        <p>Cette page teste la connexion à MongoDB et vérifie que Prisma fonctionne correctement.</p>
+    </div>
+    
+    <button class="btn" onclick="testDBConnection()">🔍 Tester la connexion DB</button>
+    <button class="btn" onclick="testUserCount()">👥 Compter les utilisateurs</button>
+    <button class="btn" onclick="testMissionCount()">📋 Compter les missions</button>
+    <button class="btn" onclick="testCreateUser()">➕ Créer un utilisateur test</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function testDBConnection() {
+            showResult('⏳ Test de connexion...', 'info');
+            
+            try {
+                const response = await fetch('/api/test-db');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ Connexion réussie!<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'success');
+                } else {
+                    showResult(`❌ Erreur de connexion: ${result.error}<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Erreur réseau: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testUserCount() {
+            showResult('⏳ Comptage des utilisateurs...', 'info');
+            
+            try {
+                const response = await fetch('/api/users?limit=1');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ ${result.data?.pagination?.total || 0} utilisateurs trouvés<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'success');
+                } else {
+                    showResult(`❌ Erreur: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Erreur: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testMissionCount() {
+            showResult('⏳ Comptage des missions...', 'info');
+            
+            try {
+                const response = await fetch('/api/debug-missions-count');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ ${result.data.totalMissions} missions trouvées<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'success');
+                } else {
+                    showResult(`❌ Erreur: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Erreur: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testCreateUser() {
+            showResult('⏳ Test création utilisateur...', 'info');
+            
+            const testUser = {
+                email: `test-${Date.now()}@example.com`,
+                password: 'testpassword123',
+                fullName: 'Utilisateur Test',
+                role: 'CLIENT'
+            };
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testUser)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ Utilisateur créé avec succès!<br><strong>Email:</strong> ${testUser.email}<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'success');
+                } else {
+                    showResult(`❌ Erreur création: ${result.error}<br><div class="code">${JSON.stringify(result, null, 2)}</div>`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Erreur: ${error.message}`, 'error');
+            }
+        }
+        
+        function showResult(message, type) {
+            const result = document.getElementById('result');
+            result.innerHTML = `<div class="${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

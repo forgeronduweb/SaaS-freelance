@@ -85,6 +85,13 @@ export const getUserFromToken = async (token: string) => {
   return user
 }
 
+export const getUserFromRequest = async (request: NextRequest) => {
+  const token = getTokenFromRequest(request)
+  if (!token) return null
+  
+  return await getUserFromToken(token)
+}
+
 export const requireAuth = async (request: NextRequest) => {
   const token = getTokenFromRequest(request)
   if (!token) {
