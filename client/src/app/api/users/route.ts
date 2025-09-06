@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { requireAuth, requireRole } from '@/lib/auth'
-import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils'
+import { createSuccessResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/users - Rechercher des utilisateurs (freelances/clients)
 export async function GET(request: NextRequest) {

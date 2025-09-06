@@ -39,37 +39,41 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await hashPassword(password)
     const emailVerificationToken = generateVerificationToken()
 
-    // Préparer les données selon le rôle
-    let userData: Record<string, unknown> = {
+    // Préparer les données de base
+    const baseUserData = {
       email,
       password: hashedPassword,
       fullName,
-      phone,
+      phone: phone || null,
       role,
       emailVerificationToken,
     }
 
+    // Préparer les données selon le rôle
+    let userData
     if (role === 'FREELANCE') {
       userData = {
-        ...userData,
-        title: additionalData.title,
-        bio: additionalData.bio,
-        hourlyRate: additionalData.hourlyRate,
-        dailyRate: additionalData.dailyRate,
-        skills: additionalData.skills || [],
-        categories: additionalData.categories || [],
-        portfolio: additionalData.portfolio || [],
-        country: additionalData.country,
-        city: additionalData.city,
+        ...baseUserData,
+        title: additionalData.title || null,
+        bio: additionalData.bio || null,
+        hourlyRate: additionalData.hourlyRate ? Number(additionalData.hourlyRate) : null,
+        dailyRate: additionalData.dailyRate ? Number(additionalData.dailyRate) : null,
+        skills: Array.isArray(additionalData.skills) ? additionalData.skills : [],
+        categories: Array.isArray(additionalData.categories) ? additionalData.categories : [],
+        portfolio: Array.isArray(additionalData.portfolio) ? additionalData.portfolio : [],
+        country: additionalData.country || null,
+        city: additionalData.city || null,
       }
     } else if (role === 'CLIENT') {
       userData = {
-        ...userData,
-        companyName: additionalData.companyName,
-        companySize: additionalData.companySize,
-        sector: additionalData.sector,
-        website: additionalData.website,
+        ...baseUserData,
+        companyName: additionalData.companyName || null,
+        companySize: additionalData.companySize || null,
+        sector: additionalData.sector || null,
+        website: additionalData.website || null,
       }
+    } else {
+      userData = baseUserData
     }
 
     // Créer l'utilisateur

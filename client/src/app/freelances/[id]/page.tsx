@@ -1,11 +1,7 @@
 import FreelanceProfile from '@/components/freelance/FreelanceProfile';
+import { DynamicPageProps } from '@/types/page';
 
-interface FreelanceProfilePageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function FreelanceProfilePage({ params }: FreelanceProfilePageProps) {
-  return <FreelanceProfile freelanceId={params.id} />;
+export default async function FreelanceProfilePage({ params }: DynamicPageProps) {
+  const { id } = await params;
+  return <FreelanceProfile freelanceId={id} />;
 }

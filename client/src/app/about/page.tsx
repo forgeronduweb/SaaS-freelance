@@ -24,7 +24,7 @@ export default function AboutPage() {
                             href="/" 
                             className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
                         >
-                            ← Retour à l'accueil
+                            ← Retour à l&apos;accueil
                         </Link>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default function AboutPage() {
                                 <div>
                                     <h3 className="text-xl font-semibold text-gray-800 mb-3">Pour les clients :</h3>
                                     <ul className="list-disc list-inside text-gray-700 space-y-2">
-                                        <li>Faciliter la recherche et l'embauche de freelances qualifiés</li>
+                                        <li>Faciliter la recherche et l&apos;embauche de freelances qualifiés</li>
                                         <li>Proposer un système de paiement sécurisé</li>
                                         <li>Garantir la livraison des projets</li>
                                     </ul>
@@ -83,7 +83,7 @@ export default function AboutPage() {
                                 <div className="bg-gray-50 p-6 rounded-lg">
                                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Paiements adaptés</h3>
                                     <p className="text-gray-700">
-                                        L'intégration des paiements via Mobile Money, adaptés aux réalités locales africaines.
+                                        L&apos;intégration des paiements via Mobile Money, adaptés aux réalités locales africaines.
                                     </p>
                                 </div>
                                 <div className="bg-gray-50 p-6 rounded-lg">
@@ -101,7 +101,7 @@ export default function AboutPage() {
                                 <div className="bg-gray-50 p-6 rounded-lg">
                                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Impact local</h3>
                                     <p className="text-gray-700">
-                                        Une volonté de valoriser les compétences locales et de contribuer au développement de l'économie numérique africaine.
+                                        Une volonté de valoriser les compétences locales et de contribuer au développement de l&apos;économie numérique africaine.
                                     </p>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@ export default function AboutPage() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-orange-600 mb-4">Notre Vision</h2>
                             <p className="text-gray-700 leading-relaxed mb-4">
-                                Nous croyons en un avenir où les talents africains peuvent accéder aux opportunités mondiales tout en contribuant au développement économique local. AfriLance est plus qu'une plateforme - c'est un pont vers l'autonomisation professionnelle et la croissance économique durable.
+                                Nous croyons en un avenir où les talents africains peuvent accéder aux opportunités mondiales tout en contribuant au développement économique local. AfriLance est plus qu&apos;une plateforme - c&apos;est un pont vers l&apos;autonomisation professionnelle et la croissance économique durable.
                             </p>
                         </section>
                     </div>

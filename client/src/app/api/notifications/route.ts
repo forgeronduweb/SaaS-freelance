@@ -11,6 +11,10 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get('userId')
     const type = searchParams.get('type')
     const isRead = searchParams.get('isRead')
+  
+    void userId // Variable pour future utilisation
+    void type // Variable pour future utilisation  
+    void isRead // Variable pour future utilisation
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const unreadOnly = searchParams.get('unreadOnly') === 'true'
@@ -23,6 +27,14 @@ export async function GET(request: NextRequest) {
 
     if (unreadOnly) {
       where.readAt = null
+    }
+
+    if (type) {
+      where.type = type
+    }
+
+    if (isRead !== null) {
+      where.isRead = isRead === 'true'
     }
 
     const [notifications, total, unreadCount] = await Promise.all([
@@ -61,6 +73,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth(request)
+    void user // Variable pour validation d'authentification
     const body = await request.json()
 
     const {

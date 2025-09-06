@@ -24,7 +24,7 @@ export default function PolitiqueRemboursementPage() {
                             href="/" 
                             className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
                         >
-                            ← Retour à l'accueil
+                            ← Retour à l&apos;accueil
                         </Link>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ export default function PolitiqueRemboursementPage() {
                                     <div>
                                         <h3 className="font-semibold text-gray-800 mb-2">Engagement du client</h3>
                                         <p className="text-gray-700">
-                                            Lorsqu'un client engage un freelance, le montant convenu est déposé sur AfriLance.
+                                            Lorsqu&apos;un client engage un freelance, le montant convenu est déposé sur AfriLance.
                                         </p>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@ export default function PolitiqueRemboursementPage() {
                                     <div>
                                         <h3 className="font-semibold text-gray-800 mb-2">Sécurisation des fonds</h3>
                                         <p className="text-gray-700">
-                                            L'argent reste bloqué jusqu'à la livraison du travail et la validation par le client.
+                                            L&apos;argent reste bloqué jusqu&apos;à la livraison du travail et la validation par le client.
                                         </p>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@ export default function PolitiqueRemboursementPage() {
                                 </div>
                                 <div className="bg-white p-4 rounded border border-red-200">
                                     <p className="text-sm text-gray-600">
-                                        <strong>Exception :</strong> En cas d'erreur technique imputable à la plateforme (ex. double facturation), un remboursement sera effectué.
+                                        <strong>Exception :</strong> En cas d&apos;erreur technique imputable à la plateforme (ex. double facturation), un remboursement sera effectué.
                                     </p>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@ export default function PolitiqueRemboursementPage() {
                                 </div>
                                 <div className="mt-4 p-4 bg-blue-50 rounded border-l-4 border-blue-400">
                                     <p className="text-blue-800 text-sm">
-                                        <strong>Note :</strong> Les remboursements, lorsqu'ils sont validés, sont effectués selon le moyen de paiement utilisé initialement.
+                                        <strong>Note :</strong> Les remboursements, lorsqu&apos;ils sont validés, sont effectués selon le moyen de paiement utilisé initialement.
                                     </p>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ export default function PolitiqueRemboursementPage() {
                                 </p>
                                 <ul className="list-disc list-inside text-gray-700 space-y-1">
                                     <li>Email : support@afrilance.com</li>
-                                    <li>Objet : "Demande de remboursement - [Numéro de mission]"</li>
+                                    <li>Objet : &quot;Demande de remboursement - [Numéro de mission]&quot;</li>
                                     <li>Via le système de messagerie de la plateforme</li>
                                 </ul>
                             </div>

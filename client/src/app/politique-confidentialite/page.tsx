@@ -24,7 +24,7 @@ export default function PolitiqueConfidentialitePage() {
                             href="/" 
                             className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
                         >
-                            ← Retour à l'accueil
+                            ← Retour à l&apos;accueil
                         </Link>
                     </div>
                 </div>
@@ -124,7 +124,7 @@ export default function PolitiqueConfidentialitePage() {
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                                    <p className="text-gray-700">Améliorer l'expérience utilisateur et personnaliser le contenu affiché</p>
+                                    <p className="text-gray-700">Améliorer l&apos;expérience utilisateur et personnaliser le contenu affiché</p>
                                 </div>
                             </div>
                         </section>
@@ -168,7 +168,7 @@ export default function PolitiqueConfidentialitePage() {
                                     </p>
                                 </div>
                                 <p className="text-gray-700 leading-relaxed">
-                                    Les données peuvent être partagées uniquement en cas d'obligation légale (autorités compétentes) ou pour assurer le bon fonctionnement de la plateforme (partenaires techniques sous contrat de confidentialité).
+                                    Les données peuvent être partagées uniquement en cas d&apos;obligation légale (autorités compétentes) ou pour assurer le bon fonctionnement de la plateforme (partenaires techniques sous contrat de confidentialité).
                                 </p>
                             </div>
                         </section>
@@ -180,7 +180,7 @@ export default function PolitiqueConfidentialitePage() {
                             </p>
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div className="bg-blue-50 p-4 rounded-lg">
-                                    <h3 className="font-semibold text-blue-800 mb-2">Droit d'accès</h3>
+                                    <h3 className="font-semibold text-blue-800 mb-2">Droit d&apos;accès</h3>
                                     <p className="text-blue-700 text-sm">Consulter les données que nous détenons sur vous</p>
                                 </div>
                                 <div className="bg-blue-50 p-4 rounded-lg">
@@ -189,10 +189,10 @@ export default function PolitiqueConfidentialitePage() {
                                 </div>
                                 <div className="bg-blue-50 p-4 rounded-lg">
                                     <h3 className="font-semibold text-blue-800 mb-2">Droit de suppression</h3>
-                                    <p className="text-blue-700 text-sm">Demander l'effacement de vos données</p>
+                                    <p className="text-blue-700 text-sm">Demander l&apos;effacement de vos données</p>
                                 </div>
                                 <div className="bg-blue-50 p-4 rounded-lg">
-                                    <h3 className="font-semibold text-blue-800 mb-2">Droit d'opposition</h3>
+                                    <h3 className="font-semibold text-blue-800 mb-2">Droit d&apos;opposition</h3>
                                     <p className="text-blue-700 text-sm">Vous opposer au traitement de vos données</p>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ export default function PolitiqueConfidentialitePage() {
                                     <strong>Comment exercer vos droits :</strong>
                                 </p>
                                 <p className="text-gray-700">
-                                    Vous pouvez exercer ces droits en contactant <strong>support@afrilance.com</strong> avec une pièce d'identité pour vérification.
+                                    Vous pouvez exercer ces droits en contactant <strong>support@afrilance.com</strong> avec une pièce d&apos;identité pour vérification.
                                 </p>
                             </div>
                         </section>
@@ -214,7 +214,7 @@ export default function PolitiqueConfidentialitePage() {
                                 </p>
                                 <ul className="list-disc list-inside text-gray-700 space-y-1">
                                     <li>Email : support@afrilance.com</li>
-                                    <li>Objet : "Protection des données personnelles"</li>
+                                    <li>Objet : &quot;Protection des données personnelles&quot;</li>
                                 </ul>
                             </div>
                         </section>

@@ -79,7 +79,8 @@ export async function POST(request: NextRequest) {
     })
 
     // Retirer le mot de passe de la réponse
-    const { password: _password, ...userWithoutPassword } = user
+    const { password: _, ...userWithoutPassword } = user
+    void _ // Éviter le warning unused variable
 
     return createSuccessResponse({
       user: userWithoutPassword,

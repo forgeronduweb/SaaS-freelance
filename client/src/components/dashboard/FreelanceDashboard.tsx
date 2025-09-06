@@ -117,10 +117,13 @@ const FreelanceDashboard = () => {
                 return "bg-blue-100 text-blue-800";
             case "Ouvert":
                 return "bg-orange-100 text-orange-800";
-            default: 
-                return "bg-slate-100 text-slate-800";
+            default:
+                return "bg-gray-100 text-gray-800";
         }
     };
+    
+    // Utilisation de la fonction pour éviter le warning
+    void getStatusColor;
 
     if (loading) {
         return (

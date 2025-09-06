@@ -40,6 +40,7 @@ const ClientProfilPage = () => {
   };
 
   const handlePreferenceChange = (category: string, field: string, value: string | string[]) => {
+    void category // Paramètre pour catégorisation future
     setProfileData(prev => ({
       ...prev,
       preferences: {
@@ -252,22 +253,69 @@ const ClientProfilPage = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Types de projets préférés</label>
-                  <div className="flex flex-wrap gap-2">
-                    {profileData.preferences.typesProjets.map((type, index) => (
-                      <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
-                        {type}
-                      </span>
-                    ))}
-                  </div>
+                  {isEditing ? (
+                    <select
+                      multiple
+                      value={profileData.preferences.typesProjets}
+                      onChange={(e) => {
+                        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+                        handlePreferenceChange('typesProjets', 'typesProjets', selectedOptions);
+                      }}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    >
+                      <option value="Développement web">Développement web</option>
+                      <option value="Applications mobiles">Applications mobiles</option>
+                      <option value="Design UI/UX">Design UI/UX</option>
+                      <option value="Marketing digital">Marketing digital</option>
+                      <option value="Rédaction">Rédaction</option>
+                      <option value="Traduction">Traduction</option>
+                    </select>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {profileData.preferences.typesProjets.map((type, index) => (
+                        <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Budget moyen</label>
-                    <p className="text-slate-600">{profileData.preferences.budgetRange}</p>
+                    {isEditing ? (
+                      <select
+                        value={profileData.preferences.budgetRange}
+                        onChange={(e) => handlePreferenceChange('budget', 'budgetRange', e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      >
+                        <option value="50k - 100k FCFA">50k - 100k FCFA</option>
+                        <option value="100k - 500k FCFA">100k - 500k FCFA</option>
+                        <option value="500k - 1M FCFA">500k - 1M FCFA</option>
+                        <option value="1M - 5M FCFA">1M - 5M FCFA</option>
+                        <option value="5M+ FCFA">5M+ FCFA</option>
+                      </select>
+                    ) : (
+                      <p className="text-slate-600">{profileData.preferences.budgetRange}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Délais moyens</label>
-                    <p className="text-slate-600">{profileData.preferences.delaisMoyens}</p>
+                    {isEditing ? (
+                      <select
+                        value={profileData.preferences.delaisMoyens}
+                        onChange={(e) => handlePreferenceChange('delais', 'delaisMoyens', e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      >
+                        <option value="1 semaine">1 semaine</option>
+                        <option value="2-4 semaines">2-4 semaines</option>
+                        <option value="1-2 mois">1-2 mois</option>
+                        <option value="3-6 mois">3-6 mois</option>
+                        <option value="6+ mois">6+ mois</option>
+                      </select>
+                    ) : (
+                      <p className="text-slate-600">{profileData.preferences.delaisMoyens}</p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -24,7 +24,7 @@ export default function MentionsLegalesPage() {
                             href="/" 
                             className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
                         >
-                            ← Retour à l'accueil
+                            ← Retour à l&apos;accueil
                         </Link>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export default function MentionsLegalesPage() {
                         </section>
 
                         <section className="mb-8">
-                            <h2 className="text-2xl font-semibold text-red-600 mb-4">Identification de l'éditeur</h2>
+                            <h2 className="text-2xl font-semibold text-red-600 mb-4">Identification de l&apos;éditeur</h2>
                             <div className="bg-gray-50 p-6 rounded-lg space-y-3">
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
@@ -84,9 +84,9 @@ export default function MentionsLegalesPage() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-red-600 mb-4">Hébergement</h2>
                             <div className="bg-gray-50 p-6 rounded-lg">
-                                <p><strong>Hébergeur :</strong> [Nom de l'hébergeur du site, ex. Vercel, Render, OVH]</p>
+                                <p><strong>Hébergeur :</strong> [Nom de l&apos;hébergeur du site, ex. Vercel, Render, OVH]</p>
                                 <p className="text-sm text-gray-600 mt-2">
-                                    Les informations détaillées de l'hébergeur sont disponibles sur demande.
+                                    Les informations détaillées de l&apos;hébergeur sont disponibles sur demande.
                                 </p>
                             </div>
                         </section>
@@ -95,7 +95,7 @@ export default function MentionsLegalesPage() {
                             <h2 className="text-2xl font-semibold text-red-600 mb-4">Propriété intellectuelle</h2>
                             <div className="space-y-4">
                                 <p className="text-gray-700 leading-relaxed">
-                                    L'ensemble des contenus présents sur AfriLance (textes, logos, graphismes, icônes, illustrations, design) est protégé par le droit d'auteur.
+                                    L&apos;ensemble des contenus présents sur AfriLance (textes, logos, graphismes, icônes, illustrations, design) est protégé par le droit d&apos;auteur.
                                 </p>
                                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
                                     <p className="text-gray-700 font-medium">
@@ -103,7 +103,7 @@ export default function MentionsLegalesPage() {
                                     </p>
                                 </div>
                                 <p className="text-gray-700 leading-relaxed">
-                                    Les marques, logos et signes distinctifs reproduits sur le site sont la propriété exclusive d'AfriLance ou font l'objet d'une autorisation d'usage.
+                                    Les marques, logos et signes distinctifs reproduits sur le site sont la propriété exclusive d&apos;AfriLance ou font l&apos;objet d&apos;une autorisation d&apos;usage.
                                 </p>
                             </div>
                         </section>
@@ -112,10 +112,10 @@ export default function MentionsLegalesPage() {
                             <h2 className="text-2xl font-semibold text-red-600 mb-4">Responsabilité</h2>
                             <div className="space-y-4">
                                 <p className="text-gray-700 leading-relaxed">
-                                    AfriLance s'efforce de fournir des informations exactes et à jour. Cependant, nous ne pouvons garantir l'exactitude, la complétude ou l'actualité des informations diffusées.
+                                    AfriLance s&apos;efforce de fournir des informations exactes et à jour. Cependant, nous ne pouvons garantir l&apos;exactitude, la complétude ou l&apos;actualité des informations diffusées.
                                 </p>
                                 <p className="text-gray-700 leading-relaxed">
-                                    L'utilisation des informations et contenus disponibles sur l'ensemble du site ne saurait en aucun cas engager la responsabilité d'AfriLance.
+                                    L&apos;utilisation des informations et contenus disponibles sur l&apos;ensemble du site ne saurait en aucun cas engager la responsabilité d&apos;AfriLance.
                                 </p>
                             </div>
                         </section>

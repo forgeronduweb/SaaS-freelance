@@ -54,7 +54,7 @@ const ClientDashboard = () => {
         } catch (error) {
             console.error('Erreur lors de la récupération des données:', error);
         }
-    }, []);
+    }, [user?.id]);
 
     useEffect(() => {
         if (user) {
