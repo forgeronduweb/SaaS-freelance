@@ -32,12 +32,13 @@ interface MessageCenterProps {
 }
 
 const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
+  const currentUserId = 'me';
+
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showConversationView, setShowConversationView] = useState(false);
 
-  // Données mockées pour les conversations
   const conversations: Conversation[] = [
     {
       id: '1',
@@ -77,12 +78,11 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
     }
   ];
 
-  // Fonction pour formater le temps
   const formatTime = (timeString: string) => {
     const date = new Date(timeString);
     const now = new Date();
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-    
+
     if (diffInHours < 24) {
       return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     } else if (diffInHours < 48) {
@@ -92,24 +92,21 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
     }
   };
 
-  // Filtrer les conversations selon la recherche
   const filteredConversations = conversations.filter(conversation =>
     conversation.participantName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     conversation.lastMessage.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (conversation.projectTitle && conversation.projectTitle.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  // Trouver la conversation sélectionnée
   const selectedConv = conversations.find(conv => conv.id === selectedConversation);
 
-  // Messages pour la conversation sélectionnée
   const messages: Message[] = [
     {
       id: '1',
       senderId: 'client-1',
       senderName: 'Aminata Traoré',
       senderAvatar: '/api/placeholder/40/40',
-      content: 'Bonjour ! J\'ai vu votre profil et je suis très intéressée par vos services pour développer notre application mobile.',
+      content: 'Bonjour ! J\'ai vu votre profil et je suis très intéressée par vos services.',
       timestamp: '2024-01-20T10:00:00Z',
       isRead: true
     },
@@ -118,17 +115,17 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
       senderId: 'me',
       senderName: 'Moi',
       senderAvatar: '/avatars/me.jpg',
-      content: 'Bonjour Fatou ! Merci pour votre intérêt. Pouvez-vous me parler de votre expérience en développement mobile ?',
-      timestamp: '10:45',
+      content: 'Bonjour Fatou ! Merci pour votre intérêt. Pouvez-vous me parler de votre expérience ?',
+      timestamp: '2024-01-20T10:45:00Z',
       isRead: true
     },
     {
       id: '3',
-      senderId: '2',
+      senderId: 'client-1',
       senderName: 'Fatou Sow',
       senderAvatar: '/avatars/fatou.jpg',
-      content: 'J\'ai 5 ans d\'expérience en React Native et Flutter. J\'ai développé plus de 15 applications mobiles pour des clients en Afrique de l\'Ouest.',
-      timestamp: '11:00',
+      content: 'J\'ai 5 ans d\'expérience en React Native et Flutter.',
+      timestamp: '2024-01-20T11:00:00Z',
       isRead: true
     },
     {
@@ -136,512 +133,227 @@ const MessageCenter = ({ userType = 'freelance' }: MessageCenterProps) => {
       senderId: 'me',
       senderName: 'Moi',
       senderAvatar: '/avatars/me.jpg',
-      content: 'Excellent ! Le projet consiste à développer une application de e-commerce. Quel serait votre délai estimé ?',
-      timestamp: '11:15',
+      content: 'Excellent ! Le projet consiste à développer une application de e-commerce.',
+      timestamp: '2024-01-20T11:15:00Z',
       isRead: true
     },
     {
       id: '5',
-      senderId: '2',
+      senderId: 'client-1',
       senderName: 'Fatou Sow',
       senderAvatar: '/avatars/fatou.jpg',
-      content: 'Pour une application complète avec paiement mobile money, je dirais 6-8 semaines. Pouvez-vous me donner plus de détails sur le design ?',
-      timestamp: '12:15',
+      content: 'Pour une application complète avec paiement mobile money, je dirais 6-8 semaines.',
+      timestamp: '2024-01-20T12:15:00Z',
       isRead: false
     }
   ];
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
-      // Ici on ajouterait la logique d'envoi du message
       console.log('Envoi du message:', newMessage);
       setNewMessage('');
     }
   };
 
   return (
-    <DashboardLayout 
-      userType={userType}
-      pageTitle="Messagerie"
-    >
-      <div className="h-full">
-        {/* Mobile: Vue liste des conversations */}
-<<<<<<< HEAD
-        <div className={`md:hidden ${showConversationView ? 'hidden' : 'block'} h-full bg-white`}>
-          {/* Header liste conversations mobile */}
-          <div className="sticky top-0 bg-white border-b border-slate-200 z-10 pt-2">
-            <div className="px-4 py-3">
-              <h2 className="text-lg font-semibold text-slate-800 mb-3">Messages</h2>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Rechercher une conversation..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
-                />
-                <svg className="absolute left-3 top-2.5 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-=======
-        <div className={`md:hidden ${showConversationView ? 'hidden' : 'block'} h-screen bg-white`}>
-          {/* Header liste conversations mobile */}
-          <div className="sticky top-0 bg-white border-b border-slate-200 z-10">
-            <div className="px-4 py-2">
-              <h2 className="text-base font-semibold text-slate-800 mb-2">Messages</h2>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Rechercher..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-4 py-2 bg-slate-50 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
-                />
-                <svg className="absolute left-2.5 top-2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
+    <DashboardLayout userType={userType} pageTitle="Messagerie">
+      <div className="h-screen flex flex-col">
+        {/* Mobile */}
+        <div className={`md:hidden ${showConversationView ? 'hidden' : 'flex flex-col h-screen bg-white'}`}>
+          <div className="sticky top-0 bg-white border-b border-slate-200 z-10 px-4 py-2">
+            <h2 className="text-base font-semibold text-slate-800 mb-2">Messages</h2>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-8 pr-4 py-2 bg-slate-50 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+              />
+              <svg className="absolute left-2.5 top-2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
           </div>
 
-          {/* Liste conversations mobile */}
-<<<<<<< HEAD
-          <div className="overflow-y-auto flex-1 pb-24">
-=======
-          <div className="overflow-y-auto h-full pb-20">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
+          <div className="flex-1 overflow-y-auto">
             {filteredConversations.map((conversation) => (
               <div
                 key={conversation.id}
-                onClick={() => {
-                  setSelectedConversation(conversation.id);
-                  setShowConversationView(true);
-                }}
-<<<<<<< HEAD
-                className="px-4 py-4 border-b border-slate-100 active:bg-slate-50 transition-colors hover:bg-slate-50"
-              >
-                <div className="flex items-center space-x-3">
-=======
+                onClick={() => { setSelectedConversation(conversation.id); setShowConversationView(true); }}
                 className="px-3 py-2 border-b border-slate-100 active:bg-slate-50 transition-colors"
               >
                 <div className="flex items-center space-x-2.5">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
                   <div className="relative flex-shrink-0">
-                    <Image 
-                        src={conversation.participantAvatar} 
-                        alt={conversation.participantName} 
-<<<<<<< HEAD
-                        width={48}
-                        height={48}
-                        className="w-12 h-12 rounded-full object-cover"
-                    />
-                    {conversation.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-semibold text-slate-900 truncate text-base">
-=======
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-full object-cover"
-                    />
-                    {conversation.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                    )}
+                    <Image src={conversation.participantAvatar} alt={conversation.participantName} width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+                    {conversation.isOnline && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
-                      <h3 className="font-medium text-slate-900 truncate text-sm">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                        {conversation.participantName}
-                      </h3>
-                      <span className="text-xs text-slate-500 flex-shrink-0 ml-2">
-                        {formatTime(conversation.lastMessageTime)}
-                      </span>
+                      <h3 className="font-medium text-slate-900 truncate text-sm">{conversation.participantName}</h3>
+                      <span className="text-xs text-slate-500 flex-shrink-0 ml-2">{formatTime(conversation.lastMessageTime)}</span>
                     </div>
-                    {conversation.projectTitle && (
-<<<<<<< HEAD
-                      <p className="text-sm text-orange-600 mb-1 truncate font-medium">
-                        📋 {conversation.projectTitle}
-                      </p>
-                    )}
-                    <p className="text-sm text-slate-600 truncate leading-5">
-=======
-                      <p className="text-xs text-orange-600 mb-0.5 truncate">
-                        {conversation.projectTitle}
-                      </p>
-                    )}
-                    <p className="text-xs text-slate-600 truncate leading-4">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                      {conversation.lastMessage}
-                    </p>
+                    {conversation.projectTitle && <p className="text-xs text-orange-600 mb-0.5 truncate">{conversation.projectTitle}</p>}
+                    <p className="text-xs text-slate-600 truncate leading-4">{conversation.lastMessage}</p>
                   </div>
-                  {conversation.unreadCount > 0 && (
-<<<<<<< HEAD
-                    <div className="bg-orange-600 text-white text-xs rounded-full min-w-[20px] h-5 flex items-center justify-center px-2 flex-shrink-0 font-medium">
-=======
-                    <div className="bg-orange-600 text-white text-xs rounded-full min-w-[18px] h-4 flex items-center justify-center px-1 flex-shrink-0">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                      {conversation.unreadCount}
-                    </div>
-                  )}
+                  {conversation.unreadCount > 0 && <div className="bg-orange-600 text-white text-xs rounded-full min-w-[18px] h-4 flex items-center justify-center px-1 flex-shrink-0">{conversation.unreadCount}</div>}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Mobile: Vue conversation */}
-<<<<<<< HEAD
-        <div className={`md:hidden ${showConversationView ? 'block' : 'hidden'} h-full bg-white flex flex-col`}>
+        {/* Mobile conversation view */}
+        <div className={`md:hidden ${showConversationView ? 'flex flex-col h-screen bg-white' : 'hidden'}`}>
           {selectedConv && (
             <>
-              {/* Header conversation mobile */}
-              <div className="sticky top-0 bg-white border-b border-slate-200 z-10 pt-2">
-                <div className="flex items-center px-4 py-3">
-                  <button
-                    onClick={() => setShowConversationView(false)}
-                    className="p-2 mr-3 text-slate-600 hover:text-orange-600 transition-colors rounded-full hover:bg-slate-100"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-=======
-        <div className={`md:hidden ${showConversationView ? 'block' : 'hidden'} h-screen bg-white flex flex-col`}>
-          {selectedConv && (
-            <>
-              {/* Header conversation mobile */}
-              <div className="sticky top-0 bg-white border-b border-slate-200 z-10">
-                <div className="flex items-center px-2 py-1.5">
-                  <button
-                    onClick={() => setShowConversationView(false)}
-                    className="p-1.5 mr-1.5 text-slate-600 hover:text-orange-600 transition-colors rounded-full hover:bg-slate-100"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <div className="relative flex-shrink-0">
-                    <Image 
-                        src={selectedConv.participantAvatar} 
-                        alt={selectedConv.participantName} 
-                        width={40}
-                        height={40}
-<<<<<<< HEAD
-                        className="w-10 h-10 rounded-full object-cover"
-                    />
-                    {selectedConv.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                    )}
-                  </div>
-                  <div className="flex-1 ml-3 min-w-0">
-                    <h2 className="font-semibold text-slate-900 truncate text-base">{selectedConv.participantName}</h2>
-                    <div className="flex items-center text-sm text-slate-500">
-                      <span className="flex items-center">
-                        <div className={`w-2 h-2 rounded-full mr-2 ${selectedConv.isOnline ? 'bg-green-500' : 'bg-slate-400'}`}></div>
-                        {selectedConv.isOnline ? 'En ligne' : 'Hors ligne'}
-                      </span>
-                      {selectedConv.projectTitle && (
-                        <>
-                          <span className="mx-2">•</span>
-                          <span className="text-orange-600 truncate font-medium">📋 {selectedConv.projectTitle}</span>
-=======
-                        className="w-8 h-8 rounded-full object-cover"
-                    />
-                    {selectedConv.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></div>
-                    )}
-                  </div>
-                  <div className="flex-1 ml-2 min-w-0">
-                    <h2 className="font-medium text-slate-900 truncate text-xs">{selectedConv.participantName}</h2>
-                    <div className="flex items-center text-xs text-slate-500">
-                      <span className="text-xs">{selectedConv.isOnline ? 'En ligne' : 'Hors ligne'}</span>
-                      {selectedConv.projectTitle && (
-                        <>
-                          <span className="mx-1">•</span>
-                          <span className="text-orange-600 truncate text-xs">{selectedConv.projectTitle}</span>
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                        </>
-                      )}
-                    </div>
+              <div className="sticky top-0 bg-white border-b border-slate-200 z-10 px-2 py-1.5 flex items-center">
+                <button onClick={() => setShowConversationView(false)} className="p-1.5 mr-1.5 text-slate-600 hover:text-orange-600 transition-colors rounded-full hover:bg-slate-100">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div className="relative flex-shrink-0">
+                  <Image src={selectedConv.participantAvatar} alt={selectedConv.participantName} width={40} height={40} className="w-8 h-8 rounded-full object-cover" />
+                  {selectedConv.isOnline && <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></div>}
+                </div>
+                <div className="flex-1 ml-2 min-w-0">
+                  <h2 className="font-medium text-slate-900 truncate text-xs">{selectedConv.participantName}</h2>
+                  <div className="flex items-center text-xs text-slate-500">
+                    <span>{selectedConv.isOnline ? 'En ligne' : 'Hors ligne'}</span>
+                    {selectedConv.projectTitle && <><span className="mx-1">•</span><span className="text-orange-600 truncate text-xs">{selectedConv.projectTitle}</span></>}
                   </div>
                 </div>
               </div>
 
-              {/* Messages mobile */}
-<<<<<<< HEAD
-              <div className="flex-1 overflow-y-auto px-4 py-4 bg-slate-50">
-                <div className="space-y-4">
-=======
-              <div className="flex-1 overflow-y-auto px-3 py-2 pb-4 bg-slate-50">
-                <div className="space-y-2">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.senderId === 'current-user' ? 'justify-end' : 'justify-start'}`}
-                    >
-<<<<<<< HEAD
-                      <div className={`max-w-[85%] px-4 py-3 rounded-2xl ${
-                        message.senderId === 'current-user'
-                          ? 'bg-orange-600 text-white rounded-br-md'
-                          : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md shadow-sm'
-                      }`}>
-                        <p className="text-sm leading-6">{message.content}</p>
-                        <p className={`text-xs mt-2 ${
-=======
-                      <div className={`max-w-[280px] px-3 py-2 rounded-2xl ${
-                        message.senderId === 'current-user'
-                          ? 'bg-orange-600 text-white rounded-br-md'
-                          : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'
-                      }`}>
-                        <p className="text-sm leading-5">{message.content}</p>
-                        <p className={`text-xs mt-1 ${
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                          message.senderId === 'current-user' ? 'text-orange-100' : 'text-slate-400'
-                        }`}>
-                          {formatTime(message.timestamp)}
-                        </p>
-                      </div>
+              <div className="flex-1 overflow-y-auto px-3 py-2 pb-4 bg-slate-50 space-y-2">
+                {messages.map((message) => (
+                  <div key={message.id} className={`flex ${message.senderId === currentUserId ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[280px] px-3 py-2 rounded-2xl ${message.senderId === currentUserId ? 'bg-orange-600 text-white rounded-br-md' : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'}`}>
+                      <p className="text-sm leading-5">{message.content}</p>
+                      <p className={`text-xs mt-1 ${message.senderId === currentUserId ? 'text-orange-100' : 'text-slate-400'}`}>{formatTime(message.timestamp)}</p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
 
-              {/* Zone de saisie mobile */}
-<<<<<<< HEAD
-              <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 pb-6 z-10">
-                <div className="flex items-end space-x-3">
-=======
-              <div className="sticky bottom-0 bg-white border-t border-slate-200 p-3 z-10">
-                <div className="flex items-end space-x-2">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                  <div className="flex-1 relative">
-                    <input
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-<<<<<<< HEAD
-                      placeholder="Tapez votre message..."
-                      className="w-full px-4 py-3 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
-=======
-                      placeholder="Message..."
-                      className="w-full px-4 py-2.5 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          handleSendMessage();
-                        }
-                      }}
-                    />
-                  </div>
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!newMessage.trim()}
-<<<<<<< HEAD
-                    className="bg-orange-600 text-white p-3 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 shadow-lg"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-=======
-                    className="bg-orange-600 text-white p-2.5 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
->>>>>>> be9aabde0c29b71f2a94406aab22b023aa80b427
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                  </button>
-                </div>
+              <div className="sticky bottom-0 bg-white border-t border-slate-200 p-3 flex items-end space-x-2 z-10">
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Message..."
+                  className="flex-1 px-4 py-2.5 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+                  onKeyPress={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSendMessage(); } }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!newMessage.trim()}
+                  className="bg-orange-600 text-white p-2.5 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
               </div>
             </>
           )}
         </div>
 
-        {/* Desktop: Vue classique */}
-        <div className="hidden md:block">
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden" style={{ height: 'calc(100vh - 12rem)' }}>
-            <div className="flex h-full">
-              {/* Liste des conversations desktop */}
-              <div className="w-1/3 border-r border-slate-200 flex flex-col">
-                {/* Header */}
-                <div className="p-4 border-b border-slate-200">
-                  <h2 className="text-lg font-semibold text-slate-800 mb-3">Conversations</h2>
+        {/* Desktop */}
+        <div className="hidden md:flex h-screen">
+          {/* Conversations list */}
+          <div className="w-1/3 border-r border-slate-200 flex flex-col">
+            <div className="p-4 border-b border-slate-200">
+              <h2 className="text-lg font-semibold text-slate-800 mb-3">Conversations</h2>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                />
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {filteredConversations.map((conversation) => (
+                <div
+                  key={conversation.id}
+                  onClick={() => setSelectedConversation(conversation.id)}
+                  className={`p-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 ${selectedConversation === conversation.id ? 'bg-orange-50 border-orange-200' : ''}`}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className="relative">
+                      <Image src={conversation.participantAvatar} alt={conversation.participantName} width={40} height={40} className="w-12 h-12 rounded-full object-cover" />
+                      {conversation.isOnline && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-medium text-slate-800 truncate">{conversation.participantName}</h3>
+                        <span className="text-xs text-slate-500">{formatTime(conversation.lastMessageTime)}</span>
+                      </div>
+                      {conversation.projectTitle && <p className="text-xs text-orange-600 mb-1 truncate">{conversation.projectTitle}</p>}
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-slate-500 truncate">{conversation.lastMessage}</p>
+                        {conversation.unreadCount > 0 && <span className="bg-orange-600 text-white text-xs rounded-full px-2 py-0.5 ml-2">{conversation.unreadCount}</span>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Messages panel */}
+          <div className="flex-1 flex flex-col">
+            {selectedConv ? (
+              <>
+                <div className="sticky top-0 bg-white border-b border-slate-200 z-10 px-4 py-3 flex items-center space-x-3">
                   <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Rechercher une conversation..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    />
-                    <svg className="absolute left-3 top-2.5 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                    <Image src={selectedConv.participantAvatar} alt={selectedConv.participantName} width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+                    {selectedConv.isOnline && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>}
+                  </div>
+                  <div>
+                    <h2 className="font-medium text-slate-900">{selectedConv.participantName}</h2>
+                    <p className="text-xs text-slate-500">{selectedConv.isOnline ? 'En ligne' : 'Hors ligne'}</p>
                   </div>
                 </div>
 
-                {/* Liste des conversations desktop */}
-                <div className="flex-1 overflow-y-auto">
-                  {filteredConversations.map((conversation) => (
-                    <div
-                      key={conversation.id}
-                      onClick={() => setSelectedConversation(conversation.id)}
-                      className={`p-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors ${
-                        selectedConversation === conversation.id ? 'bg-orange-50 border-orange-200' : ''
-                      }`}
-                    >
-                      <div className="flex items-start space-x-3">
-                        <div className="relative">
-                          <Image 
-                              src={conversation.participantAvatar} 
-                              alt={conversation.participantName} 
-                              width={40}
-                              height={40}
-                              className="w-12 h-12 rounded-full object-cover"
-                          />
-                          {conversation.isOnline && (
-                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-1">
-                            <h3 className="font-medium text-slate-800 truncate">
-                              {conversation.participantName}
-                            </h3>
-                            <span className="text-xs text-slate-500">
-                              {formatTime(conversation.lastMessageTime)}
-                            </span>
-                          </div>
-                          {conversation.projectTitle && (
-                            <p className="text-xs text-orange-600 mb-1 truncate">
-                              {conversation.projectTitle}
-                            </p>
-                          )}
-                          <div className="flex items-center justify-between">
-                            <p className="text-sm text-slate-600 truncate">
-                              {conversation.lastMessage}
-                            </p>
-                            {conversation.unreadCount > 0 && (
-                              <span className="bg-orange-600 text-white text-xs rounded-full px-2 py-1 ml-2">
-                                {conversation.unreadCount}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-slate-50">
+                  {messages.map((message) => (
+                    <div key={message.id} className={`flex ${message.senderId === currentUserId ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-lg px-3 py-2 rounded-2xl ${message.senderId === currentUserId ? 'bg-orange-600 text-white rounded-br-md' : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'}`}>
+                        <p className="text-sm leading-5">{message.content}</p>
+                        <p className={`text-xs mt-1 ${message.senderId === currentUserId ? 'text-orange-100' : 'text-slate-400'}`}>{formatTime(message.timestamp)}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
 
-              {/* Zone de conversation desktop */}
-              <div className="flex-1 flex flex-col">
-                {selectedConv ? (
-                  <>
-                    {/* Header de la conversation desktop */}
-                    <div className="p-4 border-b border-slate-200 bg-white">
-                      <div className="flex items-center space-x-3">
-                        <div className="relative">
-                          <Image 
-                              src={selectedConv.participantAvatar} 
-                              alt={selectedConv.participantName} 
-                              width={40}
-                              height={40}
-                              className="w-10 h-10 rounded-full object-cover"
-                          />
-                          {selectedConv.isOnline && (
-                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                          )}
-                        </div>
-                        <div>
-                          <h2 className="font-medium text-slate-800">{selectedConv.participantName}</h2>
-                          <p className="text-sm text-slate-600">
-                            {selectedConv.isOnline ? 'En ligne' : 'Hors ligne'} • {selectedConv.participantType === 'client' ? 'Client' : 'Freelance'}
-                          </p>
-                          {selectedConv.projectTitle && (
-                            <p className="text-xs text-orange-600">{selectedConv.projectTitle}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Messages desktop */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                      {messages.map((message) => (
-                        <div
-                          key={message.id}
-                          className={`flex ${message.senderId === 'current-user' ? 'justify-end' : 'justify-start'}`}
-                        >
-                          <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${
-                            message.senderId === 'current-user' ? 'flex-row-reverse space-x-reverse' : ''
-                          }`}>
-                            <Image 
-                                src={message.senderAvatar} 
-                                alt={message.senderName} 
-                                width={32}
-                                height={32}
-                                className="w-8 h-8 rounded-full object-cover"
-                            />
-                            <div>
-                              <div className={`px-4 py-2 rounded-lg ${
-                                message.senderId === 'current-user'
-                                  ? 'bg-orange-600 text-white'
-                                  : 'bg-slate-100 text-slate-800'
-                              }`}>
-                                <p className="text-sm">{message.content}</p>
-                              </div>
-                              <p className="text-xs text-slate-500 mt-1">
-                                {formatTime(message.timestamp)}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Zone de saisie desktop */}
-                    <div className="p-4 border-t border-slate-200 bg-white">
-                      <div className="flex items-end space-x-3">
-                        <div className="flex-1">
-                          <textarea
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            placeholder="Tapez votre message..."
-                            rows={2}
-                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
-                            onKeyPress={(e) => {
-                              if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSendMessage();
-                              }
-                            }}
-                          />
-                        </div>
-                        <button
-                          onClick={handleSendMessage}
-                          disabled={!newMessage.trim()}
-                          className="bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex-1 flex items-center justify-center bg-slate-50">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                      <h3 className="text-lg font-medium text-slate-800 mb-2">Sélectionnez une conversation</h3>
-                      <p className="text-slate-600">Choisissez une conversation dans la liste pour commencer à échanger</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+                <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 flex items-center space-x-2 z-10">
+                  <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Message..."
+                    className="flex-1 px-4 py-2.5 bg-slate-100 border-0 rounded-full text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors"
+                    onKeyPress={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSendMessage(); } }}
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!newMessage.trim()}
+                    className="bg-orange-600 text-white p-2.5 rounded-full hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex-1 flex items-center justify-center text-slate-400">Sélectionnez une conversation</div>
+            )}
           </div>
         </div>
       </div>
