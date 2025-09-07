@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { requireRole, getUserFromRequest } from '@/lib/auth'
+import { getUserFromRequest } from '@/lib/auth'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/missions - Récupérer toutes les missions avec filtres
@@ -16,27 +16,19 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'OPEN'
     const isUrgent = searchParams.get('isUrgent') === 'true'
     const search = searchParams.get('search')
-
     const skip = (page - 1) * limit
     const clientId = searchParams.get('clientId')
 
-    // Construire les filtres
-    const where: Record<string, unknown> = {}
-    
-    // Si clientId est spécifié, filtrer par client (pour "Mes Missions")
-    if (clientId) {
-      where.clientId = clientId
-    } else {
-      // Sinon, filtrer par status pour les missions publiques
-      where.status = status
-    }
-
+    // Construire les filtres avec typage approprié
+    const where: any = {}
+    if (clientId) where.clientId = clientId
+    else where.status = status
     if (category) where.category = category
     if (skills) where.skills = { hasSome: skills }
     if (minBudget || maxBudget) {
       where.budget = {}
-      if (minBudget) (where.budget as Record<string, unknown>).gte = parseFloat(minBudget)
-      if (maxBudget) (where.budget as Record<string, unknown>).lte = parseFloat(maxBudget)
+      if (minBudget) where.budget.gte = parseFloat(minBudget)
+      if (maxBudget) where.budget.lte = parseFloat(maxBudget)
     }
     if (isUrgent) where.isUrgent = true
     if (search) {
@@ -67,9 +59,7 @@ export async function GET(request: NextRequest) {
             }
           },
           _count: {
-            select: {
-              applications: true
-            }
+            select: { applications: true }
           }
         }
       }),
@@ -86,7 +76,7 @@ export async function GET(request: NextRequest) {
       }
     })
 
-  } catch (error) {
+  } catch (error: unknown) {
     return handleApiError(error)
   }
 }
@@ -94,123 +84,59 @@ export async function GET(request: NextRequest) {
 // POST /api/missions - Créer une nouvelle mission (clients seulement)
 export async function POST(request: NextRequest) {
   try {
-    console.log('🔍 API POST /missions appelée');
-    
-    // Authentification simplifiée
-    let user;
+    let user
     try {
-      user = await getUserFromRequest(request);
-      if (!user) {
-        throw new Error('Token manquant ou invalide');
-      }
-      if (user.role !== 'CLIENT') {
-        throw new Error('Seuls les clients peuvent créer des missions');
-      }
-      console.log('✅ Client authentifié:', user.fullName, 'ID:', user.id);
-    } catch (authError: any) {
-      console.log('❌ Erreur d\'authentification:', authError.message);
-      return Response.json({
-        success: false,
-        error: `Erreur d'authentification: ${authError.message}`
-      }, { status: 401 });
+      user = await getUserFromRequest(request)
+      if (!user) throw new Error('Token manquant ou invalide')
+      if (user.role !== 'CLIENT') throw new Error('Seuls les clients peuvent créer des missions')
+    } catch (authError: unknown) {
+      const message = authError instanceof Error ? authError.message : 'Erreur d\'authentification'
+      return Response.json({ success: false, error: `Erreur d'authentification: ${message}` }, { status: 401 })
     }
-    
-    const body = await request.json()
-    console.log('📝 Données reçues:', body);
 
+    const body = await request.json()
     const {
-      title,
-      description,
-      category,
-      skills,
-      budget,
-      deadline,
-      isUrgent,
-      requirements,
-      deliverables,
-      estimatedDuration,
-      experienceLevel,
-      location,
-      isRemote,
-      attachments
+      title, description, category, skills, budget, deadline,
+      isUrgent, requirements, deliverables, estimatedDuration,
+      experienceLevel, location, isRemote, attachments
     } = body
 
-    // Validation des champs obligatoires
-    if (!title || !description || !category || !budget || !deadline) {
+    if (!title || !description || !category || !budget || !deadline)
       return createErrorResponse('Tous les champs obligatoires doivent être remplis', 400)
-    }
 
-    if (budget <= 0) {
-      return createErrorResponse('Le budget doit être supérieur à 0', 400)
-    }
+    if (budget <= 0) return createErrorResponse('Le budget doit être supérieur à 0', 400)
 
-    let deadlineDate;
+    let deadlineDate: Date
     try {
-      const dateStr = deadline.includes('T') ? deadline.split('T')[0] : deadline;
-      deadlineDate = new Date(dateStr + 'T00:00:00.000Z');
-      
-      if (isNaN(deadlineDate.getTime()) || deadlineDate.getFullYear() < 2024 || deadlineDate.getFullYear() > 2030) {
-        throw new Error('Date invalide');
-      }
-    } catch (error) {
-      return Response.json({
-        success: false,
-        error: 'Format de date invalide'
-      }, { status: 400 });
+      const dateStr = deadline.includes('T') ? deadline.split('T')[0] : deadline
+      deadlineDate = new Date(dateStr + 'T00:00:00.000Z')
+      if (isNaN(deadlineDate.getTime()) || deadlineDate.getFullYear() < 2024 || deadlineDate.getFullYear() > 2030)
+        throw new Error('Date invalide')
+    } catch {
+      return createErrorResponse('Format de date invalide', 400)
     }
 
-    // Créer la mission
     const mission = await prisma.mission.create({
       data: {
-        title,
-        description,
-        category,
-        skills: skills || [],
-        budget,
-        deadline: deadlineDate,
-        isUrgent: isUrgent || false,
-        requirements,
-        deliverables,
-        estimatedDuration,
-        experienceLevel,
-        location,
-        isRemote: isRemote !== false,
-        attachments: attachments || [],
+        title, description, category, skills: skills || [], budget, deadline: deadlineDate,
+        isUrgent: isUrgent || false, requirements, deliverables, estimatedDuration,
+        experienceLevel, location, isRemote: isRemote !== false, attachments: attachments || [],
         clientId: user.id,
       },
       include: {
-        client: {
-          select: {
-            id: true,
-            fullName: true,
-            companyName: true,
-            companyLogo: true,
-          }
-        }
+        client: { select: { id: true, fullName: true, companyName: true, companyLogo: true } }
       }
     })
 
-    // Mettre à jour le compteur de missions publiées du client
     await prisma.user.update({
       where: { id: user.id },
-      data: {
-        totalProjectsPublished: {
-          increment: 1
-        }
-      }
+      data: { totalProjectsPublished: { increment: 1 } }
     })
 
-    return createSuccessResponse({
-      mission,
-      message: 'Mission créée avec succès'
-    })
+    return createSuccessResponse({ mission, message: 'Mission créée avec succès' })
 
-  } catch (error: any) {
-    console.error('Erreur lors de la création de mission:', error);
-    return Response.json({
-      success: false,
-      error: error.message || 'Erreur interne du serveur'
-    }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Erreur interne du serveur'
+    return Response.json({ success: false, error: message }, { status: 500 })
   }
 }
-

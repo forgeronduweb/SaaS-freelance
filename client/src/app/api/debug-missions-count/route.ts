@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // GET /api/debug-missions-count - Compter les missions en base
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const totalMissions = await prisma.mission.count()
     

@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // POST /api/fix-freelance - Corriger le problème d'email
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Corriger l'email de freelance1@gmail.com
     const updatedUser = await prisma.user.update({

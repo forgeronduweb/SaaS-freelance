@@ -1,9 +1,8 @@
-import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { createSuccessResponse, handleApiError } from '@/lib/utils'
 
 // GET /api/debug-freelances - Diagnostic des freelances
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // 1. Compter tous les freelances
     const totalFreelances = await prisma.user.count({
@@ -73,15 +72,17 @@ export async function GET(request: NextRequest) {
       },
       allFreelances,
       visibleFreelances,
-      issues: allFreelances.filter(f => !f.isActive || !f.isEmailVerified).map(f => ({
-        id: f.id,
-        name: f.fullName,
-        email: f.email,
-        problems: [
-          !f.isActive && 'Compte inactif',
-          !f.isEmailVerified && 'Email non vérifié'
-        ].filter(Boolean)
-      }))
+      issues: allFreelances
+        .filter(f => !f.isActive || !f.isEmailVerified)
+        .map(f => ({
+          id: f.id,
+          name: f.fullName,
+          email: f.email,
+          problems: [
+            !f.isActive && 'Compte inactif',
+            !f.isEmailVerified && 'Email non vérifié'
+          ].filter(Boolean)
+        }))
     })
 
   } catch (error) {

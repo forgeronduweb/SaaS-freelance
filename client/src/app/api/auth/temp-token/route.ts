@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { generateToken } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
@@ -6,14 +6,14 @@ import { prisma } from '@/lib/prisma'
 export async function POST(request: NextRequest) {
   try {
     const { email, tempAuth } = await request.json()
-    
+
     if (!tempAuth) {
-      return Response.json({
-        success: false,
-        error: 'Cette API est réservée aux tests'
-      }, { status: 400 })
+      return NextResponse.json(
+        { success: false, error: 'Cette API est réservée aux tests' },
+        { status: 400 }
+      )
     }
-    
+
     // Récupérer l'utilisateur par email
     const user = await prisma.user.findUnique({
       where: { email },
@@ -22,25 +22,25 @@ export async function POST(request: NextRequest) {
         email: true,
         fullName: true,
         role: true,
-        isActive: true
-      }
+        isActive: true,
+      },
     })
-    
+
     if (!user) {
-      return Response.json({
-        success: false,
-        error: 'Utilisateur non trouvé'
-      }, { status: 404 })
+      return NextResponse.json(
+        { success: false, error: 'Utilisateur non trouvé' },
+        { status: 404 }
+      )
     }
-    
+
     // Générer un token temporaire
     const token = generateToken({
       userId: user.id,
       email: user.email,
-      role: user.role
+      role: user.role,
     })
-    
-    return Response.json({
+
+    return NextResponse.json({
       success: true,
       data: {
         token,
@@ -48,17 +48,15 @@ export async function POST(request: NextRequest) {
           id: user.id,
           fullName: user.fullName,
           email: user.email,
-          role: user.role
+          role: user.role,
         },
-        message: 'Token temporaire créé pour les tests'
-      }
+        message: 'Token temporaire créé pour les tests',
+      },
     })
-    
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Erreur création token temporaire:', error)
-    return Response.json({
-      success: false,
-      error: error.message
-    }, { status: 500 })
+    // Vérifier si error est un objet avec message
+    const message = error instanceof Error ? error.message : 'Erreur serveur'
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

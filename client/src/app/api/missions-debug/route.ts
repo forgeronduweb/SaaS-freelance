@@ -6,73 +6,61 @@ import { getTokenFromRequest, getUserFromToken } from '@/lib/auth'
 export async function POST(request: NextRequest) {
   try {
     console.log('🔍 API POST /missions-debug appelée');
-    
+
     // Récupérer le token
-    const token = getTokenFromRequest(request);
-    console.log('🔑 Token présent:', !!token);
-    
+    const token = getTokenFromRequest(request)
+    console.log('🔑 Token présent:', !!token)
+
     if (!token) {
-      return Response.json({
-        success: false,
-        error: 'Token manquant'
-      }, { status: 401 });
+      return Response.json({ success: false, error: 'Token manquant' }, { status: 401 })
     }
-    
+
     // Récupérer l'utilisateur
-    const user = await getUserFromToken(token);
-    console.log('👤 Utilisateur trouvé:', user ? `${user.fullName} (${user.role})` : 'Aucun');
-    
+    const user = await getUserFromToken(token)
+    console.log('👤 Utilisateur trouvé:', user ? `${user.fullName} (${user.role})` : 'Aucun')
+
     if (!user) {
       return Response.json({
         success: false,
         error: 'Token invalide ou utilisateur non trouvé'
-      }, { status: 401 });
+      }, { status: 401 })
     }
-    
-    const body = await request.json();
-    console.log('📝 Données reçues:', body);
-    
-    const {
-      title,
-      description,
-      category,
-      skills,
-      budget,
-      deadline,
-      status = 'OPEN'
-    } = body;
-    
+
+    const body = await request.json()
+    console.log('📝 Données reçues:', body)
+
+    const { title, description, category, skills, budget, deadline, status = 'OPEN' } = body
+
     // Mapper le statut vers les valeurs Prisma valides
-    const validStatus = status === 'draft' ? 'OPEN' : status.toUpperCase();
-    
+    const validStatus = status === 'draft' ? 'OPEN' : status.toUpperCase()
+
     // Validation basique
     if (!title || !description || !category || !budget || !deadline) {
       return Response.json({
         success: false,
         error: 'Champs obligatoires manquants'
-      }, { status: 400 });
+      }, { status: 400 })
     }
-    
+
     // Valider et formater la date
-    let deadlineDate;
+    let deadlineDate: Date
     try {
-      // Forcer le format correct de la date
-      const dateStr = deadline.includes('T') ? deadline.split('T')[0] : deadline;
-      deadlineDate = new Date(dateStr + 'T00:00:00.000Z');
-      
+      const dateStr = deadline.includes('T') ? deadline.split('T')[0] : deadline
+      deadlineDate = new Date(dateStr + 'T00:00:00.000Z')
       if (isNaN(deadlineDate.getTime()) || deadlineDate.getFullYear() < 2024 || deadlineDate.getFullYear() > 2030) {
-        throw new Error('Date invalide');
+        throw new Error('Date invalide')
       }
-    } catch (error) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erreur de format de date'
       return Response.json({
         success: false,
-        error: `Format de date invalide: ${deadline}`
-      }, { status: 400 });
+        error: `Format de date invalide: ${message}`
+      }, { status: 400 })
     }
-    
-    console.log('📅 Date deadline formatée:', deadlineDate.toISOString());
-    console.log('📊 Statut mappé:', validStatus);
-    
+
+    console.log('📅 Date deadline formatée:', deadlineDate.toISOString())
+    console.log('📊 Statut mappé:', validStatus)
+
     // Créer la mission sans restriction de rôle pour le debug
     const mission = await prisma.mission.create({
       data: {
@@ -97,23 +85,18 @@ export async function POST(request: NextRequest) {
           }
         }
       }
-    });
-    
-    console.log('✅ Mission créée:', mission.title);
-    
+    })
+
+    console.log('✅ Mission créée:', mission.title)
+
     return Response.json({
       success: true,
-      data: {
-        mission,
-        message: 'Mission créée avec succès'
-      }
-    });
-    
-  } catch (error: any) {
-    console.error('❌ Erreur:', error);
-    return Response.json({
-      success: false,
-      error: error.message
-    }, { status: 500 });
+      data: { mission, message: 'Mission créée avec succès' }
+    })
+
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Erreur interne du serveur'
+    console.error('❌ Erreur:', message)
+    return Response.json({ success: false, error: message }, { status: 500 })
   }
 }

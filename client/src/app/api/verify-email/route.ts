@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       where: { email },
       data: { 
         isEmailVerified: true,
-        emailVerificationToken: null // Nettoyer le token si présent
+        emailVerificationToken: null
       },
       select: {
         id: true,
@@ -36,14 +36,15 @@ export async function POST(request: NextRequest) {
       user: updatedUser
     })
 
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as { code?: string; message?: string }
     if (error.code === 'P2025') {
       return Response.json(
         { success: false, error: 'Utilisateur non trouvé' },
         { status: 404 }
       )
     }
-    return handleApiError(error)
+    return handleApiError(err)
   }
 }
 
@@ -82,7 +83,7 @@ export async function GET(request: NextRequest) {
 
     return createSuccessResponse({ user })
 
-  } catch (error) {
-    return handleApiError(error)
+  } catch (err: unknown) {
+    return handleApiError(err)
   }
 }
