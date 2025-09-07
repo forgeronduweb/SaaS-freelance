@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 
 interface Transaction {
@@ -410,9 +411,11 @@ const ClientPayments = () => {
                       <div className="mt-3 p-3 bg-slate-50 rounded-lg">
                         <p className="text-sm text-slate-600 mb-1">Freelance assigné</p>
                         <div className="flex items-center gap-2">
-                          <img
+                          <Image
                             src={transaction.freelancer.avatar}
                             alt={transaction.freelancer.name}
+                            width={24}
+                            height={24}
                             className="w-6 h-6 rounded-full object-cover"
                           />
                           <span className="font-medium text-slate-800">{transaction.freelancer.name}</span>
