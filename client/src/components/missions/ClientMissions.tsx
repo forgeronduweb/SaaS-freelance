@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -211,7 +212,7 @@ const ClientMissions = () => {
         console.log('Réponse brute:', responseText);
         
         let errorMessage = `Erreur HTTP ${response.status}`;
-        let errorData: any = {};
+        let errorData: { error?: string } = {};
         
         try {
           if (responseText) {
@@ -326,7 +327,7 @@ const ClientMissions = () => {
               ].map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
+                  onClick={() => setActiveTab(tab.key as 'all' | 'draft' | 'open' | 'in_progress' | 'completed')}
                   className={`px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap ${
                     activeTab === tab.key
                       ? 'border-orange-600 text-orange-600'
@@ -390,9 +391,11 @@ const ClientMissions = () => {
 
                       {mission.freelancer && (
                         <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                          <img
+                          <Image
                             src={mission.freelancer.avatar}
                             alt={mission.freelancer.name}
+                            width={32}
+                            height={32}
                             className="w-8 h-8 rounded-full object-cover"
                           />
                           <div className="flex-1">

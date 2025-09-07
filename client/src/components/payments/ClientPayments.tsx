@@ -280,7 +280,7 @@ const ClientPayments = () => {
               ].map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
+                  onClick={() => setActiveTab(tab.key as 'transactions' | 'methods' | 'escrow')}
                   className={`flex-shrink-0 px-3 md:px-6 py-4 text-xs md:text-sm font-medium border-b-2 flex items-center gap-2 min-w-0 ${
                     activeTab === tab.key
                       ? 'border-orange-600 text-orange-600'

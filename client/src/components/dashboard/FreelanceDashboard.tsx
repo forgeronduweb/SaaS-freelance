@@ -65,7 +65,8 @@ const FreelanceDashboard = () => {
         }
     }, [user, fetchDashboardData]);
 
-    const stats = [
+    // Stats cards data - utilisé pour l'affichage des statistiques
+    const statsCards = [
         { label: "Missions actives", value: dashboardData.stats.activeMissions.toString(), icon: "missions", color: "bg-blue-500" },
         { label: "Solde disponible", value: `${dashboardData.stats.availableBalance.toLocaleString()} FCFA`, icon: "wallet", color: "bg-green-500" },
         { label: "Notifications", value: dashboardData.stats.notifications.toString(), icon: "notifications", color: "bg-orange-500" },

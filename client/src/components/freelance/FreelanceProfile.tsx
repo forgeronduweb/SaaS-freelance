@@ -7,11 +7,28 @@ interface FreelanceProfileProps {
     freelanceId?: string;
 }
 
+interface ProfileData {
+    fullName?: string;
+    title?: string;
+    bio?: string;
+    location?: string;
+    hourlyRate?: number;
+    skills?: string[];
+    phone?: string;
+    website?: string;
+    linkedin?: string;
+    github?: string;
+    email?: string;
+    rating?: number;
+    totalReviews?: number;
+    completedProjects?: number;
+}
+
 const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
     const { user, loading } = useAuth();
-    const [profileData, setProfileData] = useState<any>(null);
+    const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState<any>({});
+    const [formData, setFormData] = useState<ProfileData>({});
 
     useEffect(() => {
         if (user) {
@@ -21,7 +38,7 @@ const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
                 title: user.title || '',
                 bio: user.bio || '',
                 location: user.location || '',
-                hourlyRate: user.hourlyRate || '',
+                hourlyRate: user.hourlyRate || 0,
                 skills: user.skills || [],
                 phone: user.phone || '',
                 website: user.website || '',
@@ -58,7 +75,7 @@ const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
     };
 
     const addSkill = (skill: string) => {
-        if (skill && !formData.skills.includes(skill)) {
+        if (skill && formData.skills && !formData.skills.includes(skill)) {
             setFormData({
                 ...formData,
                 skills: [...formData.skills, skill]
@@ -69,7 +86,7 @@ const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
     const removeSkill = (skillToRemove: string) => {
         setFormData({
             ...formData,
-            skills: formData.skills.filter((skill: string) => skill !== skillToRemove)
+            skills: formData.skills?.filter((skill: string) => skill !== skillToRemove) || []
         });
     };
 
@@ -154,7 +171,7 @@ const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
                                             <input
                                                 type="number"
                                                 value={formData.hourlyRate}
-                                                onChange={(e) => setFormData({...formData, hourlyRate: e.target.value})}
+                                                onChange={(e) => setFormData({...formData, hourlyRate: Number(e.target.value)})}
                                                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                             />
                                         </div>
@@ -228,7 +245,7 @@ const FreelanceProfile: React.FC<FreelanceProfileProps> = ({ freelanceId }) => {
                         )}
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {formData.skills?.map((skill: string, index: number) => (
+                        {(formData.skills || []).map((skill: string, index: number) => (
                             <span
                                 key={index}
                                 className="bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2"
