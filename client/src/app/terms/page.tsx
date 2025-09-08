@@ -43,7 +43,7 @@ export default function TermsPage() {
             <div className="space-y-4 text-gray-700">
               <p>
                 Les présentes Conditions Générales d&apos;Utilisation (CGU) régissent l&apos;utilisation de la plateforme 
-                AfriLance, accessible à l'adresse www.afrilance.com, qui met en relation des freelances et des 
+                AfriLance, accessible à l&apos;adresse www.afrilance.com, qui met en relation des freelances et des 
                 clients pour la réalisation de missions professionnelles.
               </p>
               <p>
@@ -69,13 +69,13 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. Inscription et Compte Utilisateur</h2>
             <div className="space-y-4 text-gray-700">
-              <h3 className="text-lg font-semibold">3.1 Conditions d'inscription</h3>
+              <h3 className="text-lg font-semibold">3.1 Conditions d&apos;inscription</h3>
               <p>
                 L&apos;inscription est gratuite et ouverte à toute personne physique ou morale ayant la capacité 
                 juridique de contracter. L&apos;utilisateur doit fournir des informations exactes et complètes.
               </p>
               
-              <h3 className="text-lg font-semibold">3.2 Vérification d'identité</h3>
+              <h3 className="text-lg font-semibold">3.2 Vérification d&apos;identité</h3>
               <p>
                 AfriLance se réserve le droit de demander des justificatifs d&apos;identité et de vérifier 
                 les informations fournies par les utilisateurs.
@@ -97,7 +97,7 @@ export default function TermsPage() {
                 <li>Publication de missions et projets</li>
                 <li>Recherche et sélection de freelances</li>
                 <li>Gestion des contrats et paiements sécurisés</li>
-                <li>Système d'évaluation et de commentaires</li>
+                <li>Système d&apos;évaluation et de commentaires</li>
               </ul>
               
               <h3 className="text-lg font-semibold">4.2 Pour les freelances</h3>
@@ -116,7 +116,7 @@ export default function TermsPage() {
               <h3 className="text-lg font-semibold">5.1 Système de paiement</h3>
               <p>
                 Les paiements sont sécurisés via Mobile Money et autres moyens de paiement acceptés. 
-                AfriLance agit en tant qu'intermédiaire de paiement.
+                AfriLance agit en tant qu&apos;intermédiaire de paiement.
               </p>
               
               <h3 className="text-lg font-semibold">5.2 Commissions</h3>
@@ -150,7 +150,7 @@ export default function TermsPage() {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Contourner la plateforme pour éviter les commissions</li>
                 <li>Publier du contenu illégal ou offensant</li>
-                <li>Usurper l'identité d'autrui</li>
+                <li>Usurper l&apos;identité d&apos;autrui</li>
                 <li>Utiliser des moyens automatisés non autorisés</li>
               </ul>
             </div>
@@ -173,7 +173,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Responsabilité et Garanties</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                AfriLance agit en tant qu'intermédiaire et ne peut être tenue responsable de la qualité 
+                AfriLance agit en tant qu&apos;intermédiaire et ne peut être tenue responsable de la qualité 
                 des services fournis par les freelances ou du comportement des utilisateurs.
               </p>
               <p>

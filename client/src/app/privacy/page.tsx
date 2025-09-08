@@ -42,12 +42,15 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                AfriLance s'engage à protéger la confidentialité et la sécurité des données personnelles 
+                AfriLance s&apos;engage à protéger la confidentialité et la sécurité des données personnelles 
                 de ses utilisateurs. Cette politique explique comment nous collectons, utilisons, stockons 
-                et protégeons vos informations personnelles.
+                et protégeons vos données personnelles.
               </p>
               <p>
-                Cette politique est conforme au Règlement Général sur la Protection des Données (RGPD) 
+                Cette politique de confidentialité décrit comment AfriLance collecte, utilise et protège 
+                vos données personnelles lors de l&apos;utilisation de notre plateforme de freelancing. 
+                Nous nous engageons à respecter votre vie privée et à protéger vos informations 
+                conformément au Règlement Général sur la Protection des Données (RGPD) 
                 et aux lois applicables en matière de protection des données.
               </p>
             </div>
@@ -62,12 +65,12 @@ export default function PrivacyPage() {
                 <li>Adresse email</li>
                 <li>Numéro de téléphone</li>
                 <li>Mot de passe (crypté)</li>
-                <li>Photo de profil (optionnelle)</li>
+                <li>Pays de résidence</li>
               </ul>
               
               <h3 className="text-lg font-semibold">2.2 Données professionnelles</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Compétences et expériences</li>
+                <li>Compétences et domaines d&apos;expertise</li>
                 <li>Portfolio et réalisations</li>
                 <li>Tarifs et disponibilités</li>
                 <li>Évaluations et commentaires</li>
@@ -98,16 +101,16 @@ export default function PrivacyPage() {
                 <li>Création et gestion de votre compte utilisateur</li>
                 <li>Mise en relation entre freelances et clients</li>
                 <li>Traitement des paiements et transactions</li>
-                <li>Communication et support client</li>
-                <li>Amélioration de nos services</li>
+                <li>Communication entre utilisateurs</li>
+                <li>Support client et assistance technique</li>
               </ul>
               
               <h3 className="text-lg font-semibold">3.2 Finalités secondaires</h3>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Envoi de newsletters (avec consentement)</li>
                 <li>Analyses statistiques et études de marché</li>
-                <li>Prévention de la fraude et sécurité</li>
-                <li>Respect des obligations légales</li>
+                <li>Prévenir la fraude et assurer la sécurité</li>
+                <li>Respecter nos obligations légales</li>
               </ul>
             </div>
           </section>
@@ -135,14 +138,15 @@ export default function PrivacyPage() {
               
               <h3 className="text-lg font-semibold">5.2 Partenaires de confiance</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Prestataires de services de paiement (Mobile Money)</li>
-                <li>Services d'hébergement et de sécurité</li>
-                <li>Outils d'analyse et de support client</li>
+                <li>Prestataires de paiement Mobile Money</li>
+                <li>Services d&apos;hébergement et de sécurité</li>
+                <li>Outils d&apos;analyse et de performance</li>
               </ul>
               
               <h3 className="text-lg font-semibold">5.3 Obligations légales</h3>
               <p>
-                Nous pouvons divulguer vos données si requis par la loi ou pour protéger nos droits 
+                Nous ne vendons jamais vos données personnelles à des tiers. Nous pouvons partager 
+                vos informations uniquement dans les cas prévus par la loi pour protéger nos droits 
                 et ceux de nos utilisateurs.
               </p>
             </div>
@@ -174,17 +178,17 @@ export default function PrivacyPage() {
             <div className="space-y-4 text-gray-700">
               <p>Conformément au RGPD, vous disposez des droits suivants :</p>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Droit d'accès :</strong> Obtenir une copie de vos données personnelles</li>
+                <li><strong>Droit d&apos;accès :</strong> Consulter vos données personnelles</li>
                 <li><strong>Droit de rectification :</strong> Corriger des données inexactes</li>
-                <li><strong>Droit à l'effacement :</strong> Demander la suppression de vos données</li>
+                <li><strong>Droit à l&apos;effacement :</strong> Demander la suppression de vos données</li>
                 <li><strong>Droit à la limitation :</strong> Restreindre le traitement de vos données</li>
                 <li><strong>Droit à la portabilité :</strong> Récupérer vos données dans un format structuré</li>
-                <li><strong>Droit d'opposition :</strong> Vous opposer au traitement de vos données</li>
+                <li><strong>Droit d&apos;opposition :</strong> Vous opposer au traitement de vos données</li>
                 <li><strong>Droit de retrait du consentement :</strong> Retirer votre consentement à tout moment</li>
               </ul>
               
               <p className="mt-4">
-                Pour exercer ces droits, contactez-nous à : 
+                Pour exercer vos droits, contactez-nous à l&apos;adresse : 
                 <a href="mailto:dpo@afrilance.com" className="text-orange-600 hover:underline ml-1">
                   dpo@afrilance.com
                 </a>
@@ -197,7 +201,7 @@ export default function PrivacyPage() {
             <div className="space-y-4 text-gray-700">
               <h3 className="text-lg font-semibold">8.1 Types de cookies utilisés</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Cookies essentiels :</strong> Nécessaires au fonctionnement du site</li>
+                <li>Cookies essentiels : Nécessaires au fonctionnement du site</li>
                 <li><strong>Cookies de performance :</strong> Analyse de l'utilisation du site</li>
                 <li><strong>Cookies de fonctionnalité :</strong> Mémorisation de vos préférences</li>
                 <li><strong>Cookies publicitaires :</strong> Personnalisation des annonces (avec consentement)</li>
@@ -205,7 +209,8 @@ export default function PrivacyPage() {
               
               <h3 className="text-lg font-semibold">8.2 Gestion des cookies</h3>
               <p>
-                Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur 
+                Nous utilisons des cookies pour améliorer votre expérience sur notre site. 
+                Vous pouvez gérer vos préférences de cookies dans les paramètres de votre navigateur 
                 ou notre centre de préférences.
               </p>
             </div>
@@ -227,9 +232,9 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Transferts Internationaux</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                Vos données peuvent être transférées vers des pays hors de l'Union Européenne. 
-                Dans ce cas, nous nous assurons que des garanties appropriées sont en place pour 
-                protéger vos données.
+                Nos données sont principalement stockées en Afrique et dans l&apos;Union Européenne. 
+                Si nous devons transférer vos données vers des pays tiers, nous nous assurons 
+                que des garanties appropriées sont en place pour protéger vos données.
               </p>
             </div>
           </section>
@@ -238,8 +243,9 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Modifications de la Politique</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                Nous pouvons modifier cette politique de confidentialité. Les modifications importantes 
-                vous seront notifiées par email ou via la plateforme.
+                Cette politique peut être mise à jour pour refléter les changements dans nos 
+                pratiques ou pour des raisons légales. Nous vous informerons de tout changement 
+                important qui vous sera notifié par email ou via la plateforme.
               </p>
             </div>
           </section>

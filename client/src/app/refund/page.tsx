@@ -42,13 +42,13 @@ export default function RefundPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Principe Général</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                AfriLance s'engage à assurer la satisfaction de ses utilisateurs. Cette politique de 
+                AfriLance s&apos;engage à assurer la satisfaction de ses utilisateurs. Cette politique de 
                 remboursement définit les conditions dans lesquelles un remboursement peut être accordé 
                 pour les services payés sur notre plateforme.
               </p>
               <p>
                 Notre système de paiement sécurisé via Mobile Money et notre service de médiation 
-                garantissent la protection des fonds jusqu'à la livraison satisfaisante du travail.
+                garantissent la protection des fonds jusqu&apos;à la livraison satisfaisante du travail.
               </p>
             </div>
           </section>
@@ -58,14 +58,14 @@ export default function RefundPage() {
             <div className="space-y-4 text-gray-700">
               <h3 className="text-lg font-semibold">2.1 Séquestre des fonds</h3>
               <p>
-                Lorsqu'un client accepte une proposition de freelance, les fonds sont automatiquement 
+                Lorsqu&apos;un client accepte une proposition de freelance, les fonds sont automatiquement 
                 placés en séquestre sur la plateforme AfriLance. Ces fonds ne sont libérés au freelance 
-                qu'après validation de la livraison par le client.
+                qu&apos;après validation de la livraison par le client.
               </p>
               
               <h3 className="text-lg font-semibold">2.2 Protection automatique</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Les fonds restent sécurisés jusqu'à la fin du projet</li>
+                <li>Les fonds restent sécurisés jusqu&apos;à la fin du projet</li>
                 <li>Aucun prélèvement définitif avant validation du travail</li>
                 <li>Possibilité de récupération en cas de problème</li>
               </ul>
@@ -81,7 +81,7 @@ export default function RefundPage() {
                 <li>Non-livraison du travail dans les délais convenus</li>
                 <li>Travail non conforme aux spécifications initiales</li>
                 <li>Freelance qui abandonne le projet sans justification</li>
-                <li>Violation grave des conditions d'utilisation par le freelance</li>
+                <li>Violation grave des conditions d&apos;utilisation par le freelance</li>
                 <li>Problème technique majeur empêchant la réalisation du projet</li>
               </ul>
               
@@ -94,12 +94,12 @@ export default function RefundPage() {
                 <li>Résolution amiable avec compensation</li>
               </ul>
               
-              <h3 className="text-lg font-semibold">3.3 Cas d'exclusion</h3>
+              <h3 className="text-lg font-semibold">3.3 Cas d&apos;exclusion</h3>
               <p>Aucun remboursement ne sera accordé dans les cas suivants :</p>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Changement d'avis du client après validation du travail</li>
+                <li>Changement d&apos;avis du client après validation du travail</li>
                 <li>Demandes non spécifiées dans le cahier des charges initial</li>
-                <li>Problèmes liés à l'utilisation du travail livré</li>
+                <li>Problèmes liés à l&apos;utilisation du travail livré</li>
                 <li>Délais dépassés dus au client (retard de feedback, etc.)</li>
               </ul>
             </div>
@@ -111,9 +111,9 @@ export default function RefundPage() {
               <h3 className="text-lg font-semibold">4.1 Étapes à suivre</h3>
               <ol className="list-decimal pl-6 space-y-2">
                 <li>Tentative de résolution amiable avec le freelance</li>
-                <li>Ouverture d'un litige via l'interface de la plateforme</li>
+                <li>Ouverture d&apos;un litige via l&apos;interface de la plateforme</li>
                 <li>Fourniture des éléments justificatifs</li>
-                <li>Médiation par l'équipe AfriLance</li>
+                <li>Médiation par l&apos;équipe AfriLance</li>
                 <li>Décision finale et traitement du remboursement</li>
               </ol>
               
@@ -122,7 +122,7 @@ export default function RefundPage() {
                 <li>Historique des communications avec le freelance</li>
                 <li>Cahier des charges initial et modifications</li>
                 <li>Preuves de non-conformité ou de non-livraison</li>
-                <li>Captures d'écran et fichiers pertinents</li>
+                <li>Captures d&apos;écran et fichiers pertinents</li>
               </ul>
               
               <h3 className="text-lg font-semibold">4.3 Délais</h3>
@@ -140,10 +140,10 @@ export default function RefundPage() {
               <h3 className="text-lg font-semibold">5.1 Équipe de médiation</h3>
               <p>
                 Notre équipe de médiation experte examine chaque litige de manière impartiale en 
-                s'appuyant sur les preuves fournies par les deux parties.
+                s&apos;appuyant sur les preuves fournies par les deux parties.
               </p>
               
-              <h3 className="text-lg font-semibold">5.2 Critères d'évaluation</h3>
+              <h3 className="text-lg font-semibold">5.2 Critères d&apos;évaluation</h3>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Conformité aux spécifications initiales</li>
                 <li>Respect des délais convenus</li>
@@ -174,7 +174,7 @@ export default function RefundPage() {
               
               <h3 className="text-lg font-semibold">6.2 Frais de remboursement</h3>
               <p>
-                Les frais de transaction liés au remboursement sont à la charge d'AfriLance 
+                Les frais de transaction liés au remboursement sont à la charge d&apos;AfriLance 
                 lorsque le remboursement est justifié par une faute du freelance ou de la plateforme.
               </p>
               
