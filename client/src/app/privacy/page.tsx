@@ -87,7 +87,7 @@ export default function PrivacyPage() {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Adresse IP</li>
                 <li>Cookies et données de navigation</li>
-                <li>Informations sur l'appareil utilisé</li>
+                <li>Informations sur l&apos;appareil utilisé</li>
                 <li>Logs de connexion</li>
               </ul>
             </div>
