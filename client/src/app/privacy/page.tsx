@@ -59,7 +59,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Données Collectées</h2>
             <div className="space-y-4 text-gray-700">
-              <h3 className="text-lg font-semibold">2.1 Données d'inscription</h3>
+              <h3 className="text-lg font-semibold">2.1 Données d&apos;inscription</h3>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Nom et prénom</li>
                 <li>Adresse email</li>
@@ -165,7 +165,7 @@ export default function PrivacyPage() {
               
               <h3 className="text-lg font-semibold">6.2 Mesures organisationnelles</h3>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Accès limité aux données sur la base du besoin d'en connaître</li>
+                <li>Accès limité aux données sur la base du besoin d&apos;en connaître</li>
                 <li>Formation du personnel à la protection des données</li>
                 <li>Audits de sécurité réguliers</li>
                 <li>Procédures de réponse aux incidents</li>
@@ -202,7 +202,7 @@ export default function PrivacyPage() {
               <h3 className="text-lg font-semibold">8.1 Types de cookies utilisés</h3>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Cookies essentiels : Nécessaires au fonctionnement du site</li>
-                <li><strong>Cookies de performance :</strong> Analyse de l'utilisation du site</li>
+                <li><strong>Cookies de performance :</strong> Analyse de l&apos;utilisation du site</li>
                 <li><strong>Cookies de fonctionnalité :</strong> Mémorisation de vos préférences</li>
                 <li><strong>Cookies publicitaires :</strong> Personnalisation des annonces (avec consentement)</li>
               </ul>
@@ -220,7 +220,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Conservation des Données</h2>
             <div className="space-y-4 text-gray-700">
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Données de compte actif :</strong> Pendant toute la durée d'utilisation du service</li>
+                <li><strong>Données de compte actif :</strong> Pendant toute la durée d&apos;utilisation du service</li>
                 <li><strong>Données de compte fermé :</strong> 3 ans après la fermeture</li>
                 <li><strong>Données de transaction :</strong> 10 ans pour les obligations comptables</li>
                 <li><strong>Données de support :</strong> 3 ans après la résolution du problème</li>
@@ -259,7 +259,7 @@ export default function PrivacyPage() {
               
               <p className="mt-4">
                 <strong>Autorité de contrôle :</strong> Vous avez également le droit de déposer une plainte 
-                auprès de la CNIL (Commission Nationale de l'Informatique et des Libertés).
+                auprès de la CNIL (Commission Nationale de l&apos;Informatique et des Libertés).
               </p>
             </div>
           </section>

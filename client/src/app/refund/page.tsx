@@ -213,7 +213,7 @@ export default function RefundPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Garantie de Satisfaction</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                AfriLance s'engage à fournir une plateforme sûre et équitable pour tous ses utilisateurs. 
+                AfriLance s&apos;engage à fournir une plateforme sûre et équitable pour tous ses utilisateurs. 
                 Notre garantie de satisfaction inclut :
               </p>
               <ul className="list-disc pl-6 space-y-2">

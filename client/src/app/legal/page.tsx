@@ -35,7 +35,7 @@ export default function LegalPage() {
         <div className="bg-white rounded-lg shadow-sm p-8 space-y-8">
           
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Informations sur l'éditeur</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Informations sur l&apos;éditeur</h2>
             <div className="space-y-2 text-gray-700">
               <p><strong>Nom de la société :</strong> AfriLance</p>
               <p><strong>Forme juridique :</strong> Société par Actions Simplifiée (SAS)</p>
@@ -69,12 +69,12 @@ export default function LegalPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Propriété intellectuelle</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur 
+                L&apos;ensemble de ce site relève de la législation française et internationale sur le droit d&apos;auteur 
                 et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour 
                 les documents téléchargeables et les représentations iconographiques et photographiques.
               </p>
               <p>
-                La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est 
+                La reproduction de tout ou partie de ce site sur un support électronique quel qu&apos;il soit est 
                 formellement interdite sauf autorisation expresse du directeur de la publication.
               </p>
             </div>
@@ -84,12 +84,12 @@ export default function LegalPage() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Données personnelles</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée et au Règlement 
-                Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, 
-                de suppression et d'opposition aux données personnelles vous concernant.
+                Conformément à la loi &quot;Informatique et Libertés&quot; du 6 janvier 1978 modifiée et au Règlement 
+                Général sur la Protection des Données (RGPD), vous disposez d&apos;un droit d&apos;accès, de rectification, 
+                de suppression et d&apos;opposition aux données personnelles vous concernant.
               </p>
               <p>
-                Pour exercer ces droits, vous pouvez nous contacter à l'adresse : 
+                Pour exercer ces droits, vous pouvez nous contacter à l&apos;adresse : 
                 <a href="mailto:dpo@afrilance.com" className="text-orange-600 hover:underline ml-1">
                   dpo@afrilance.com
                 </a>
@@ -102,11 +102,11 @@ export default function LegalPage() {
             <div className="space-y-4 text-gray-700">
               <p>
                 Les informations contenues sur ce site sont aussi précises que possible et le site remis à jour 
-                à différentes périodes de l'année, mais peut toutefois contenir des inexactitudes ou des omissions.
+                à différentes périodes de l&apos;année, mais peut toutefois contenir des inexactitudes ou des omissions.
               </p>
               <p>
                 Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien 
-                vouloir le signaler par email, à l'adresse support@afrilance.com, en décrivant le problème de 
+                vouloir le signaler par email, à l&apos;adresse support@afrilance.com, en décrivant le problème de 
                 la manière la plus précise possible.
               </p>
             </div>
