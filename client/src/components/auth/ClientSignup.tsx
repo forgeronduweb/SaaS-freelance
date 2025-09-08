@@ -43,15 +43,15 @@ export default function ClientSignup() {
       <header className="bg-white border-b border-gray-200 py-6">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2 text-xl sm:text-xl md:text-2xl font-bold text-black">
               <Image 
                 src="/logo.png" 
                 alt="AfriLance Logo" 
-                width={40} 
-                height={40}
-                className="w-10 h-10"
+                width={32} 
+                height={32}
+                className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
               />
-              <span className="text-2xl font-bold text-orange-600">AfriLance</span>
+              afrilance
             </Link>
             <Link 
               href="/signup" 
@@ -67,8 +67,8 @@ export default function ClientSignup() {
       <main className="max-w-2xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>

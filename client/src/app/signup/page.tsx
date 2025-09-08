@@ -8,32 +8,30 @@ export default function SignupPage() {
     <div className="min-h-screen bg-white">
       {/* Header simplifié */}
       <header className="bg-white border-b border-gray-200 py-6">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <Image 
-                src="/logo.png" 
-                alt="AfriLance Logo" 
-                width={40} 
-                height={40}
-                className="w-10 h-10"
-              />
-              <span className="text-2xl font-bold text-orange-600">AfriLance</span>
-            </Link>
-            <Link 
-              href="/" 
-              className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
-            >
-              ← Retour à l&apos;accueil
-            </Link>
-          </div>
+        <div className="flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32">
+          <Link href="/" className="flex items-center gap-2 text-xl sm:text-xl md:text-2xl font-bold text-black">
+            <Image 
+              src="/logo.png" 
+              alt="AfriLance Logo" 
+              width={32} 
+              height={32}
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+            />
+            afrilance
+          </Link>
+          <Link 
+            href="/login" 
+            className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
+          >
+            Se connecter
+          </Link>
         </div>
       </header>
 
       {/* Content */}
       <main className="max-w-2xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Rejoignez AfriLance</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Rejoignez afrilance</h1>
           <p className="text-xl text-gray-600">Choisissez votre type de compte pour commencer</p>
         </div>
 
@@ -88,8 +86,8 @@ export default function SignupPage() {
           {/* Client Card */}
           <div className="bg-white rounded-lg shadow-lg p-8 border-2 border-transparent hover:border-orange-200 transition-all">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
               </div>
@@ -126,7 +124,7 @@ export default function SignupPage() {
 
             <Link
               href="/signup/client"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors text-center block"
+              className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors text-center block"
             >
               Créer un compte Client
             </Link>

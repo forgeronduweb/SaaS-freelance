@@ -8,25 +8,23 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-white">
       {/* Header simplifié pour contrat */}
       <header className="bg-white border-b border-gray-200 py-6">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <Image 
-                src="/logo.png" 
-                alt="AfriLance Logo" 
-                width={40} 
-                height={40}
-                className="w-10 h-10"
-              />
-              <span className="text-2xl font-bold text-orange-600">AfriLance</span>
-            </Link>
-            <Link 
-              href="/" 
-              className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
-            >
-              ← Retour à l&apos;accueil
-            </Link>
-          </div>
+        <div className="flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32">
+          <Link href="/" className="flex items-center gap-2 text-xl sm:text-xl md:text-2xl font-bold text-black">
+            <Image 
+              src="/logo.png" 
+              alt="AfriLance Logo" 
+              width={32} 
+              height={32}
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+            />
+            afrilance
+          </Link>
+          <Link 
+            href="/#footer" 
+            className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
+          >
+            Retour
+          </Link>
         </div>
       </header>
 
