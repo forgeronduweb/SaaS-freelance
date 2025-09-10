@@ -1,10 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => {
-    const currentYear = new Date().getFullYear();
+    const [currentYear, setCurrentYear] = useState(2025);
+
+    useEffect(() => {
+        setCurrentYear(new Date().getFullYear());
+    }, []);
 
     const quickLinks = [
         { name: "Accueil", href: "/" },
@@ -138,22 +142,12 @@ const Footer = () => {
                         <h3 className="text-lg font-semibold mb-6">Support & Contact</h3>
                         <div className="space-y-4">
                             <div>
-                                <p className="text-slate-400 text-sm mb-1">Email</p>
-                                <a 
-                                    href="mailto:support@afrilance.com"
-                                    className="text-slate-300 hover:text-orange-500 transition-colors"
+                                <Link 
+                                    href="/contact"
+                                    className="inline-flex items-center text-slate-300 hover:text-orange-500 transition-colors"
                                 >
-                                    support@afrilance.com
-                                </a>
-                            </div>
-                            <div>
-                                <p className="text-slate-400 text-sm mb-1">WhatsApp</p>
-                                <a 
-                                    href="https://wa.me/1234567890"
-                                    className="text-slate-300 hover:text-orange-500 transition-colors"
-                                >
-                                    +1 (234) 567-890
-                                </a>
+                                Nous contacter
+                                </Link>
                             </div>
                             <div>
                                 <p className="text-slate-400 text-sm mb-1">Disponibilité</p>
