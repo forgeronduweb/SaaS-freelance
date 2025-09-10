@@ -1,14 +1,9 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => {
-    const [currentYear, setCurrentYear] = useState(2025);
-
-    useEffect(() => {
-        setCurrentYear(new Date().getFullYear());
-    }, []);
+    const currentYear = new Date().getFullYear();
 
     const quickLinks = [
         { name: "Accueil", href: "/" },

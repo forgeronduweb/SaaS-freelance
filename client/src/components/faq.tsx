@@ -56,11 +56,11 @@ const FAQ = () => {
                         Trouvez rapidement les réponses à vos questions sur AfriLance, notre fonctionnement et nos services.
                     </p>
                 </div>
-                <div className="mt-12">
+                <div className="mt-12 space-y-4">
                     {faqsData.map((faq, index) => (
                         <div key={index} className='flex flex-col items-start w-full'>
                             <div 
-                                className='flex items-center justify-between w-full cursor-pointer bg-white border border-slate-200 hover:border-orange-300 p-6 rounded-lg transition-colors' 
+                                className='flex items-center justify-between w-full cursor-pointer bg-white border border-slate-200 hover:border-orange-300 p-6 rounded-lg transition-colors shadow-sm hover:shadow-md' 
                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                             >
                                 <h2 className='text-lg font-medium text-slate-800'>{faq.question}</h2>
@@ -82,7 +82,7 @@ const FAQ = () => {
                                 </svg>
                             </div>
                             <div className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                                <p className='text-base text-slate-600 px-6 py-4 bg-orange-50 border-l-4 border-orange-500'>
+                                <p className='text-base text-slate-600 px-6 py-4 bg-orange-50 border-l-4 border-orange-500 rounded-b-lg'>
                                     {faq.answer}
                                 </p>
                             </div>

@@ -80,14 +80,16 @@ const Services = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
                     {services.map((service, index) => (
-                        <div key={index} className="bg-slate-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-orange-500">
-                            {/* Icône */}
-                            <div className="flex items-center justify-center w-16 h-16 bg-orange-600/20 rounded-xl mb-6">
-                                {service.icon}
+                        <div key={index} className="bg-slate-800 rounded-xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-orange-500">
+                            {/* Icône - Plus grande sur mobile */}
+                            <div className="flex items-center justify-center w-20 h-20 md:w-16 md:h-16 bg-orange-600/20 rounded-xl mb-6 mx-auto">
+                                <div className="scale-125 md:scale-100">
+                                    {service.icon}
+                                </div>
                             </div>
 
-                            {/* Titre */}
-                            <h3 className="text-xl font-semibold text-white mb-4">
+                            {/* Titre - Centré sur mobile */}
+                            <h3 className="text-xl font-semibold text-white mb-4 text-center md:text-left">
                                 {service.title}
                             </h3>
 

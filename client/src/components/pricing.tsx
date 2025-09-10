@@ -83,26 +83,30 @@ const Pricing = () => {
                     </p>
                     
                     {/* Toggle Mensuel/Annuel */}
-                    <div className="flex items-center justify-center mb-8">
-                        <span className={`mr-3 ${!isAnnual ? 'text-orange-600 font-medium' : 'text-slate-600'}`}>Mensuel</span>
-                        <button
-                            onClick={() => setIsAnnual(!isAnnual)}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                                isAnnual ? 'bg-orange-600' : 'bg-slate-300'
-                            }`}
-                        >
-                            <span
-                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                    isAnnual ? 'translate-x-6' : 'translate-x-1'
+                    <div className="flex flex-col items-center justify-center mb-8 space-y-3">
+                        <div className="flex items-center justify-center">
+                            <span className={`mr-3 ${!isAnnual ? 'text-orange-600 font-medium' : 'text-slate-600'}`}>Mensuel</span>
+                            <button
+                                onClick={() => setIsAnnual(!isAnnual)}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
+                                    isAnnual ? 'bg-orange-600' : 'bg-slate-300'
                                 }`}
-                            />
-                        </button>
-                        <span className={`ml-3 ${isAnnual ? 'text-orange-600 font-medium' : 'text-slate-600'}`}>Annuel</span>
-                        <span className={`ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium transition-opacity ${
-                            isAnnual ? 'opacity-100' : 'opacity-0'
-                        }`}>
-                            Jusqu&apos;à -25% + bonus exclusifs
-                        </span>
+                            >
+                                <span
+                                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                        isAnnual ? 'translate-x-6' : 'translate-x-1'
+                                    }`}
+                                />
+                            </button>
+                            <span className={`ml-3 ${isAnnual ? 'text-orange-600 font-medium' : 'text-slate-600'}`}>Annuel</span>
+                        </div>
+                        <div className="flex justify-center">
+                            <span className={`bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium transition-opacity ${
+                                isAnnual ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                                Jusqu&apos;à -25% + bonus exclusifs
+                            </span>
+                        </div>
                     </div>
                 </div>
 
