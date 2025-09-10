@@ -101,7 +101,7 @@ const Pricing = () => {
                         <span className={`ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium transition-opacity ${
                             isAnnual ? 'opacity-100' : 'opacity-0'
                         }`}>
-                            Jusqu'&apos;à -25% + bonus exclusifs
+                            Jusqu&apos;à -25% + bonus exclusifs
                         </span>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ const Pricing = () => {
                 <div className="text-center mt-16">
                     <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl p-8 text-white">
                         <h3 className="text-2xl font-semibold mb-4">
-                            Prêt à développer votre entreprise ?
+                            Prêt à développer votre entreprise ? 
                         </h3>
                         <p className="mb-6 max-w-2xl mx-auto">
                             Rejoignez les entreprises qui font confiance à AfriLance pour leurs projets avec des freelances qualifiés.
