@@ -60,13 +60,13 @@ export default function Login() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Link 
               href="/signup/client" 
-              className="bg-gray-700 hover:bg-gray-800 text-white px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
+              className="bg-gray-700 hover:bg-gray-800 text-white px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
             >
               <span className="hidden sm:inline">Compte </span>Client
             </Link>
             <Link 
               href="/signup/freelance" 
-              className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
+              className="bg-orange-600 hover:bg-orange-700 text-white px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
             >
               <span className="hidden sm:inline">Compte </span>Freelance
             </Link>
@@ -75,7 +75,7 @@ export default function Login() {
       </header>
 
       {/* Content */}
-      <main className="max-w-md mx-auto px-4 py-4 sm:py-8">
+      <main className="max-w-md mx-auto px-4 py-8 sm:py-12">
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
           <div className="text-center mb-4 sm:mb-6">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
@@ -185,9 +185,13 @@ export default function Login() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Vous n&apos;avez pas de compte ?{' '}
-              <Link href="/signup" className="font-medium text-orange-600 hover:text-orange-500">
-                Créer un compte
+              En vous connectant, vous acceptez nos{' '}
+              <Link href="/terms" className="font-medium text-orange-600 hover:text-orange-500">
+                Conditions d&apos;utilisation
+              </Link>
+              {' '}et notre{' '}
+              <Link href="/privacy" className="font-medium text-orange-600 hover:text-orange-500">
+                Politique de confidentialité
               </Link>
             </p>
           </div>

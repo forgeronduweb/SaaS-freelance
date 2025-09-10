@@ -4,61 +4,67 @@ import React, { useState } from "react";
 const Pricing = () => {
     const [isAnnual, setIsAnnual] = useState(false);
     
-    const plans = [
+    const getPlans = () => [
         {
             name: "Gratuit",
             price: "0",
-            period: "FCFA",
-            description: "Parfait pour commencer sur AfriLance",
+            period: "FCFA / mois",
+            description: "Parfait pour découvrir AfriLance",
             features: [
                 "Création de profil freelance",
-                "Candidature à 5 missions/mois",
-                "Commission 10% par mission",
-                "Support communautaire",
+                "5 candidatures / mois",
+                "Commission 5% par mission",
                 "Paiement Mobile Money",
-                "Portfolio basique"
+                "Portfolio basique",
+                "Support communautaire"
             ],
             cta: "Commencer gratuitement",
             popular: false,
             buttonStyle: "border border-orange-300 hover:bg-orange-50 text-orange-700"
         },
         {
-            name: "Freelance Premium",
+            name: "Premium",
             priceMonthly: "5 000",
             priceAnnual: "50 000",
-            description: "Pour freelances sérieux qui veulent plus de clients",
+            description: "Pour freelances actifs qui veulent garder 100% de leurs revenus",
             features: [
+                "30 candidatures / mois",
+                "Badge Vérifié",
                 "Visibilité prioritaire dans les recherches",
-                "Badge \"Vérifié\" (génère plus de confiance)",
-                "Candidatures illimitées",
                 "Portfolio complet (projets illimités)",
                 "Accès aux missions Premium",
-                "Support prioritaire 24/7"
+                "Support prioritaire 24/7",
+                "0% de commission (revenus 100% pour toi)",
+                ...(isAnnual ? [
+                    "2 mois offerts (économie)",
+                    "Badge Pro+ supplémentaire",
+                    "Priorité dans les listes"
+                ] : [])
             ],
             cta: "Passer au Premium",
             popular: true,
             buttonStyle: "bg-orange-600 hover:bg-orange-700 text-white"
         },
         {
-            name: "Entreprise",
-            priceMonthly: "25 000",
-            priceAnnual: "250 000",
-            description: "Solution complète pour entreprises",
+            name: "Pro Elite",
+            priceMonthly: "15 000",
+            priceAnnual: "150 000",
+            description: "Pour freelances experts qui veulent maximiser leurs revenus",
             features: [
-                "Publication illimitée de missions",
-                "Accès prioritaire aux freelances vérifiés",
-                "Gestion multi-utilisateurs",
-                "Outils avancés de gestion de projets",
-                "Support client prioritaire (email + WhatsApp pro)",
-                "Statistiques détaillées",
+                "Candidatures illimitées",
+                "Badge Expert",
+                "Mise en avant dans la newsletter clients",
+                "Accès aux projets à gros budget",
+                "Coaching / masterclass exclusifs",
+                "Outils avancés (suivi revenus, retraits instantanés)",
+                "0% de commission",
                 ...(isAnnual ? [
-                    "2 mois offerts (économie)",
-                    "Badge \"Entreprise Premium\" visible",
-                    "Partenariats avec AfriLance",
-                    "Historique complet 12 mois"
+                    "3 mois offerts + bonus exclusifs",
+                    "Badge spécial Élite Annuel",
+                    "Mise en avant permanente dans les recherches"
                 ] : [])
             ],
-            cta: "Choisir Entreprise",
+            cta: "Devenir Pro Elite",
             popular: false,
             buttonStyle: "border border-orange-300 hover:bg-orange-50 text-orange-700"
         }
@@ -73,7 +79,7 @@ const Pricing = () => {
                         Choisissez votre plan
                     </h2>
                     <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-8">
-                        Du plan gratuit aux solutions entreprise, trouvez l&apos;offre qui correspond à vos besoins sur AfriLance.
+                        Nouvelle structure claire : Gratuit pour découvrir, Premium pour éliminer les commissions, Pro Elite pour maximiser vos revenus.
                     </p>
                     
                     {/* Toggle Mensuel/Annuel */}
@@ -95,13 +101,13 @@ const Pricing = () => {
                         <span className={`ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium transition-opacity ${
                             isAnnual ? 'opacity-100' : 'opacity-0'
                         }`}>
-                            2 mois offerts
+                            Jusqu'à -25% + bonus exclusifs
                         </span>
                     </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    {plans.map((plan, index) => (
+                    {getPlans().map((plan, index) => (
                         <div 
                             key={index} 
                             className={`relative bg-white rounded-2xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
@@ -140,7 +146,7 @@ const Pricing = () => {
                                 <p className="text-slate-600">{plan.description}</p>
                             </div>
 
-                            <div className="h-[380px] overflow-hidden flex-grow">
+                            <div className="flex-grow">
                                 <ul className="space-y-4 mb-8">
                                     {plan.features.map((feature, featureIndex) => (
                                         <li key={featureIndex} className="flex items-start">

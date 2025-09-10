@@ -54,7 +54,7 @@ export default function ClientSignup() {
               afrilance
             </Link>
             <Link 
-              href="/signup" 
+              href="/login" 
               className="text-gray-600 hover:text-orange-600 transition-colors font-medium"
             >
               ← Retour
@@ -271,15 +271,6 @@ export default function ClientSignup() {
               )}
             </button>
           </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Vous avez déjà un compte ?{' '}
-              <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
-                Se connecter
-              </Link>
-            </p>
-          </div>
         </div>
       </main>
     </div>
