@@ -101,7 +101,7 @@ const Pricing = () => {
                         <span className={`ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium transition-opacity ${
                             isAnnual ? 'opacity-100' : 'opacity-0'
                         }`}>
-                            Jusqu'à -25% + bonus exclusifs
+                            Jusqu'&apos;à -25% + bonus exclusifs
                         </span>
                     </div>
                 </div>
