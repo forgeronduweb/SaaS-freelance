@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configuration Turbopack
-  experimental: {
-    turbo: {
-      root: '../client'
-    }
+  turbopack: {
+    root: process.cwd()
   },
   
   // Optimisations pour le build
@@ -25,7 +23,7 @@ const nextConfig = {
   },
   
   // Optimisations de performance
-  swcMinify: true,
+  // swcMinify est maintenant activé par défaut dans Next.js 13+
   
   // Configuration des images
   images: {
