@@ -75,21 +75,21 @@ export default function Login() {
       </header>
 
       {/* Content */}
-      <main className="max-w-sm sm:max-w-md lg:max-w-lg mx-auto px-6 py-8 sm:py-12">
-        <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
-          <div className="text-center mb-4 sm:mb-6">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <main className="max-w-sm sm:max-w-md lg:max-w-lg mx-auto px-6 py-8 sm:py-12" suppressHydrationWarning>
+        <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8" suppressHydrationWarning>
+          <div className="text-center mb-4 sm:mb-6" suppressHydrationWarning>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3" suppressHydrationWarning>
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" suppressHydrationWarning>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Connexion</h1>
-            <p className="text-gray-600 text-xs sm:text-sm">Accédez à votre compte AfriLance</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1" suppressHydrationWarning>Connexion</h1>
+            <p className="text-gray-600 text-sm" suppressHydrationWarning>Accédez à votre compte AfriLance</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" suppressHydrationWarning>
             <div>
-              <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Adresse email
               </label>
               <input
@@ -99,13 +99,13 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 sm:py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base sm:text-base"
+                className="w-full px-4 py-3 sm:py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base"
                 placeholder="votre@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Mot de passe
               </label>
               <input
@@ -115,7 +115,7 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base sm:text-base"
+                className="w-full px-4 py-3 sm:py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base"
               />
             </div>
 
@@ -127,12 +127,12 @@ export default function Login() {
                   type="checkbox"
                   className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-xs sm:text-sm text-gray-700">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                   Se souvenir de moi
                 </label>
               </div>
 
-              <Link href="/reset-password" className="text-xs sm:text-sm font-medium text-orange-600 hover:text-orange-500 text-center sm:text-right">
+              <Link href="/reset-password" className="text-sm font-medium text-orange-600 hover:text-orange-500 text-center sm:text-right">
                 Mot de passe oublié ?
               </Link>
             </div>
@@ -140,7 +140,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-3 sm:py-3 px-4 border border-transparent rounded-md shadow-sm text-base sm:text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 sm:py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="flex items-center">
@@ -171,7 +171,7 @@ export default function Login() {
               type="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-base sm:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
