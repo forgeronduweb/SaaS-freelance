@@ -3,28 +3,40 @@
  * Toutes les variables d'environnement sont gérées ici
  */
 
-// Validation des variables d'environnement requises
-const requiredEnvVars = [
-  'JWT_SECRET',
-  'NEXTAUTH_SECRET'
-];
-
-// Générer des valeurs par défaut pour le développement
+// Générer des valeurs par défaut sécurisées
 const generateDefaultSecret = () => {
   return 'dev-secret-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
-// Vérifier que les variables requises sont définies
-requiredEnvVars.forEach((envVar) => {
-  if (!process.env[envVar]) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(`⚠️  Variable d'environnement manquante: ${envVar}. Utilisation d'une valeur par défaut pour le développement.`);
-      process.env[envVar] = generateDefaultSecret();
-    } else {
-      throw new Error(`Variable d'environnement manquante: ${envVar}`);
-    }
+// Fonction pour obtenir ou générer JWT_SECRET
+const getJwtSecret = (): string => {
+  if (process.env.JWT_SECRET) {
+    return process.env.JWT_SECRET;
   }
-});
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('⚠️  JWT_SECRET n\'est pas défini en production. Utilisation d\'une clé générée aléatoirement.');
+  } else {
+    console.warn('⚠️  JWT_SECRET n\'est pas défini. Utilisation d\'une valeur par défaut pour le développement.');
+  }
+  
+  return generateDefaultSecret();
+};
+
+// Fonction pour obtenir ou générer NEXTAUTH_SECRET
+const getNextAuthSecret = (): string => {
+  if (process.env.NEXTAUTH_SECRET) {
+    return process.env.NEXTAUTH_SECRET;
+  }
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('⚠️  NEXTAUTH_SECRET n\'est pas défini en production. Utilisation d\'une clé générée aléatoirement.');
+  } else {
+    console.warn('⚠️  NEXTAUTH_SECRET n\'est pas défini. Utilisation d\'une valeur par défaut pour le développement.');
+  }
+  
+  return generateDefaultSecret();
+};
 
 export const config = {
   // Base de données (désactivée pour l'authentification simple)
@@ -61,7 +73,7 @@ export const config = {
 
   // Authentification
   auth: {
-    jwtSecret: process.env.JWT_SECRET!,
+    jwtSecret: getJwtSecret(),
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
     bcryptSaltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS || '12'),
     sessionTimeout: process.env.SESSION_TIMEOUT || '7d',
@@ -70,7 +82,7 @@ export const config = {
   // NextAuth
   nextAuth: {
     url: process.env.NEXTAUTH_URL || 'http://localhost:3000',
-    secret: process.env.NEXTAUTH_SECRET!,
+    secret: getNextAuthSecret(),
   },
 
   // Email
