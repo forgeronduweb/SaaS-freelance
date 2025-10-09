@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { withAuth } from "next-auth/middleware"
 import { verifyToken } from '@/lib/auth'
 
 // Routes qui nécessitent une authentification
@@ -45,7 +46,16 @@ export function middleware(request: NextRequest) {
   )
 
   if (isProtectedRoute) {
-    // Récupérer le token depuis les cookies
+    // Vérifier d'abord le token NextAuth
+    const nextAuthToken = request.cookies.get('next-auth.session-token')?.value || 
+                         request.cookies.get('__Secure-next-auth.session-token')?.value
+
+    if (nextAuthToken) {
+      // Laisser NextAuth gérer l'authentification
+      return NextResponse.next()
+    }
+
+    // Fallback sur l'ancien système JWT
     const token = request.cookies.get('auth-token')?.value
 
     if (!token) {
