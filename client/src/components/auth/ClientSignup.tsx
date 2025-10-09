@@ -347,10 +347,10 @@ export default function ClientSignup() {
                   </div>
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-green-800">
-                      Votre compte a été créé !
+                      Compte créé avec succès !
                     </h3>
                     <div className="mt-2 text-sm text-green-700">
-                      Vous allez être redirigé vers la page de connexion dans quelques secondes...
+                      Redirection vers la page de connexion...
                     </div>
                   </div>
                 </div>
